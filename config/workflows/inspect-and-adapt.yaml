@@ -8,13 +8,13 @@ workflow:
       kind: author
       actor: "@release-train-engineer"
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/metrics-review.instructions.md
+        - instructions/program-inspect-and-adapt-metrics-review.instructions.md
     - id: retrospective
       kind: author
       actor: "@release-train-engineer"
       output: pain-point
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/retrospective.instructions.md
+        - instructions/program-inspect-and-adapt-retrospective.instructions.md
       conditions:
         - id: after_metrics_review
           kind: precondition
@@ -25,7 +25,7 @@ workflow:
       actor: "@product-manager"
       output: feature
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+        - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
         - id: after_retrospective
           kind: precondition
@@ -36,7 +36,7 @@ workflow:
       actor: "@product-owner"
       output: story
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+        - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
         - id: after_retrospective
           kind: precondition
@@ -47,7 +47,7 @@ workflow:
       actor: "@system-architect"
       output: feature-enabler
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+        - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
         - id: after_retrospective
           kind: precondition
@@ -58,7 +58,7 @@ workflow:
       actor: "@system-architect"
       output: story-enabler
       instructions:
-        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+        - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
         - id: after_retrospective
           kind: precondition

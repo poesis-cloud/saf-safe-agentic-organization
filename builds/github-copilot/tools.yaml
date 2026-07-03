@@ -76,17 +76,17 @@ ux_tools: &ux_tools
   - search/usages
 
 agents:
-  agents/layers/portfolio/actors/business-owner/business-owner.agent.md: *common_tools
-  agents/layers/portfolio/actors/enterprise-architect/enterprise-architect.agent.md: *common_tools
-  agents/layers/portfolio/actors/value-management-officier/value-management-officier.agent.md: *dispatch_tools
-  agents/layers/program/actors/product-manager/product-manager.agent.md: *common_tools
-  agents/layers/program/actors/release-train-engineer/release-train-engineer.agent.md: *dispatch_tools
-  agents/layers/program/actors/system-architect/system-architect.agent.md: *common_tools
-  agents/layers/team/actors/developer/developer.agent.md: *common_tools
-  agents/layers/team/actors/operator/operator.agent.md: *common_tools
-  agents/layers/team/actors/product-owner/product-owner.agent.md: *common_tools
-  agents/layers/team/actors/quality-engineer/quality-engineer.agent.md: *common_tools
-  agents/layers/team/actors/scrum-master/scrum-master.agent.md: *dispatch_tools
-  agents/layers/team/actors/security-expert/security-expert.agent.md: *common_tools
-  agents/layers/team/actors/tech-writer/tech-writer.agent.md: *common_tools
-  agents/layers/team/actors/ux-designer/ux-designer.agent.md: *ux_tools
+  agents/business-owner.agent.md: *common_tools
+  agents/enterprise-architect.agent.md: *common_tools
+  agents/value-management-officier.agent.md: *dispatch_tools
+  agents/product-manager.agent.md: *common_tools
+  agents/release-train-engineer.agent.md: *dispatch_tools
+  agents/system-architect.agent.md: *common_tools
+  agents/developer.agent.md: *common_tools
+  agents/operator.agent.md: *common_tools
+  agents/product-owner.agent.md: *common_tools
+  agents/quality-engineer.agent.md: *common_tools
+  agents/scrum-master.agent.md: *dispatch_tools
+  agents/security-expert.agent.md: *common_tools
+  agents/tech-writer.agent.md: *common_tools
+  agents/ux-designer.agent.md: *ux_tools
