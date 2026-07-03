@@ -20,6 +20,6 @@ description: '**SAFe CEREMONY SKILL.** The Strategic Portfolio Review playbook l
 
 # SAFe Ceremony — Strategic Portfolio Review
 
-The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the participant challenges + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officier` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **normative spec** is the machine-readable **[config/workflows/strategic-portfolio-review.yaml](../../../../../../config/workflows/strategic-portfolio-review.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the participant challenges + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officier` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[VMO orchestration core](../../../actors/value-management-officier/value-management-officier.skill.md)**. The WSJF re-rank + Strategic-Theme revisions are authored via `business-owner`; **the Central Supervisor decides** pivot/persevere/stop and **only `@value-management-officier` writes `status:`**. A workflow-improvement is a meta-artifact change, never a product Epic.

@@ -1,4 +1,4 @@
-# Strategic Themes Template — `portfolio/strategic-themes.md`
+# Strategic Themes Template — `strategic-themes.md`
 
 Portfolio-scoped singleton. The **Business Owner** hat (you) owns it; it is the top of the
 backlog spine (`Strategic Themes → Epic → Feature → Story`). Strategic Themes are the

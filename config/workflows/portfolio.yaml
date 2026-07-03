@@ -4,97 +4,27 @@ workflow:
   steps:
   - id: capture-epic
     kind: delegate
-    delegates_to: workflows/epic-lean-business-case
+    delegates_to: epic-lean-business-case
     actor: '@value-management-officier'
-    conditions:
-    - id: strategic_theme_present
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, has(x.strategic_theme))
-    - id: status_committed_funnel
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "funnel")
+    conditions: []
   - id: shape-epic
     kind: delegate
-    delegates_to: workflows/epic-lean-business-case
+    delegates_to: epic-lean-business-case
     actor: '@value-management-officier'
     conditions:
     - id: after_capture_epic
       kind: precondition
       type: after
       step_id: capture-epic
-    - id: epic_in_funnel
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "funnel")
-    - id: hypothesis_and_wsjf_present
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, has(x.wsjf))
-    - id: status_committed_reviewing
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "reviewing")
   - id: architect-epic
     kind: delegate
-    delegates_to: workflows/architectural-vision
+    delegates_to: architectural-vision
     actor: '@value-management-officier'
     conditions:
     - id: after_shape_epic
       kind: precondition
       type: after
       step_id: shape-epic
-    - id: epic_in_reviewing
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "reviewing")
-    - id: status_committed_analyzing
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "analyzing")
   - id: epic-gate
     kind: gate
     actor: central-supervisor (Business-Owner hat)
@@ -103,16 +33,6 @@ workflow:
       kind: precondition
       type: after
       step_id: architect-epic
-    - id: epic_analyzing_refined_board_published
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "analyzing")
   - id: start-implementing
     kind: direct
     actor: '@value-management-officier'
@@ -121,16 +41,6 @@ workflow:
       kind: precondition
       type: after
       step_id: epic-gate
-    - id: status_committed_implementing
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "implementing")
   - id: epic-outcome-gate
     kind: gate
     actor: central-supervisor (Business-Owner hat)
@@ -139,13 +49,3 @@ workflow:
       kind: precondition
       type: after
       step_id: start-implementing
-    - id: outcome_accepted_and_cost_committed
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "done" && has(x.cost))

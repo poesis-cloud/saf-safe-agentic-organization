@@ -1,4 +1,4 @@
-# Sprint Progress Template — `portfolio/<slug>/sprint-N/progress.md`
+# Sprint Progress Template — `products/<product-slug>/<progress-slug>.progress.md`
 
 Authored by SM, updated daily. Single rolling document for the sprint.
 
@@ -24,12 +24,12 @@ updated: YYYY-MM-DD
 | S-102 | in-progress | dev/SE-Security | |
 
 ## Open blockers
-(Roll-up from daily-*.md)
+(Roll-up from daily stand-up inputs)
 | ID | Story | Description | Owner | Age (days) |
 |---|---|---|---|---|
 
 ## Gate decision backlog
-(Roll-up from gate-decisions.md; unresolved entries must be included in every gate packet)
+(Roll-up from unresolved gate decisions; unresolved entries must be included in every gate packet)
 | ID | Story/Feature | Decision needed | Options | Owner | Status |
 |---|---|---|---|---|---|
 | GD-001 | S-101 | Approve PR scope variance | accept / rework / defer | Central Supervisor | open |

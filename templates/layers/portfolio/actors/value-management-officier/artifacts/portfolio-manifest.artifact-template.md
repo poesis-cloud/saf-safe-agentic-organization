@@ -8,19 +8,17 @@ poesis-wide singleton, created once. The **Business Owner** + **Enterprise Archi
 
 ```
 portfolio/
-  portfolio.yaml          # manifest (this template)
+  portfolio-manifest.yaml          # manifest (this template)
   strategic-themes.md     # strategic-themes.artifact-template.md
   epics/                  # E-N-<slug>.md (epic.artifact-template.md)
-  kanban/
-    portfolio.md          # rendered (kanban-portfolio.artifact-template.md); never hand-edited
   github-sync.yaml        # Portfolio Project sync config (github-sync-config-template)
   .gitkeep in empty dirs
 ```
 
-## Manifest — `portfolio/portfolio.yaml`
+## Manifest — `portfolio-manifest.yaml`
 
 ```yaml
-# portfolio/portfolio.yaml
+# portfolio-manifest.yaml
 scope: portfolio
 name: Poesis Portfolio
 business_owner: central-supervisor       # BO hat (Go/No-Go, value authority)
@@ -55,8 +53,8 @@ github_project: null      # filled by `provision portfolio` (Portfolio Project U
 
 ## Init checklist (RTE runs this once)
 
-- [ ] Create `portfolio/` tree with `.gitkeep` in `epics/`, `kanban/`.
-- [ ] Write `portfolio.yaml` with `products[]` as the authoritative registry and `arts[]` as the compatibility list where older tooling still expects it.
+- [ ] Create `portfolio/` tree with `.gitkeep` in `portfolio-backlog/`.
+- [ ] Write `portfolio-manifest.yaml` with `products[]` as the authoritative registry and `arts[]` as the compatibility list where older tooling still expects it.
 - [ ] Seed `strategic-themes.md` from `strategy/POESIS-STRATEGY.md` + business lines.
 - [ ] Generate `github-sync.yaml` (portfolio variant) and `provision` the Portfolio Project.
 

@@ -1,6 +1,6 @@
-# Architecture Review Template — `portfolio/<slug>/.../reviews/<subject>-architecture-review.md`
+# Architecture Review Template — `products/<product-slug>/.../reviews/<subject>-architecture-review.md`
 
-Authored by `@system-architect` (or `@enterprise-architect` at the portfolio layer). A pure architecture verdict on a subject that does **not** itself produce an ADR (an ADR-producing review records its decision in the ADR / architecture-decision-inventory instead). One review per subject per attempt; a `fail` records blocking `open_items`.
+Authored by `@system-architect` (or `@enterprise-architect` at the portfolio layer). A pure architecture verdict on a subject that does **not** itself produce an ADR (an ADR-producing review records its decision in the ADR attachments instead). One review per subject per attempt; a `fail` records blocking `open_items`.
 
 ```markdown
 ---

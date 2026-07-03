@@ -24,8 +24,8 @@ The **body** of the Epic-shaping handlers in the portfolio flow (see the *skill 
 
 ## Contract
 
-- **Input (read):** `portfolio/strategic-themes.md`; the raw idea/mandate; the business Epic template plus the **strategic-themes** template ([strategic-themes.artifact-template.md](artifacts/strategic-themes.artifact-template.md)). For a re-rank: the whole `portfolio/epics/` set + the open workflow pain points in the PI Inspect & Adapt ledgers (`pi-M/inspect-adapt.md` §3b).
-- **Output (commit):** `portfolio/epics/E-N-<slug>.md` (template-valid against the business Epic template) and/or an updated `strategic-themes.md`.
+- **Input (read):** `strategic-themes.md`; the raw idea/mandate; the business Epic template plus the **strategic-themes** template ([strategic-themes.artifact-template.md](artifacts/strategic-themes.artifact-template.md)). For a re-rank: the whole `portfolio-backlog/` set + the open workflow pain points in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
+- **Output (commit):** `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` (template-valid against the business Epic template) and/or an updated `strategic-themes.md`.
 - **Guard rails:** never flip the ★ Epic Gate; never author enabler Epics; every Epic traces to a Strategic Theme; a *workflow* improvement is a meta-artifact change, never a product Epic; read-before / commit-after.
 
 ## Handler entry table (input-keyed)
@@ -46,4 +46,4 @@ Write the business hypothesis statement required by the business Epic template; 
 Re-order the backlog by WSJF; for each in-flight Epic recommend **pivot / persevere / stop** (the Central Supervisor decides). Output the ranking + recommendations; `strategic-portfolio-review` drives the ceremony around you.
 
 ## Done = handed back
-Output committed + template-valid + every Epic Theme-traced + WSJF components present. Record unresolved unknowns as `open_items` entries (`kind: clarification`) per the [open-item ledger](../value-management-officier/value-management-officier.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officier` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the PI Inspect & Adapt ledger (`pi-M/inspect-adapt.md` §3b).
+Output committed + template-valid + every Epic Theme-traced + WSJF components present. Record unresolved unknowns as `open_items` entries (`kind: clarification`) per the [open-item ledger](../value-management-officier/value-management-officier.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officier` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).

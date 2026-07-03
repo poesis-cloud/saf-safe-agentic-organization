@@ -1,4 +1,4 @@
-# PI Risks Template — `portfolio/<slug>/pi-M/risks.md`
+# PI Risks Template — `art/<art-slug>/pi-<pi-slug>/risks.md`
 
 RTE-owned register of program-level risks for the PI. Append-only entries.
 

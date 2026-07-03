@@ -8,25 +8,11 @@ workflow:
     kind: author
     actor: '@product-manager'
     output: feature
-    conditions:
-    - id: feature_ready
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "ready")
+    conditions: []
   - id: confirm-runway
     kind: author
     actor: '@system-architect'
-    output: runway-register
-  - id: confirm-priority
-    kind: author
-    actor: '@business-owner'
-    output: value-review
+    output: architecture-runway
   - id: challenge-feasibility
     kind: challenge
     actor: '@developer'
@@ -40,27 +26,6 @@ workflow:
       kind: precondition
       type: after
       step_id: confirm-runway
-    - id: after_confirm_priority
-      kind: precondition
-      type: after
-      step_id: confirm-priority
-  - id: challenge-testability
-    kind: challenge
-    actor: '@quality-engineer'
-    output: testability-review
-    conditions:
-    - id: after_confirm_intent
-      kind: precondition
-      type: after
-      step_id: confirm-intent
-    - id: after_confirm_runway
-      kind: precondition
-      type: after
-      step_id: confirm-runway
-    - id: after_confirm_priority
-      kind: precondition
-      type: after
-      step_id: confirm-priority
   - id: challenge-nfr-security
     kind: challenge
     actor: '@security-expert'
@@ -74,10 +39,6 @@ workflow:
       kind: precondition
       type: after
       step_id: confirm-runway
-    - id: after_confirm_priority
-      kind: precondition
-      type: after
-      step_id: confirm-priority
   - id: challenge-nfr-operability
     kind: challenge
     actor: '@operator'
@@ -91,10 +52,6 @@ workflow:
       kind: precondition
       type: after
       step_id: confirm-runway
-    - id: after_confirm_priority
-      kind: precondition
-      type: after
-      step_id: confirm-priority
   - id: challenge-ux
     kind: challenge
     actor: '@ux-designer'
@@ -108,10 +65,6 @@ workflow:
       kind: precondition
       type: after
       step_id: confirm-runway
-    - id: after_confirm_priority
-      kind: precondition
-      type: after
-      step_id: confirm-priority
   - id: commit
     kind: commit
     actor: '@release-train-engineer'
@@ -121,10 +74,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-feasibility
-    - id: after_challenge_testability
-      kind: precondition
-      type: after
-      step_id: challenge-testability
     - id: after_challenge_nfr_security
       kind: precondition
       type: after

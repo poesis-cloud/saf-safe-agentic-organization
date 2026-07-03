@@ -1,4 +1,4 @@
-# Operability Review Template — `portfolio/<slug>/.../reviews/<subject>-operability-review.md`
+# Operability Review Template — `products/<product-slug>/.../reviews/<subject>-operability-review.md`
 
 Authored by `@operator`. The operability verdict on a subject (a Feature, runway item, deployment topology, or release) — CI/CD, Helm, environment config, observability, and runtime concerns. One review per subject per attempt; a `fail` records blocking `open_items`.
 

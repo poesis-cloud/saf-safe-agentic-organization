@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://poesis.cloud/safe-agentic-framework/schemas/plan.artifact.schema.json",
+  "title": "plan artifact schema",
+  "type": "object",
+  "additionalProperties": true,
+  "x-artifact": {
+    "id": "plan",
+    "kind": "plan",
+    "template": "templates/layers/team/actors/scrum-master/artifacts/plan.artifact-template.md",
+    "pathPatterns": [
+      "products/*/*.plan.md"
+    ],
+    "renderOnly": false
+  },
+  "required": [
+    "__path",
+    "__kind",
+    "__artifact_id",
+    "__frontmatter_present"
+  ],
+  "properties": {
+    "__path": {
+      "description": "Workspace-relative path of the artifact file, injected by the orchestration harness (not authored in frontmatter).",
+      "type": "string",
+      "minLength": 1
+    },
+    "__kind": {
+      "description": "Artifact-kind discriminator injected by the harness; must equal x-artifact.kind.",
+      "const": "plan"
+    },
+    "__artifact_id": {
+      "description": "Stable artifact id injected by the harness, derived from the file and frontmatter.",
+      "type": "string",
+      "minLength": 1
+    },
+    "__frontmatter_present": {
+      "description": "Harness assertion that YAML frontmatter was found and parsed; always true for a valid artifact.",
+      "type": "boolean"
+    },
+    "__sections": {
+      "description": "Artifact body sections keyed by their `## ` heading — one property per template section; the value is the raw Markdown under that heading. Authored artifacts may add or omit sections, so this is advisory (additionalProperties is permitted) and no section is individually required.",
+      "type": "object",
+      "properties": {
+        "Prioritized Story List": {
+          "description": "Pair convention: first-named = initial Driver, second-named = initial Navigator. Roles swap each pair-programming micro-cycle (see SKILL.md § Pair Programming).",
+          "type": "string"
+        },
+        "Work Schedule": {
+          "description": "Dispatch pairs sequentially",
+          "type": "string"
+        },
+        "Success Criteria": {
+          "description": "[ ] Every Story meets its DoD",
+          "type": "string"
+        },
+        "What's NOT in This Sprint": {
+          "description": "`What's NOT in This Sprint` section of the artifact body.",
+          "type": "string"
+        },
+        "RTE Dispatch Prompt": {
+          "description": "`RTE Dispatch Prompt` section of the artifact body.",
+          "type": "string"
+        },
+        "Story Status": {
+          "description": "`Story Status` section of the artifact body.",
+          "type": "string"
+        },
+        "Bugs Found": {
+          "description": "`Bugs Found` section of the artifact body.",
+          "type": "string"
+        },
+        "Notes": {
+          "description": "[Free-form notes about decisions, ADR amendments needed, context for recovery]",
+          "type": "string"
+        },
+        "What Was Built": {
+          "description": "S-1 — [Story] (pair: default-dev / default-dev)",
+          "type": "string"
+        },
+        "What's NOT Done": {
+          "description": "[Deferred Story — why]",
+          "type": "string"
+        },
+        "Files Changed/Created": {
+          "description": "`src/components/NewComponent.tsx` — [purpose]",
+          "type": "string"
+        },
+        "Manual Setup Required": {
+          "description": "[Any env vars, config, or manual steps needed]",
+          "type": "string"
+        },
+        "Known Issues": {
+          "description": "[Issue — tracked as GitHub Issue #NN]",
+          "type": "string"
+        },
+        "ADRs Referenced": {
+          "description": "ADR-N — [title] (status: accepted)",
+          "type": "string"
+        },
+        "Stories Accepted": {
+          "description": "`Stories Accepted` section of the artifact body.",
+          "type": "string"
+        },
+        "Test Results": {
+          "description": "Tests run: X",
+          "type": "string"
+        },
+        "Blockers": {
+          "description": "NONE (or: list of GitHub Issues with severity:blocker)",
+          "type": "string"
+        },
+        "Issues Filed": {
+          "description": "#NN — [description] (severity: minor)",
+          "type": "string"
+        },
+        "Result": {
+          "description": "✅ PASS — No blockers. Sprint N ready to open PR for the ★ PR Gate. (or: ❌ HOLD — blockers must clear before the ★ PR Gate)",
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "__body": {
+      "description": "Raw Markdown body of the artifact (everything after the frontmatter), injected by the harness.",
+      "type": "string"
+    },
+    "id": {
+      "description": "Stable artifact identifier (matches the filename stem).",
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "description": "Human-readable title of the artifact.",
+      "type": "string",
+      "minLength": 1
+    },
+    "work_item_relations": {
+      "description": "Typed work-item relations (depends_on / enables / related_to / supersedes).",
+      "$ref": "https://poesis.cloud/safe-agentic-framework/schemas/framework-definitions.schema.json#/definitions/workItemRelations"
+    },
+    "wsjf": {
+      "description": "Weighted Shortest Job First scoring block.",
+      "$ref": "https://poesis.cloud/safe-agentic-framework/schemas/framework-definitions.schema.json#/definitions/wsjf"
+    },
+    "risk": {
+      "description": "Risk level — the consequence of being wrong: low | medium | critical.",
+      "enum": [
+        "low",
+        "medium",
+        "critical"
+      ]
+    },
+    "complexity": {
+      "description": "Complexity — cognitive/structural difficulty: simple | involved | complex.",
+      "enum": [
+        "simple",
+        "involved",
+        "complex"
+      ]
+    },
+    "created": {
+      "description": "Authoring date (YYYY-MM-DD).",
+      "type": "string",
+      "minLength": 1
+    },
+    "open_items": {
+      "description": "Clarification + challenge ledger (a blocking open entry halts the relevant gate).",
+      "$ref": "https://poesis.cloud/safe-agentic-framework/schemas/framework-definitions.schema.json#/definitions/openItems"
+    },
+    "cost": {
+      "description": "Token-cost accounting block (see the cost definition).",
+      "$ref": "https://poesis.cloud/safe-agentic-framework/schemas/framework-definitions.schema.json#/definitions/cost"
+    },
+    "github": {
+      "description": "GitHub Projects sync envelope, filled by portfolio/_sync (null when authoring).",
+      "$ref": "https://poesis.cloud/safe-agentic-framework/schemas/framework-definitions.schema.json#/definitions/githubSync"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "https://poesis.cloud/safe-agentic-framework/artifact.schema.json"
+    }
+  ]
+}

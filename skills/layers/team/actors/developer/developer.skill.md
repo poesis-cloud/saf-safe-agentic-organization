@@ -38,7 +38,7 @@ Restate the subject scope, proposed approach, and dependencies. Record technical
 - As `Navigator`: critique the diff against the Story, challenge correctness and scope, accept or reject with reasons. Expect security challenge when trust boundaries are touched.
 
 ## Done = handed back
-Output committed + template-valid (for a review) or integrated + validated (for a diff); every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the dispatching orchestrator; workflow friction captured in the PI inspect-adapt ledger (`pi-M/inspect-adapt.md` §3b).
+Output committed + template-valid (for a review) or integrated + validated (for a diff); every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the dispatching orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
 
 ## Anti-patterns
 

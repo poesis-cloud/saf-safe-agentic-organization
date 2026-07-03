@@ -1,4 +1,4 @@
-# Security Review Template — `portfolio/<slug>/.../reviews/<subject>-security-review.md`
+# Security Review Template — `products/<product-slug>/.../reviews/<subject>-security-review.md`
 
 Authored by `@security-expert`. The security verdict on a subject (a Story, Feature, ADR, runway item, or PR). One review per subject per attempt; a `fail` records blocking `open_items` the owning step must clear.
 

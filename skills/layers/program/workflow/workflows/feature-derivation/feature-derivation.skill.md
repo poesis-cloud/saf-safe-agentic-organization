@@ -1,7 +1,7 @@
 ---
 name: feature-derivation
 user-invocable: false
-description: 'SAFe ART ceremony — Feature Derivation (suborchestration of @release-train-engineer). Normative spec (trigger, participants, steps, conditions, facilitation intent) is workflow.yaml.'
+description: 'SAFe ART ceremony — Feature Derivation (suborchestration of @release-train-engineer). Normative spec (trigger, participants, steps, conditions, facilitation intent) is config/workflows/feature-derivation.yaml.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,6 +20,6 @@ description: 'SAFe ART ceremony — Feature Derivation (suborchestration of @rel
 
 # SAFe Ceremony — Feature Derivation
 
-The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — the step sequence and every step's `conditions` (Epic-input trigger, owner-authoring obligations, and the structural `after`/`input`/`output` wiring), consumed by both `@release-train-engineer` and the deterministic harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **normative spec** is the machine-readable **[config/workflows/feature-derivation.yaml](../../../../../../config/workflows/feature-derivation.yaml)** — the step sequence and every step's `conditions` (Epic-input trigger, owner-authoring obligations, and the structural `after`/`input`/`output` wiring), consumed by both `@release-train-engineer` and the deterministic harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[RTE orchestration core](../../../actors/release-train-engineer/release-train-engineer.skill.md)**. Business Feature derivation loads `product-manager`; enabler Feature derivation loads `system-architect`.

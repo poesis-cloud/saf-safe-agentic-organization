@@ -8,17 +8,7 @@ workflow:
     kind: author
     actor: '@product-manager'
     output: feature
-    conditions:
-    - id: feature_in_funnel
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "funnel")
+    conditions: []
   - id: draft-enabler
     kind: author
     actor: '@system-architect'
@@ -27,19 +17,6 @@ workflow:
     kind: challenge
     actor: '@developer'
     output: feasibility-review
-    conditions:
-    - id: after_draft_business
-      kind: precondition
-      type: after
-      step_id: draft-business
-    - id: after_draft_enabler
-      kind: precondition
-      type: after
-      step_id: draft-enabler
-  - id: challenge-testability
-    kind: challenge
-    actor: '@quality-engineer'
-    output: testability-review
     conditions:
     - id: after_draft_business
       kind: precondition
@@ -97,10 +74,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-feasibility
-    - id: after_challenge_testability
-      kind: precondition
-      type: after
-      step_id: challenge-testability
     - id: after_challenge_architecture
       kind: precondition
       type: after
@@ -113,16 +86,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-ux
-    - id: ac_and_wsjf_present
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, has(x.wsjf))
   - id: owner-rewrite-enabler
     kind: author
     actor: '@system-architect'
@@ -132,10 +95,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-feasibility
-    - id: after_challenge_testability
-      kind: precondition
-      type: after
-      step_id: challenge-testability
     - id: after_challenge_architecture
       kind: precondition
       type: after
@@ -148,13 +107,3 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-ux
-    - id: ac_and_wsjf_present
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, has(x.wsjf))

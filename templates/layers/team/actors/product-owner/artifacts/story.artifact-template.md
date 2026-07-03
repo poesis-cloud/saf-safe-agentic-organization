@@ -1,7 +1,7 @@
-# Story Template — `portfolio/<slug>/sprint-N/stories/S-N-<slug>.md`
+# Story Template — `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md`
 
 Authored by `@product-owner` from a `committed` Feature. Trace runs
-Story → Feature → Epic (there is no PRD tier). Lives at `portfolio/<slug>/sprint-N/stories/`.
+Story → Feature → Epic (there is no PRD tier). Lives at `art/<art-slug>/teams/<team-slug>/team-backlog/<story>/`.
 
 ```markdown
 ---
@@ -112,7 +112,7 @@ One bullet per item, mirroring a frontmatter entry:
 - [ ] Code merged behind Central Supervisor approval (★ PR Gate)
 - [ ] Tests pass (unit + integration)
 - [ ] Coverage maintained
-- [ ] `@quality-engineer` sign-off file exists: `docs/sprint-N/qa/S-101-signoff.md`
+- [ ] `@quality-engineer` sign-off file exists: `<qa-signoff-slug>.qa-signoff.md`
 - [ ] PO confirms AC met
 - [ ] Docs updated where applicable
 

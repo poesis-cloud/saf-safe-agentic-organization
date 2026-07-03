@@ -8,32 +8,13 @@ workflow:
     kind: author
     actor: '@product-owner'
     output: story
-    conditions:
-    - id: story_in_backlog
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: story
-          schema_id: story
-        set_query: story.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "backlog")
+    conditions: []
     instructions:
     - instructions/discovery-open-items-recorded-or-explicitly-none.instructions.md
   - id: challenge-split
     kind: challenge
     actor: '@developer'
     output: feasibility-review
-    conditions:
-    - id: after_draft
-      kind: precondition
-      type: after
-      step_id: draft
-  - id: challenge-testability
-    kind: challenge
-    actor: '@quality-engineer'
-    output: testability-review
     conditions:
     - id: after_draft
       kind: precondition
@@ -66,10 +47,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-split
-    - id: after_challenge_testability
-      kind: precondition
-      type: after
-      step_id: challenge-testability
     - id: after_challenge_ux
       kind: precondition
       type: after

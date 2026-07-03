@@ -1,4 +1,4 @@
-# Epic Template — `portfolio/epics/E-N-<slug>.md`
+# Epic Template — `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md`
 
 The portfolio-level artifact. Authored by the **Business Owner** hat (you) with the
 **Enterprise Architect** hat for the architectural runway, and refined with `@business-owner`

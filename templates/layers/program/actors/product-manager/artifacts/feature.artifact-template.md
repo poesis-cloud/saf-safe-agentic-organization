@@ -1,9 +1,9 @@
-# Feature Template — `portfolio/<slug>/features/F-N-<slug>.md`
+# Feature Template — `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md`
 
 Authored by `@product-manager` (PM hat). A Feature optionally rolls up to a portfolio **Epic**
 (`parent_epic: E-N`); there is **no PRD tier** — the defining intent lives in the Epic (or, for
 standalone engineering/operability Features, in the Feature itself). Lives at
-`portfolio/<slug>/features/`.
+`art/<art-slug>/program-backlog/<feature>/`.
 
 ```markdown
 ---
@@ -28,7 +28,7 @@ structurant: false       # true ⇒ requires architecture decisions (one or more
 risk: medium             # low | medium | critical; set by PM before leaving funnel
 complexity: involved     # simple | involved | complex; set by PM before leaving funnel
 architecture_inventory: null   # required when structurant=true;
-                               # path to architecture/decision-inventory-F-N-*.md
+                               # path to <adr-slug>.adr.md in the feature folder
 adrs: []                 # ADR ids referenced; may contain multiple decisions for one structurant Feature
 pi: M                    # set on transition to `committed`
 owner: SE-Product-Manager
@@ -79,7 +79,7 @@ Use a short paragraph or 2-3 bullets in this form:
 - Evidence: <how the value will be observed>
 
 ## NFR applicability / trace
-List the canonical product NFRs from `architecture/nfrs.md` that apply to this Feature, plus any
+List the canonical product NFRs from `<feature-slug>.nfr-list.md` that apply to this Feature, plus any
 Feature-specific tightening or derived verification notes. Do not redefine the product's canonical
 NFR set here.
 

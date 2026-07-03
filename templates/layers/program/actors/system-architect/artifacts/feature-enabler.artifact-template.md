@@ -1,4 +1,4 @@
-# Enabler Feature Template — `portfolio/<slug>/features/F-N-<slug>.md`
+# Enabler Feature Template — `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md`
 
 Product-scoped backlog contract for **enabler Features**. Use this template when `type: enabler`.
 An enabler Feature is a first-class program backlog unit that realizes runway work needed by named
@@ -28,7 +28,7 @@ structurant: false
 risk: medium
 complexity: involved
 architecture_inventory: null   # required when structurant=true;
-                               # path to architecture/decision-inventory-F-N-*.md
+                               # path to <adr-slug>.adr.md in the feature folder
 adrs: []
 pi: M
 owner: SE-Architect
@@ -94,7 +94,7 @@ Use 2-3 bullets in this form:
 - `Validation evidence expected before closure: <test, report, review, or artifact>`
 
 ## NFR applicability / trace
-List the canonical product NFRs from `architecture/nfrs.md` that apply to this Feature, plus any
+List the canonical product NFRs from `<feature-slug>.nfr-list.md` that apply to this Feature, plus any
 Feature-specific tightening or derived verification notes.
 
 ## Routing classification

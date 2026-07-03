@@ -1,7 +1,7 @@
 ---
 name: inspect-and-adapt
 user-invocable: false
-description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@release-train-engineer` per Feature (on `done`; synthesised at an Epic's completion). USE FOR: the PI quantitative measurement + the problem-solving workshop; root-causing program-scope pain points from the workflow-improvement ledger; seeding enabler Features for systemic gaps; writing `inspect-adapt.md`. DO NOT USE FOR: the ★ Demo Gate (use `system-demo`); portfolio re-ranking (use `strategic-portfolio-review`); the sprint retro (use `retrospective`). Loaded by `@release-train-engineer` before facilitating.'
+description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@release-train-engineer` at PI end. USE FOR: the PI quantitative metrics review + the problem-solving workshop; root-causing program-scope pain points from the ART improvement-backlog; dispatching owning actors to create derived Features/Stories/enablers. DO NOT USE FOR: the ★ Demo Gate (use `system-demo`); portfolio re-ranking (use `strategic-portfolio-review`); iteration retrospectives. Loaded by `@release-train-engineer` before facilitating.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,7 +20,13 @@ description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@
 
 # SAFe Ceremony — Inspect & Adapt
 
-The **program-scope** review point of the workflow-improvement ledger. The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the aggregation + root-cause + triage obligations as conditions; the structural `after`/`input`/`output` wiring), consumed by `@release-train-engineer` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **program-scope** closed-loop event at the end of a PI. It has **no system demo** (that is the separate `system-demo` workflow). The **normative spec** is the machine-readable **[config/workflows/inspect-and-adapt.yaml](../../../../../../config/workflows/inspect-and-adapt.yaml)** — every step + its `conditions` (metrics review → retrospective), consumed by `@release-train-engineer` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
-Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[RTE orchestration core](../../../actors/release-train-engineer/release-train-engineer.skill.md)**. A workflow-improvement is a meta-artifact change (never a product Feature); a product gap may become an enabler Feature (`∅→funnel`). **Only `@release-train-engineer` writes `status:`**.
-PI measured + retros aggregated + top problems root-caused + improvements recorded.
+Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[RTE orchestration core](../../../actors/release-train-engineer/release-train-engineer.skill.md)**.
+
+## Step instructions
+
+- **Step 1 — Metrics review**: [instructions/metrics-review.instructions.md](instructions/metrics-review.instructions.md)
+- **Step 2 — Retrospective**: [instructions/retrospective.instructions.md](instructions/retrospective.instructions.md)
+
+**Only `@release-train-engineer` facilitates I&A and updates pain-point `status`. Derived Features, Stories, and enablers are authored by their owning actors.**

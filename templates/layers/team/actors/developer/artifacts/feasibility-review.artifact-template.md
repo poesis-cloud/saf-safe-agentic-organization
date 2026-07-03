@@ -1,4 +1,4 @@
-# Feasibility Review Template — `portfolio/<slug>/.../reviews/<subject>-feasibility-review.md`
+# Feasibility Review Template — `products/<product-slug>/.../reviews/<subject>-feasibility-review.md`
 
 Authored by `@developer`. The implementation-feasibility verdict on a subject (a Feature, Story, or enabler) — technical risk, effort realism, dependency exposure, and build viability. One review per subject per attempt; a `fail` records blocking `open_items`.
 

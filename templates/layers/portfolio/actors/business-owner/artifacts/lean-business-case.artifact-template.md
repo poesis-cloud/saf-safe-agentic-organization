@@ -1,4 +1,4 @@
-# Lean Business Case Template — `portfolio/epics/E-N-lbc.md`
+# Lean Business Case Template — `portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md`
 
 The Epic's **Lean Business Case** (SAFe). Authored in the **Epic Lean Business Case** practice
 (`epic-lean-business-case`) — `@business-owner` drafts; `@enterprise-architect`,
@@ -9,6 +9,8 @@ companion to its Epic `E-N`.
 ```markdown
 ---
 id: E-1-lbc
+slug: e-1-lbc
+title: E-1 — Lean Business Case
 epic: E-1
 status: draft            # draft | challenged | gate-ready
 funding_state: proposed  # proposed | funded | not-funded   (set by Participatory Budgeting)
@@ -35,7 +37,7 @@ The smallest Feature set that tests the hypothesis (`mvp_features` on the Epic).
 Rough order of magnitude; informs Participatory Budgeting.
 
 ## Enabler / runway dependency
-Architectural-runway items this Epic consumes or requires (→ `architectural-vision`).
+Architectural-runway items this Epic consumes or requires (→ `architecture-vision`).
 
 ## Pivot / persevere / stop criteria
 What evidence would change the decision (assessed at Strategic Portfolio Review / Inspect & Adapt).

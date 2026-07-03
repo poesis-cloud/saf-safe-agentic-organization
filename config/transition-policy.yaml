@@ -1,0 +1,123 @@
+# Transition policy for the Poesis SAFe methodology.
+# Loaded by TransitionPolicy; each kind with a status lifecycle declares its
+# statuses, legal edges, gate edges, orchestrator ownership, and reject targets.
+# The harness itself is methodology-agnostic; this file is framework-owned data.
+
+kinds:
+  epic:
+    statuses:
+      - funnel
+      - reviewing
+      - analyzing
+      - portfolio-backlog
+      - implementing
+      - done
+      - blocked
+    transitions:
+      - [funnel, reviewing]
+      - [reviewing, analyzing]
+      - [analyzing, portfolio-backlog]
+      - [analyzing, funnel]
+      - [portfolio-backlog, implementing]
+      - [implementing, done]
+    post_gate:
+      - portfolio-backlog
+      - implementing
+      - done
+    gates:
+      analyzing -> portfolio-backlog: Epic Gate
+      implementing -> done: Epic Outcome Gate
+    reject_targets:
+      analyzing -> portfolio-backlog: funnel
+      implementing -> done: implementing
+    deprecated: {}
+
+  feature:
+    statuses:
+      - funnel
+      - refined
+      - arch-pending
+      - ready
+      - committed
+      - in-progress
+      - done
+      - blocked
+    transitions:
+      - [funnel, refined]
+      - [refined, arch-pending]
+      - [refined, ready]
+      - [refined, funnel]
+      - [arch-pending, ready]
+      - [arch-pending, refined]
+      - [ready, committed]
+      - [committed, in-progress]
+      - [in-progress, done]
+    post_gate:
+      - arch-pending
+      - ready
+      - committed
+      - in-progress
+      - done
+    gates:
+      refined -> arch-pending: Feature Gate
+      refined -> ready: Feature Gate
+      arch-pending -> ready: Architecture Gate
+      in-progress -> done: Demo Gate
+    reject_targets:
+      refined -> arch-pending: funnel
+      refined -> ready: funnel
+      arch-pending -> ready: refined
+      in-progress -> done: in-progress
+    deprecated:
+      adr-pending: arch-pending
+
+  story:
+    statuses:
+      - backlog
+      - ready
+      - in-progress
+      - in-review
+      - in-qa
+      - awaiting-pr
+      - done
+      - blocked
+    transitions:
+      - [backlog, ready]
+      - [ready, in-progress]
+      - [in-progress, in-review]
+      - [in-review, in-progress]
+      - [in-review, in-qa]
+      - [in-qa, in-progress]
+      - [in-qa, awaiting-pr]
+      - [awaiting-pr, done]
+    post_gate:
+      - ready
+      - in-progress
+      - in-review
+      - in-qa
+      - awaiting-pr
+      - done
+    gates:
+      backlog -> ready: Story Gate
+      awaiting-pr -> done: PR Gate
+    reject_targets:
+      backlog -> ready: backlog
+      awaiting-pr -> done: awaiting-pr
+    deprecated: {}
+
+orchestrators:
+  value-management-officier:
+    - epic
+  release-train-engineer:
+    - feature
+  scrum-master:
+    - story
+
+aliases:
+  vmo: value-management-officier
+  value-management-office: value-management-officier
+  value-management-officier: value-management-officier
+  rte: release-train-engineer
+  release-train-engineer: release-train-engineer
+  sm: scrum-master
+  scrum-master: scrum-master

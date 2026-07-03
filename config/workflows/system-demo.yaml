@@ -8,17 +8,7 @@ workflow:
     kind: verify
     actor: '@quality-engineer'
     output: qa-signoff
-    conditions:
-    - id: feature_in_progress
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "in-progress")
+    conditions: []
   - id: verify-security
     kind: verify
     actor: '@security-expert'
@@ -43,13 +33,3 @@ workflow:
       kind: precondition
       type: after
       step_id: verify-operability
-    - id: feature_cost_committed_once_on_accept
-      kind: postcondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, has(x.cost))

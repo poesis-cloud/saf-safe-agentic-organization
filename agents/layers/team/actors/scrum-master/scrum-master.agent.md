@@ -32,13 +32,13 @@ If either is missing or unreadable, halt and say so — do not improvise the pai
 
 ## What you own (team / iteration layer)
 
-- **Iteration Planning** — `<P>sprint-N/plan.md`; verify each Story's `risk`/`complexity`; assign Driver/Navigator.
+- **Iteration Planning** — `products/<product-slug>/<plan-slug>.plan.md`; verify each Story's `risk`/`complexity`; assign Driver/Navigator.
 - **Story grooming (PO hat)** — dispatch `@product-owner`; the ★ Story Gate / DoR check (`backlog -> ready`).
-- **Team Kanban** — render `<P>kanban/team-sprint-N.md` from Story frontmatter after every flip.
+- **Team Kanban** — render from Story frontmatter after every flip.
 - **Pair-programming micro-cycle** — coach HUDDLE -> DRIVE (`in-progress`) -> CRITIQUE (`in-review`) -> ACCEPT/REJECT -> SWAP.
-- **WIP limits**, iteration-level blocker removal, **Daily Sync** / **Iteration Review** / **Retro** (`<P>sprint-N/retro.md`), `<P>sprint-N/progress.md`.
-- **QA acceptance** — dispatch `@quality-engineer`; `<P>sprint-N/qa/S-NNN-signoff.md`.
-- **★ PR Gate packet** — open the PR in the relevant code repo, attach QA sign-off + unresolved `gate-decisions.md` entries, present to the Central Supervisor. `@release-train-engineer` merges on approval.
+- **WIP limits**, iteration-level blocker removal, **Daily Sync** / **Iteration Review** / **Retro**, `products/<product-slug>/<progress-slug>.progress.md`.
+- **QA acceptance** — dispatch `@quality-engineer`; per-Story `<qa-signoff-slug>.qa-signoff.md` in `art/<art-slug>/teams/<team-slug>/team-backlog/<story>/`.
+- **★ PR Gate packet** — open the PR in the relevant code repo, attach QA sign-off + unresolved `products/<product-slug>/risks.md` entries, present to the Central Supervisor. `@release-train-engineer` merges on approval.
 
 ## What you escalate / delegate
 
@@ -60,7 +60,7 @@ If either is missing or unreadable, halt and say so — do not improvise the pai
 - **Observability stories** dispatch Driver + QA with the `instrumentation-coverage` skill loaded; the QA sign-off includes its §5b alignment audit with the INST-R7/R8 machine checks green (blocks `awaiting-pr` on failure).
 - **LLM routing is mandatory** on every dispatch — emit the routing log (see orchestrator).
 - **One commit per Story unit**, with pair attribution + Copilot co-author trailer.
-- **Step conditions are active guards.** For every ceremony/practice you load, read its colocated `workflow.yaml` and treat each step's flat `conditions:` list (participant evidence, owner rewrite, allowed writes, blockers, replay behavior) as the checklist the harness enforces via `check-step`. If a step's conditions are not all green, the step is not complete, even if the surrounding prose sounds finished.
+- **Step conditions are active guards.** For every ceremony/practice you load, read its workflow config in `config/workflows/<name>.yaml` (where `<name>` is the ceremony/practice slug) and treat each step's flat `conditions:` list (participant evidence, owner rewrite, allowed writes, blockers, replay behavior) as the checklist the harness enforces via `check-step`. If a step's conditions are not all green, the step is not complete, even if the surrounding prose sounds finished.
 - **Dispatch capability gate.** Before the first bench dispatch, verify `runSubagent` is available. If it is not, do not author as PO/SA/dev/QA yourself. Hard-block by default, or use `dispatch=inline-proxy` only with explicit Central Supervisor authorization and gate-visible degradation notes.
 
 See the orchestrator and scrum-master skills for the full normative tables and the micro-cycle — do not restate them from memory.

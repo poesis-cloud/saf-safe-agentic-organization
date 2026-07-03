@@ -8,30 +8,11 @@ workflow:
     kind: author
     actor: '@product-owner'
     output: story
-    conditions:
-    - id: feature_committed
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: story
-          schema_id: story
-        set_query: story.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "committed")
+    conditions: []
   - id: challenge-sizing
     kind: challenge
     actor: '@developer'
     output: feasibility-review
-    conditions:
-    - id: after_author_stories
-      kind: precondition
-      type: after
-      step_id: author-stories
-  - id: challenge-testability
-    kind: challenge
-    actor: '@quality-engineer'
-    output: testability-review
     conditions:
     - id: after_author_stories
       kind: precondition
@@ -72,10 +53,6 @@ workflow:
       kind: precondition
       type: after
       step_id: challenge-sizing
-    - id: after_challenge_testability
-      kind: precondition
-      type: after
-      step_id: challenge-testability
     - id: after_challenge_flag
       kind: precondition
       type: after

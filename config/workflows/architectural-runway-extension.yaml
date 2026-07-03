@@ -7,18 +7,8 @@ workflow:
   - id: inventory
     kind: author
     actor: '@system-architect'
-    output: architecture-decision-inventory
-    conditions:
-    - id: feature_arch_pending_structurant
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: feature
-          schema_id: feature
-        set_query: feature.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "arch-pending" && has(x.structurant))
+    output: adr
+    conditions: []
   - id: challenge-security
     kind: challenge
     actor: '@security-expert'
@@ -49,7 +39,7 @@ workflow:
   - id: owner-rewrite
     kind: author
     actor: '@system-architect'
-    output: runway-register
+    output: architecture-runway
     conditions:
     - id: after_challenge_security
       kind: precondition

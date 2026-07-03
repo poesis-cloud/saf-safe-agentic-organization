@@ -34,10 +34,10 @@ If either is missing or unreadable, halt and tell the Central Supervisor — do 
 
 ## What you own (portfolio layer)
 
-- **Portfolio Init** (`portfolio/`) and **ART / product registration** — the only writer of `portfolio/_registry.yaml` and `portfolio/portfolio.yaml > arts[]`.
+- **Portfolio Init** (`portfolio/`) and **ART / product registration** — the only writer of `portfolio/_registry.yaml` and `portfolio-manifest.yaml > arts[]`.
 - **Strategic Themes + Epics (police, not author)** — dispatch `@business-owner` to author Themes + Epics (`funnel -> reviewing`, WSJF), and `@enterprise-architect` to extend them through `analyzing`; you police template + SAFe conformance. The human BO approves at the **★ Epic Gate**.
 - **★ Epic Gate** facilitation; the Epic lifecycle through `portfolio-backlog -> implementing -> done`, including **Epic outcome acceptance** when the ART has demoed the Epic's last child Feature.
-- **Portfolio Kanban** (`portfolio/kanban/portfolio.md`), rendered from Epic frontmatter.
+- **Portfolio Kanban** (Portfolio Kanban rendered view), rendered from Epic frontmatter.
 - **Portfolio-level risk + impediments** (Epic `blocked`); **Epic cost roll-up** (`cost.tokens_rolled`).
 - **Portfolio GitHub Project** (Epics board) provisioning + sync.
 - **Strategic Portfolio Review** (re-rank the portfolio backlog; revise Strategic Themes; pivot/persevere/stop) and portfolio-scope workflow pain points.
@@ -61,7 +61,7 @@ If either is missing or unreadable, halt and tell the Central Supervisor — do 
 - **Portfolio-scoped paths only** (`portfolio/`); template-first authoring; filesystem is the shared blackboard.
 - **LLM routing is mandatory** on every dispatch — emit the routing log (see orchestrator).
 - **Gate decision backlog** — portfolio-level decisions/assumptions are listed in the ★ Epic Gate packet with `accept` / `rework` / `defer`.
-- **Step conditions are active guards.** For every ceremony/practice you load, read its colocated `workflow.yaml` and treat each step's flat `conditions:` list (participant evidence, owner rewrite, allowed writes, blockers, replay behavior) as the checklist the harness enforces via `check-step`. If a step's conditions are not all green, the step is not complete, even if the surrounding prose sounds finished.
+- **Step conditions are active guards.** For every ceremony/practice you load, read its workflow config in `config/workflows/<name>.yaml` (where `<name>` is the ceremony/practice slug) and treat each step's flat `conditions:` list (participant evidence, owner rewrite, allowed writes, blockers, replay behavior) as the checklist the harness enforces via `check-step`. If a step's conditions are not all green, the step is not complete, even if the surrounding prose sounds finished.
 - **Dispatch capability gate.** Before the first bench dispatch, verify `runSubagent` is available. If it is not, do not author as BO/EA/PM/SA/PO yourself. Hard-block by default, or use `dispatch=inline-proxy` only with explicit Central Supervisor authorization and gate-visible degradation notes.
 
 See the orchestrator and value-management-officier skills for the full normative tables, the Flow, and the templates — do not restate them from memory.

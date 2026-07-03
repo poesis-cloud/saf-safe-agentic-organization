@@ -2,18 +2,65 @@ workflow:
   id: inspect-and-adapt
   kind: ceremony
   parent: art
-  facilitator: '@release-train-engineer'
+  facilitator: "@release-train-engineer"
   steps:
-  - id: problem-solve
-    kind: author
-    actor: '@product-manager'
-    output: inspect-adapt-findings
-  - id: record
-    kind: commit
-    actor: '@release-train-engineer'
-    output: inspect-adapt-document
-    conditions:
-    - id: after_problem_solve
-      kind: precondition
-      type: after
-      step_id: problem-solve
+    - id: metrics-review
+      kind: author
+      actor: "@release-train-engineer"
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/metrics-review.instructions.md
+    - id: retrospective
+      kind: author
+      actor: "@release-train-engineer"
+      output: pain-point
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/retrospective.instructions.md
+      conditions:
+        - id: after_metrics_review
+          kind: precondition
+          type: after
+          step_id: metrics-review
+    - id: derive-features
+      kind: author
+      actor: "@product-manager"
+      output: feature
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+      conditions:
+        - id: after_retrospective
+          kind: precondition
+          type: after
+          step_id: retrospective
+    - id: derive-stories
+      kind: author
+      actor: "@product-owner"
+      output: story
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+      conditions:
+        - id: after_retrospective
+          kind: precondition
+          type: after
+          step_id: retrospective
+    - id: derive-feature-enablers
+      kind: author
+      actor: "@system-architect"
+      output: feature-enabler
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+      conditions:
+        - id: after_retrospective
+          kind: precondition
+          type: after
+          step_id: retrospective
+    - id: derive-story-enablers
+      kind: author
+      actor: "@system-architect"
+      output: story-enabler
+      instructions:
+        - instructions/layers/program/workflow/workflows/inspect-and-adapt/instructions/derive-backlog-items.instructions.md
+      conditions:
+        - id: after_retrospective
+          kind: precondition
+          type: after
+          step_id: retrospective

@@ -1,4 +1,4 @@
-# QA Sign-off Template — `portfolio/<slug>/sprint-N/qa/S-N-signoff.md`
+# QA Sign-off Template — `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<qa-signoff-slug>.qa-signoff.md`
 
 Authored by `@quality-engineer` (Ivy). Mandatory artifact for any Story transition `in-qa → awaiting-pr`.
 

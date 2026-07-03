@@ -24,7 +24,7 @@ The **body** of the portfolio-architecture handlers in the portfolio flow (see t
 
 ## Contract
 
-- **Input (read):** the Epic `portfolio/epics/E-N-*.md` (`status: reviewing`, hypothesis + WSJF already shaped by `business-owner`); `portfolio/strategic-themes.md`; `portfolio/portfolio.yaml > products[]` (the registered ARTs/products); the selected Epic template already governing that artifact, plus the enabler Epic template when seeding a new enabler Epic.
+- **Input (read):** the Epic `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` (`status: reviewing`, hypothesis + WSJF already shaped by `business-owner`); `strategic-themes.md`; `portfolio-manifest.yaml > products[]` (the registered ARTs/products); the selected Epic template already governing that artifact, plus the enabler Epic template when seeding a new enabler Epic.
 - **Output (commit):** the same Epic file advanced to `analyzing`, with the **runway** section, **Feature seeds**, and **target ART(s)** filled; optionally a new **enabler** Epic created from the enabler Epic template.
 - **Guard rails:** never flip the ★ Epic Gate; target only registered ARTs (else flag `@value-management-officier` for ART Init — never touch the registry); keep the runway minimal-sufficient (just enough architecture to de-risk the Epic); read-before / commit-after.
 
@@ -44,4 +44,4 @@ The **body** of the portfolio-architecture handlers in the portfolio flow (see t
 When runway work is too large to ride inside a business Epic, seed a separate **enabler Epic** from the dedicated enabler Epic template (`funnel`, flagged enabler) tracing to the same Theme; hand back to `@value-management-officier`.
 
 ## Done = handed back
-Epic advanced to `analyzing` + runway minimal-sufficient + every Feature seed has a registered target ART. Record unresolved unknowns as `open_items` entries (`kind: clarification`) per the [open-item ledger](../value-management-officier/value-management-officier.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officier` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the PI Inspect & Adapt ledger (`pi-M/inspect-adapt.md` §3b).
+Epic advanced to `analyzing` + runway minimal-sufficient + every Feature seed has a registered target ART. Record unresolved unknowns as `open_items` entries (`kind: clarification`) per the [open-item ledger](../value-management-officier/value-management-officier.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officier` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).

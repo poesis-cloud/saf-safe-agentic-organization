@@ -4,10 +4,6 @@ workflow:
   parent: lpm
   facilitator: '@value-management-officier'
   steps:
-  - id: arguments-value
-    kind: challenge
-    actor: '@business-owner'
-    output: value-review
   - id: arguments-split
     kind: challenge
     actor: '@enterprise-architect'
@@ -21,10 +17,6 @@ workflow:
     actor: central-supervisor (Business-Owner hat)
     output: budget-allocation
     conditions:
-    - id: after_arguments_value
-      kind: precondition
-      type: after
-      step_id: arguments-value
     - id: after_arguments_split
       kind: precondition
       type: after

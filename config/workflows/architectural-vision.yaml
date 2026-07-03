@@ -7,27 +7,8 @@ workflow:
   - id: ea-draft
     kind: author
     actor: '@enterprise-architect'
-    output: architectural-vision
-    conditions:
-    - id: epic_in_reviewing
-      kind: precondition
-      type: state
-      set_selector:
-        set_type: artifact
-        artifact_types:
-        - alias: epic
-          schema_id: epic
-        set_query: epic.filter(x, x.id == unit_id)
-      set_predicate: selected.all(x, x.status == "reviewing")
-  - id: challenge-value
-    kind: challenge
-    actor: '@business-owner'
-    output: value-review
-    conditions:
-    - id: after_ea_draft
-      kind: precondition
-      type: after
-      step_id: ea-draft
+    output: architecture-vision
+    conditions: []
   - id: challenge-security-nfr
     kind: challenge
     actor: '@security-expert'
@@ -49,12 +30,8 @@ workflow:
   - id: owner-rewrite
     kind: author
     actor: '@enterprise-architect'
-    output: architectural-vision
+    output: architecture-vision
     conditions:
-    - id: after_challenge_value
-      kind: precondition
-      type: after
-      step_id: challenge-value
     - id: after_challenge_security_nfr
       kind: precondition
       type: after
@@ -66,7 +43,7 @@ workflow:
   - id: render
     kind: render
     actor: '@enterprise-architect'
-    output: architectural-vision
+    output: architecture-vision
     conditions:
     - id: after_owner_rewrite
       kind: precondition

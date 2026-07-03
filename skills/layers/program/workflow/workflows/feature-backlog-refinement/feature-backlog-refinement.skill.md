@@ -1,7 +1,7 @@
 ---
 name: feature-backlog-refinement
 user-invocable: false
-description: 'SAFe ART ceremony — Feature Backlog Refinement (suborchestration of @release-train-engineer). Normative spec (trigger, participants, steps, conditions, facilitation intent) is workflow.yaml.'
+description: 'SAFe ART ceremony — Feature Backlog Refinement (suborchestration of @release-train-engineer). Normative spec (trigger, participants, steps, conditions, facilitation intent) is config/workflows/feature-backlog-refinement.yaml.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,6 +20,6 @@ description: 'SAFe ART ceremony — Feature Backlog Refinement (suborchestration
 
 # SAFe Ceremony — Feature Backlog Refinement
 
-The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — the step sequence and every step's `conditions` (the trigger as the first step's preconditions; the discovery lenses + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by both `@release-train-engineer` and the deterministic harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **normative spec** is the machine-readable **[config/workflows/feature-backlog-refinement.yaml](../../../../../../config/workflows/feature-backlog-refinement.yaml)** — the step sequence and every step's `conditions` (the trigger as the first step's preconditions; the discovery lenses + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by both `@release-train-engineer` and the deterministic harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[RTE orchestration core](../../../actors/release-train-engineer/release-train-engineer.skill.md)**. Authoring bodies load *inside* the steps: business Features via `product-manager`, enabler Features via `system-architect`.

@@ -1,4 +1,4 @@
-# ADR Template — `portfolio/<slug>/architecture/ADR-N-<slug>.md`
+# ADR Template — `art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md`
 
 Authored by `@system-architect` for any Feature flagged `structurant: true`.
 

@@ -1,4 +1,4 @@
-# Enabler Epic Template — `portfolio/epics/E-N-<slug>.md`
+# Enabler Epic Template — `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md`
 
 Portfolio-scoped backlog contract for **enabler Epics**. Use this template when `type: enabler`.
 An enabler Epic is a first-class portfolio backlog unit, not an architecture note: it exists to

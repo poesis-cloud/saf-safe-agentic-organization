@@ -1,4 +1,4 @@
-# UX Review Template — `portfolio/<slug>/.../reviews/<subject>-ux-review.md`
+# UX Review Template — `products/<product-slug>/.../reviews/<subject>-ux-review.md`
 
 Authored by `@ux-designer`. The UX/accessibility verdict on a subject (a Feature, Story, or user-facing flow) — user journeys, interaction affordances, and WCAG 2.1 AA accessibility. One review per subject per attempt; a `fail` records blocking `open_items`.
 

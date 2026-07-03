@@ -20,6 +20,6 @@ description: '**SAFe CEREMONY SKILL.** The Story Backlog Refinement playbook loa
 
 # SAFe Ceremony — Story Backlog Refinement
 
-The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the two iteration-tier Discovery lenses — no generative lens at this tier — + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@scrum-master` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **normative spec** is the machine-readable **[config/workflows/story-backlog-refinement.yaml](../../../../../../config/workflows/story-backlog-refinement.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the two iteration-tier Discovery lenses — no generative lens at this tier — + facilitation obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@scrum-master` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[scrum-master orchestration core](../../../actors/scrum-master/scrum-master.skill.md)**. Business Stories are authored via `product-owner`, enabler Stories via `system-architect`; the Story stays `backlog` and **only `@scrum-master` writes `status:`** (the ★ Story Gate / DoR runs at Iteration Planning).

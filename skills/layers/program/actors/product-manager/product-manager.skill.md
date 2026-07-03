@@ -169,7 +169,7 @@ Located at `def/features/github_project_sync/`:
 
 ### GitHub Project Configuration
 
-- **Org**: `poesis-cloud`
+- **Org**: `<github-org>`
 - **Project**: #2 — "Poesis Product Features"
 - **Fields**: Status, Priority (P0–P3), Estimate, Item SAFe Type, Complexity
 - **Auth**: `gh auth status` must show logged-in; scopes needed: `read:project`, `project`

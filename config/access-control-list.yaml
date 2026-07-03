@@ -1,105 +1,75 @@
-# Centralized access-control list for SAFe orchestration — owned by the harness.
-#
-# A privilege is "<action>_<resource>":
-#   action   ∈ create | read | update | delete | *           (verb on the resource)
-#   resource = <schema-name> | *                              (the artifact's schema name; whole resource)
-#
-# Resources are the artifact SCHEMA NAMES (the `*.artifact.schema.json` stem) — one resource per
-# schema. The checker resolves each output path to its schema; the kanban schemas split per layer
-# (kanban-portfolio / kanban-program / kanban-team), and the business vs enabler backlog into
-# epic/epic-enabler, feature/feature-enabler, story/story-enabler.
-#
-# A write is legal only when the acting agent holds a privilege whose action covers the attempted
-# action and whose resource covers the attempted (whole) resource. Authorization is PLAIN RBAC — per
-# action + per resource, NEVER per property: the host hook only sees the file path being written
-# (whole-file), not which field changes, so property-level grants are unenforceable at the boundary.
-# Each artifact has ONE author (e.g. PM owns the Feature). Status TRANSITIONS are governed separately
-# by the transition-guard plane (check-artifact --to, owner check vmo->epic / rte->feature /
-# sm->story) and recorded in the layer kanban the orchestrator owns — not by a per-property write
-# grant. The checker derives (action, resource) from each run-log line's actor + outputs and matches
-# against that agent's privileges here. The harness identifies the AGENT (not the skill) as the actor.
-#
-# Business vs enabler: Epics/Features/Stories share one path pattern, so the enabler variant
-# (frontmatter `type: enabler`) resolves to its own schema/resource — `epic-enabler`,
-# `feature-enabler`, `story-enabler`. Business backlog is authored by Business-Owner/PM/PO;
-# the enabler backlog by Enterprise-Architect/System-Architect.
-agents:
-  value-management-officier:
-    - "*_portfolio-init"
-    - "*_product-init"
-    - "*_strategic-themes"
-    - "*_epic"
-    - "*_lean-business-case"
-    - "*_vision"
-    - "*_roadmap"
-    - "*_kanban-portfolio"
-    - "*_gate-decisions"
+access:
+  - agent: value-management-officier.agent.md
+    artifact: portfolio-manifest.artifact.schema.json
+  - agent: value-management-officier.agent.md
+    artifact: product-manifest.artifact.schema.json
 
-  release-train-engineer:
-    - create_feature
-    - create_feature-enabler
-    - "*_pi-objectives"
-    - "*_risks"
-    - "*_inspect-adapt"
-    - "*_architectural-vision"
-    - "*_kanban-program"
-    - "*_gate-decisions"
-    - "*_roadmap"
+  - agent: release-train-engineer.agent.md
+    artifact: art-manifest.artifact.schema.json
+  - agent: release-train-engineer.agent.md
+    artifact: pain-point.artifact.schema.json
 
-  scrum-master:
-    - create_story
-    - create_story-enabler
-    - "*_sprint-plan"
-    - "*_daily"
-    - "*_progress"
-    - "*_retro"
-    - "*_kanban-team"
-    - "*_gate-decisions"
+  - agent: scrum-master.agent.md
+    artifact: team-manifest.artifact.schema.json
+  - agent: scrum-master.agent.md
+    artifact: plan.artifact.schema.json
+  - agent: scrum-master.agent.md
+    artifact: progress.artifact.schema.json
 
-  product-manager:
-    - "*_feature"             # business Feature content
-    - "*_project-brief"
+  - agent: business-owner.agent.md
+    artifact: strategic-themes.artifact.schema.json
+  - agent: business-owner.agent.md
+    artifact: portfolio-vision.artifact.schema.json
+  - agent: business-owner.agent.md
+    artifact: portfolio-roadmap.artifact.schema.json
+  - agent: business-owner.agent.md
+    artifact: epic.artifact.schema.json
+  - agent: business-owner.agent.md
+    artifact: lean-business-case.artifact.schema.json
 
-  product-owner:
-    - "*_story"               # business Story content
+  - agent: enterprise-architect.agent.md
+    artifact: architecture-vision.artifact.schema.json
+  - agent: enterprise-architect.agent.md
+    artifact: epic-enabler.artifact.schema.json
 
-  system-architect:
-    - "*_adr"
-    - "*_architecture-decision-inventory"
-    - "*_architecture-review"
-    - "*_runway-register"
-    - "*_nfr-register"
-    - "*_feature-enabler"     # enabler Feature authoring
-    - "*_story-enabler"       # enabler Story authoring
+  - agent: product-manager.agent.md
+    artifact: objectives.artifact.schema.json
+  - agent: product-manager.agent.md
+    artifact: risks.artifact.schema.json
+  - agent: product-manager.agent.md
+    artifact: product-vision.artifact.schema.json
+  - agent: product-manager.agent.md
+    artifact: product-roadmap.artifact.schema.json
+  - agent: product-manager.agent.md
+    artifact: feature.artifact.schema.json
 
-  business-owner:
-    - "*_epic"                # business Epic content
-    - "*_lean-business-case"
-    - "*_vision"
-    - "*_value-review"        # business-value / WSJF review (challenge output)
+  - agent: system-architect.agent.md
+    artifact: adr.artifact.schema.json
+  - agent: system-architect.agent.md
+    artifact: architecture-review.artifact.schema.json
+  - agent: system-architect.agent.md
+    artifact: architecture-runway.artifact.schema.json
+  - agent: system-architect.agent.md
+    artifact: nfr-list.artifact.schema.json
+  - agent: system-architect.agent.md
+    artifact: feature-enabler.artifact.schema.json
 
-  enterprise-architect:
-    - "*_epic-enabler"        # enabler Epic authoring
-    - "*_architectural-vision"
-    - "*_architecture-review"
+  - agent: product-owner.agent.md
+    artifact: story.artifact.schema.json
 
-  developer:
-    - "*_story"
-    - "*_story-enabler"
-    - "*_feasibility-review"  # implementation-feasibility review (challenge output)
+  - agent: developer.agent.md
+    artifact: story-enabler.artifact.schema.json
+  - agent: developer.agent.md
+    artifact: feasibility-review.artifact.schema.json
 
-  quality-engineer:
-    - "*_qa-signoff"
-    - "*_testability-review"  # testability review (challenge output)
+  - agent: operator.agent.md
+    artifact: operability-review.artifact.schema.json
 
-  # Advisory specialists — own their review/verdict artifacts (no backlog artifact of their own).
-  # Their challenge/review steps produce an owned, typed review (effect-determinism, invariant 15);
-  # findings fold back into the owner's artifact via open_items, the verdict rides the review.
-  security-expert:
-    - "*_security-review"
+  - agent: quality-engineer.agent.md
+    artifact: qa-signoff.artifact.schema.json
 
-  ux-designer:
-    - "*_ux-review"
+  - agent: security-expert.agent.md
+    artifact: security-review.artifact.schema.json
 
-  operator:
-    - "*_operability-review"
+  - agent: ux-designer.agent.md
+    artifact: ux-review.artifact.schema.json

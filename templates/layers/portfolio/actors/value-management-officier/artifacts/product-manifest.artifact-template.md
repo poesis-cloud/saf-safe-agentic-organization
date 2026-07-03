@@ -1,7 +1,7 @@
-# Product manifest template — `portfolio/<slug>/product.yaml`
+# Product manifest template — `products/<product-slug>/product-manifest.yaml`
 
 ```yaml
-# portfolio/<slug>/product.yaml
+# products/<product-slug>/product-manifest.yaml
 slug: <slug>                          # kebab-case; matches folder name
 name: <Human readable name>
 description: <one-line>
@@ -30,8 +30,7 @@ github_project: <url or null>
 
 ## Init checklist (RTE runs this in Product Init step 0)
 
-- [ ] Slug is kebab-case and unique in `portfolio/portfolio.yaml > products[]`.
+- [ ] Slug is kebab-case and unique in `portfolio-manifest.yaml > products[]`.
 - [ ] All paths in `repos[]` exist in the workspace.
 - [ ] `business_line` is one of `theory | commercial | infra`.
-- [ ] Subfolders created with `.gitkeep`: `prd/`, `features/`, `architecture/`, `kanban/`.
-- [ ] Entry appended to `portfolio/portfolio.yaml > products[]`.
+- [ ] Entry appended to `portfolio-manifest.yaml > products[].

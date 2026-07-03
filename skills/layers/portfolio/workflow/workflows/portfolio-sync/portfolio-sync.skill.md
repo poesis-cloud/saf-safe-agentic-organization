@@ -20,6 +20,6 @@ description: '**SAFe CEREMONY SKILL.** The Portfolio Sync playbook loaded by `@v
 
 # SAFe Ceremony — Portfolio Sync
 
-A **reconcile** ceremony (no authoring, no gate). The **normative spec** is the machine-readable **[workflow.yaml](workflow.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the reconcile obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officier` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+A **reconcile** ceremony (no authoring, no gate). The **normative spec** is the machine-readable **[config/workflows/portfolio-sync.yaml](../../../../../../config/workflows/portfolio-sync.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the reconcile obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officier` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[VMO orchestration core](../../../actors/value-management-officier/value-management-officier.skill.md)**. The facilitator rolls up cross-ART child-Feature progress, updates the portfolio risk register, and flips `→blocked`/unblock only — it authors no backlog artifact and flips no ★ gate; **only `@value-management-officier` writes `status:`**.

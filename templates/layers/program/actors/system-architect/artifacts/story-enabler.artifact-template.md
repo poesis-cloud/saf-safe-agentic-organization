@@ -1,4 +1,4 @@
-# Enabler Story Template — `portfolio/<slug>/sprint-N/stories/S-N-<slug>.md`
+# Enabler Story Template — `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md`
 
 Iteration-scoped backlog contract for **enabler Stories**. Use this template when `type: enabler`.
 An enabler Story is a thin technical slice that advances a parent enabler or business Feature by
@@ -125,7 +125,7 @@ One bullet per item, mirroring a frontmatter entry:
 - [ ] Code merged behind Central Supervisor approval (★ PR Gate)
 - [ ] Tests pass (unit + integration)
 - [ ] Coverage maintained
-- [ ] `@quality-engineer` sign-off file exists: `docs/sprint-N/qa/S-101-signoff.md`
+- [ ] `@quality-engineer` sign-off file exists: `<qa-signoff-slug>.qa-signoff.md`
 - [ ] PO confirms AC met
 - [ ] Docs updated where applicable
 

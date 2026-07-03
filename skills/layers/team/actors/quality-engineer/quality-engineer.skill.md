@@ -37,7 +37,7 @@ Assess whether the subject is verifiable as written: are acceptance criteria obs
 Compare the integrated unit directly against AC and DoD. Work in order: claimed target behavior, closest regression risk, error / invalid-input handling, boundary conditions and state transitions, then cross-surface effects. Emit `PASS`, `PASS WITH RISK`, or `BLOCKED` with reproducible, severity-labeled evidence. Control returns to `@scrum-master`.
 
 ## Done = handed back
-Output committed + template-valid; every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger); a found defect stated as code rework, requirement rewrite, or additional validation evidence, routed to the owning orchestrator; workflow friction captured in the PI inspect-adapt ledger (`pi-M/inspect-adapt.md` §3b).
+Output committed + template-valid; every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger); a found defect stated as code rework, requirement rewrite, or additional validation evidence, routed to the owning orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
 
 ## Anti-patterns
 

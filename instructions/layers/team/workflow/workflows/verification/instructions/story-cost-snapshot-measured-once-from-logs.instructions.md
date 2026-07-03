@@ -253,8 +253,8 @@ achievable today. Two real limits remain, both about *durability*, not *existenc
    the same debug logs, indexes sessions / turns / files but exposes **no token columns** — so the
    one-shot fetch (§3) cannot yet be a durable SQL query.
 
-This is logged as a standing workflow pain point in the PI Inspect & Adapt
-ledger (`pi-M/inspect-adapt.md` §3b). The improvement (a future
+This is logged as a standing workflow pain point in the portfolio
+`improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`). The improvement (a future
 workflow change, not a product Feature):
 
 1. Reindex per-request `inputTokens` / `outputTokens` / `cachedTokens` from the debug logs into the
