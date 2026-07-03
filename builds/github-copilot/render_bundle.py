@@ -50,7 +50,7 @@ def main() -> int:
     bundle_root = Path(sys.argv[2]).resolve()
     build_root = source_root / "builds" / "github-copilot"
     manifest_path = build_root / "plugin.json"
-    tools_map_path = build_root / "tools.map.yaml"
+    tools_map_path = build_root / "tools.yaml"
 
     if bundle_root.exists():
         shutil.rmtree(bundle_root)

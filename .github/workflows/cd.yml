@@ -2,7 +2,7 @@
 # CD — package & publish the GitHub Copilot customization plugin.
 #
 # The repository root is the host-agnostic source. CD renders a staged GitHub Copilot bundle
-# from builds/github-copilot/plugin.json + builds/github-copilot/tools.map.yaml, injects the
+# from builds/github-copilot/plugin.json + builds/github-copilot/tools.yaml, injects the
 # target `tools:` frontmatter into agent manifests, runs the packaging gate on that staged bundle,
 # then zips it into a single top-level install folder named after the plugin and publishes it as
 # the installable GitHub Copilot artifact.

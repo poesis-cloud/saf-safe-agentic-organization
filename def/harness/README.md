@@ -83,19 +83,16 @@ harness/
   adapters/
     dispatch.sh       # shared, generic dispatcher: stdin JSON -> harness hook command (every adapter calls this)
     github-copilot/
-      hooks/
-        map.yaml      # YAML source rendered to .copilot/hooks.json
-      tools/
-        map.yaml      # host tool names, write verbs, payload keys
-  acl/
-    map.yaml          # env-agnostic authorization grants
-  llm/
-    map.yaml          # env-agnostic model tiers, capability scores, routing knobs
+      hooks.yaml      # YAML source rendered to .copilot/hooks.json
+      tools.yaml      # host tool names, write verbs, payload keys
+  config/
+    acl.yaml          # env-agnostic authorization grants
+    llm.yaml          # env-agnostic model tiers, capability scores, routing knobs
 ```
 
 `dispatch.sh` is intentionally thin and env-agnostic: it takes the event name and the environment
 id as its two arguments and forwards the raw event payload to `harness.py hook --event <name> --env
-<env>`, exiting with the harness result. Each adapter's `hooks/map.yaml` supplies its own
+<env>`, exiting with the harness result. Each adapter's `hooks.yaml` supplies its own
 environment id as the second argument.
 
 ## Event normalization
@@ -138,7 +135,7 @@ Render the GitHub Copilot hook registration into the repository `.copilot` folde
 make -C harness install-copilot-hooks
 ```
 
-That command renders `harness/adapters/github-copilot/hooks/map.yaml` into `.copilot/hooks.json`.
+That command renders `harness/adapters/github-copilot/hooks.yaml` into `.copilot/hooks.json`.
 
 ## Validation surface
 
