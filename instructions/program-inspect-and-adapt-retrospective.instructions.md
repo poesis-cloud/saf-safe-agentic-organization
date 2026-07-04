@@ -20,7 +20,7 @@ Run the PI problem-solving workshop. This step updates pain-point artifacts but 
    - Decide resolution: `workflow-improvement`, `product-improvement`, `accepted`, or `duplicate`.
 3. **Update pain points** — set `root_cause`, `resolution`, `target_artifact`, and `status` on each reviewed pain point.
 4. **Triage** — for each pain point, record:
-   - `workflow-improvement` → target meta-artifact (`layers/...`, `instructions/...`, `config/...`) and owning actor.
+   - `workflow-improvement` → target meta-artifact (`layers/...`, `instructions/...`, `conf/...`) and owning actor.
    - `product-improvement` → derived backlog item type, owning actor, and location.
 5. **Prepare derived backlog items** — for each `product-improvement` pain point, set:
    - `derived_features` or `derived_stories` placeholders

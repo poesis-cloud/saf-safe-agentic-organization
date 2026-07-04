@@ -164,7 +164,7 @@ Orthogonal flag: `blocked`.
 | `analyzing` | `portfolio-backlog` | **★ Epic Gate** Business Owner approves the Epic hypothesis |
 | `analyzing` | `funnel` | BO defers/declines (re-shape) |
 | `portfolio-backlog` | `implementing` | First child Feature enters its product Program Kanban (`funnel`) |
-| `implementing` | `done` | All child Features `done` + BO accepts the outcome (at System Demo / I&A) |
+| `implementing` | `done` | All child Features `done` + BO accepts the outcome (at Demo Gate / I&A) |
 | any | `blocked` | RTE flag (orthogonal) |
 
 ## Identity / linkage

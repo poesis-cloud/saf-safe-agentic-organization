@@ -1,0 +1,59 @@
+workflow:
+  id: pair-programming
+  kind: practice
+  parent: scrum
+  facilitator: '@scrum-master'
+  steps:
+  - id: drive
+    capabilities:
+      deep-reasoning: 7
+      coding: 8
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@developer'
+    output: code-change
+    conditions: []
+  - id: critique
+    capabilities:
+      deep-reasoning: 8
+      coding: 8
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@developer'
+    output: feasibility-review
+    conditions:
+    - id: after_drive
+      kind: precondition
+      type: after
+      step_id: drive
+  - id: critique-security
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@security-expert'
+    output: security-review
+    conditions:
+    - id: after_drive
+      kind: precondition
+      type: after
+      step_id: drive

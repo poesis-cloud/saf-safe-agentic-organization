@@ -3,7 +3,7 @@
 The product **Nonfunctional Requirements** register (SAFe NFRs / quality attributes). Seeded from
 the **Architectural Vision** NFR backbone (`architecture-vision`), maintained by
 `@system-architect` + `@security-expert`. NFRs are **enduring constraints** on Features / Stories,
-**verified** at Verification & Sign-off and the System Demo. Compliance or architecture gaps may
+**verified** at Verification & Sign-off and the Demo Gate. Compliance or architecture gaps may
 spawn **enabler** work. The canonical register is architecture-scoped and belongs under the
 product's `art/<art-slug>/program-backlog/` folder; Features should only trace which NFRs apply to them.
 

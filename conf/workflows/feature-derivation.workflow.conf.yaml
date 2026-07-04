@@ -1,0 +1,40 @@
+workflow:
+  id: feature-derivation
+  kind: ceremony
+  parent: art
+  facilitator: '@release-train-engineer'
+  steps:
+  - id: derive-business
+    capabilities:
+      deep-reasoning: 7
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@product-manager'
+    output: feature
+    conditions: []
+  - id: derive-enabler
+    capabilities:
+      deep-reasoning: 9
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@system-architect'
+    output: feature-enabler
+    conditions:
+    - id: after_derive_business
+      kind: precondition
+      type: after
+      step_id: derive-business

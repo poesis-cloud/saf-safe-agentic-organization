@@ -1,0 +1,100 @@
+workflow:
+  id: strategic-portfolio-review
+  kind: ceremony
+  parent: lpm
+  facilitator: '@value-management-officier'
+  steps:
+  - id: rerank
+    capabilities:
+      deep-reasoning: 7
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@business-owner'
+    output: strategic-themes
+  - id: challenge-runway
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@enterprise-architect'
+    output: architecture-review
+    conditions:
+    - id: after_rerank
+      kind: precondition
+      type: after
+      step_id: rerank
+  - id: challenge-security
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@security-expert'
+    output: security-review
+    conditions:
+    - id: after_rerank
+      kind: precondition
+      type: after
+      step_id: rerank
+  - id: owner-rewrite
+    capabilities:
+      deep-reasoning: 7
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@business-owner'
+    output: strategic-themes
+    conditions:
+    - id: after_challenge_runway
+      kind: precondition
+      type: after
+      step_id: challenge-runway
+    - id: after_challenge_security
+      kind: precondition
+      type: after
+      step_id: challenge-security
+  - id: decide
+    capabilities:
+      deep-reasoning: 2
+      coding: 3
+      tool-use: 8
+      long-context: 2
+      multimodal: 0
+      writing-quality: 1
+      instruction-following: 9
+      fast-iteration: 8
+      schema-adherence: 8
+    kind: commit
+    actor: central-supervisor (Business-Owner hat)
+    output: portfolio-review-decision
+    conditions:
+    - id: after_owner_rewrite
+      kind: precondition
+      type: after
+      step_id: owner-rewrite

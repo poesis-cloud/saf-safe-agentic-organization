@@ -1,0 +1,130 @@
+workflow:
+  id: scrum
+  facilitator: '@scrum-master'
+  steps:
+  - id: plan-iteration
+    capabilities:
+      deep-reasoning: 5
+      coding: 0
+      tool-use: 7
+      long-context: 5
+      multimodal: 0
+      writing-quality: 3
+      instruction-following: 8
+      fast-iteration: 5
+      schema-adherence: 7
+    kind: delegate
+    delegates_to: iteration-planning
+    actor: '@scrum-master'
+    conditions: []
+  - id: groom-story
+    capabilities:
+      deep-reasoning: 5
+      coding: 0
+      tool-use: 7
+      long-context: 5
+      multimodal: 0
+      writing-quality: 3
+      instruction-following: 8
+      fast-iteration: 5
+      schema-adherence: 7
+    kind: delegate
+    delegates_to: story-backlog-refinement
+    actor: '@scrum-master'
+    conditions:
+    - id: after_plan_iteration
+      kind: precondition
+      type: after
+      step_id: plan-iteration
+  - id: story-gate
+    capabilities:
+      deep-reasoning: 0
+      coding: 0
+      tool-use: 0
+      long-context: 0
+      multimodal: 0
+      writing-quality: 0
+      instruction-following: 0
+      fast-iteration: 0
+      schema-adherence: 0
+    kind: gate
+    actor: '@scrum-master'
+    conditions:
+    - id: after_groom_story
+      kind: precondition
+      type: after
+      step_id: groom-story
+  - id: execute-story
+    capabilities:
+      deep-reasoning: 5
+      coding: 0
+      tool-use: 7
+      long-context: 5
+      multimodal: 0
+      writing-quality: 3
+      instruction-following: 8
+      fast-iteration: 5
+      schema-adherence: 7
+    kind: delegate
+    delegates_to: pair-programming
+    actor: '@scrum-master'
+    conditions:
+    - id: after_story_gate
+      kind: precondition
+      type: after
+      step_id: story-gate
+  - id: accept-to-qa
+    capabilities:
+      deep-reasoning: 6
+      coding: 0
+      tool-use: 5
+      long-context: 5
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 4
+      schema-adherence: 6
+    kind: direct
+    actor: '@scrum-master'
+    conditions:
+    - id: after_execute_story
+      kind: precondition
+      type: after
+      step_id: execute-story
+  - id: verify-story
+    capabilities:
+      deep-reasoning: 5
+      coding: 0
+      tool-use: 7
+      long-context: 5
+      multimodal: 0
+      writing-quality: 3
+      instruction-following: 8
+      fast-iteration: 5
+      schema-adherence: 7
+    kind: delegate
+    delegates_to: verification
+    actor: '@scrum-master'
+    conditions:
+    - id: after_accept_to_qa
+      kind: precondition
+      type: after
+      step_id: accept-to-qa
+  - id: pr-gate
+    capabilities:
+      deep-reasoning: 0
+      coding: 0
+      tool-use: 0
+      long-context: 0
+      multimodal: 0
+      writing-quality: 0
+      instruction-following: 0
+      fast-iteration: 0
+      schema-adherence: 0
+    kind: gate
+    actor: central-supervisor (Business-Owner hat)
+    conditions:
+    - id: after_verify_story
+      kind: precondition
+      type: after
+      step_id: verify-story

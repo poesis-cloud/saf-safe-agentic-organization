@@ -164,7 +164,7 @@ Orthogonal flag: `blocked`.
 | `arch-pending` | `refined` | Architecture packet rejected (one or more ADRs may be rejected or require reconsideration) |
 | `ready` | `committed` | RTE at PI Planning |
 | `committed` | `in-progress` | First child Story passes the **★ Story Gate** → enters Team Kanban `ready` |
-| `in-progress` | `done` | **★ Demo Gate** Central Supervisor accepts at System Demo |
+| `in-progress` | `done` | **★ Demo Gate** Central Supervisor accepts at Demo Gate |
 | any | `blocked` | SM/RTE flag (orthogonal) |
 
 ## Relation discipline at this layer

@@ -1,0 +1,22 @@
+workflow:
+  id: portfolio-sync
+  kind: ceremony
+  parent: lpm
+  facilitator: '@value-management-officier'
+  steps:
+  - id: sync
+    capabilities:
+      deep-reasoning: 7
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@value-management-officier'
+    output: portfolio-sync-record
+    instructions:
+    - instructions/business-owner-priority-or-risk-view-recorded.instructions.md

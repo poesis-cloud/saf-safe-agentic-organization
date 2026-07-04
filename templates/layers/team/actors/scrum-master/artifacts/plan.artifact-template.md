@@ -66,81 +66,70 @@ Roles swap each pair-programming micro-cycle (see the scrum-master skill § Pair
 > For each Story, dispatch the named Driver/Navigator pair as subagents.
 > Pairs run the pair-programming micro-cycle and commit on feature/sprint-N.
 > Close GitHub Issues in commits: "fix: description (Fixes #NN)".
-> Update `products/<product-slug>/<progress-slug>.progress.md` after each Story.
+> Update the Progress section of this same plan.md after each Story.
 > When all Stories pass acceptance, push and open a PR.
 > Wait for the ★ PR Gate (human approval) before merging.
 > Follow Sections 12-14 of PROJECT_BRIEF.md.
-```
 
-## Progress Tracker
+## Progress
 
-Create `products/<product-slug>/<progress-slug>.progress.md` at sprint start:
+Updated daily by the SM directly in this same plan.md — there is no separate progress artifact.
 
-```markdown
-# Sprint N — Progress Tracker
+### Burn-down
+| Day | Stories not-done | Points remaining | Notes |
+|---|---|---|---|
+| D1 | 6 | 21 | start |
+| D2 | 6 | 19 | |
 
-> If context overflows, start a new chat:
-> "@release-train-engineer — recover state."
+### Story status snapshot
+| Story | Status | Pair | Notes |
+|---|---|---|---|
+| S-101 | in-qa | dev/dev | |
+| S-102 | in-progress | dev/SE-Security | |
 
-## Story Status
+### Open blockers
+(Roll-up from daily stand-up inputs)
+| ID | Story | Description | Owner | Age (days) |
+|---|---|---|---|---|
 
-| # | Story | Driver | Navigator | Status | Notes |
-|---|-------|--------|-----------|--------|-------|
-| S-1 | [story] | default-dev | default-dev | ⬜ Not started | |
-| S-2 | [story] | default-dev | @security-expert | 🔨 In progress | |
-| S-3 | [story] | @ux-designer | default-dev | ✅ Accepted | |
-| S-4 | [story] | default-dev | default-dev | ❌ Blocked | [reason] |
+### Gate decision backlog
+(Roll-up from unresolved gate decisions; unresolved entries must be included in every gate packet)
+| ID | Story/Feature | Decision needed | Options | Owner | Status |
+|---|---|---|---|---|---|
+| GD-001 | S-101 | Approve PR scope variance | accept / rework / defer | Central Supervisor | open |
 
-## Bugs Found
+### Notes / scope changes
+Append-only log of mid-sprint clarifications (PO-confirmed).
 
-| # | Story | Description | Severity | Status | Fix |
-|---|-------|-------------|----------|--------|-----|
-| #NN | S-2 | [bug] | blocker/major/minor | open/fixed | [commit or PR] |
+## Done
 
-## Notes
+Appended at sprint end, in this same plan.md.
 
-[Free-form notes about decisions, ADR amendments needed, context for recovery]
-```
-
-## Done File
-
-Append a "Done this sprint" section to `products/<product-slug>/<progress-slug>.progress.md` at sprint end:
-
-```markdown
-# Sprint N — Done
-
-## What Was Built
+### What Was Built
 - S-1 — [Story] (pair: default-dev / default-dev)
 - S-2 — [Story] (pair: default-dev / @security-expert)
 
-## What's NOT Done
+### What's NOT Done
 - [Deferred Story — why]
 
-## Files Changed/Created
+### Files Changed/Created
 - `src/components/NewComponent.tsx` — [purpose]
 - `api/src/functions/newEndpoint.ts` — [purpose]
 
-## Manual Setup Required
+### Manual Setup Required
 - [Any env vars, config, or manual steps needed]
 
-## Known Issues
+### Known Issues
 - [Issue — tracked as GitHub Issue #NN]
 
-## ADRs Referenced
+### ADRs Referenced
 - ADR-N — [title] (status: accepted)
-```
 
-## QA Sign-off Template
+## QA Sign-off Roll-up
 
-Per-Story QA sign-off is captured in `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<qa-signoff-slug>.qa-signoff.md`. A sprint-level roll-up may be appended to `products/<product-slug>/<progress-slug>.progress.md`:
+Per-Story QA sign-off is captured in `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<qa-signoff-slug>.qa-signoff.md`. The sprint-level roll-up is appended here, in this same plan.md:
 
-```markdown
-# QA Sprint N Sign-Off
-
-Date: [date]
-Facilitator: @release-train-engineer (QA-acceptance duty folded into RTE)
-
-## Stories Accepted
+### Stories Accepted
 
 | Story | DoD met? | Notes |
 |-------|----------|-------|
@@ -148,18 +137,23 @@ Facilitator: @release-train-engineer (QA-acceptance duty folded into RTE)
 | S-2 | ✅ | |
 | S-3 | ❌ | blocker #NN open |
 
-## Test Results
+### Test Results
 - Tests run: X
 - Tests passed: X
 - Tests failed: 0
 
-## Blockers
+### Blockers
 NONE   (or: list of GitHub Issues with severity:blocker)
 
-## Issues Filed
+### Issues Filed
 - #NN — [description] (severity: minor)
 
-## Result
+### Result
 ✅ PASS — No blockers. Sprint N ready to open PR for the ★ PR Gate.
    (or: ❌ HOLD — blockers must clear before the ★ PR Gate)
 ```
+
+## Lifecycle
+
+Created at Iteration Planning; updated by SM at every Daily Sync (Progress section) and at Iteration Review (Done + QA Sign-off Roll-up sections). One file per iteration — there is no separate progress artifact/file.
+

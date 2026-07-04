@@ -1,0 +1,57 @@
+workflow:
+  id: participatory-budgeting
+  kind: ceremony
+  parent: lpm
+  facilitator: '@value-management-officier'
+  steps:
+  - id: arguments-split
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@enterprise-architect'
+    output: architecture-review
+  - id: arguments-guardrails
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@security-expert'
+    output: security-review
+  - id: commit
+    capabilities:
+      deep-reasoning: 2
+      coding: 3
+      tool-use: 8
+      long-context: 2
+      multimodal: 0
+      writing-quality: 1
+      instruction-following: 9
+      fast-iteration: 8
+      schema-adherence: 8
+    kind: commit
+    actor: central-supervisor (Business-Owner hat)
+    output: budget-allocation
+    conditions:
+    - id: after_arguments_split
+      kind: precondition
+      type: after
+      step_id: arguments-split
+    - id: after_arguments_guardrails
+      kind: precondition
+      type: after
+      step_id: arguments-guardrails

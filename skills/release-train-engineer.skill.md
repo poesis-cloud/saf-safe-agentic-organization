@@ -1,6 +1,6 @@
 ---
 name: release-train-engineer
-description: 'Program / ART layer of the SAFe orchestration. Self-contained orchestration skill for @release-train-engineer — the layer-specific program/ART flow plus the shared Orchestration core (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) inlined. Covers receiving an approved Epic from @value-management-officier, Feature derivation + refinement, architecture runway (the Architecture Gate), PI Planning, dispatching @scrum-master for iteration execution, System Demo (the Demo Gate), ART Sync, PI Inspect & Adapt, the Program Kanban, cross-Feature risk, and ART health / state recovery. Use for everything between the portfolio line and the iteration line. Portfolio concerns (Strategic Themes, Epics, the Epic Gate, Portfolio Kanban, ART registration) belong to @value-management-officier.'
+description: 'Program / ART layer of the SAFe orchestration. Self-contained orchestration skill for @release-train-engineer — the layer-specific program/ART flow plus the shared Orchestration core (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) inlined. Covers receiving an approved Epic from @value-management-officier, Feature derivation + refinement, architecture runway (the Architecture Gate), PI Planning, dispatching @scrum-master for iteration execution, Demo Gate, ART Sync, PI Inspect & Adapt, the Program Kanban, cross-Feature risk, and ART health / state recovery. Use for everything between the portfolio line and the iteration line. Portfolio concerns (Strategic Themes, Epics, the Epic Gate, Portfolio Kanban, ART registration) belong to @value-management-officier.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -30,9 +30,9 @@ Central-Supervisor review comments do not relax that boundary. When the Central 
 - **Features (PM-owned)** — dispatch `@product-manager` (PM hat), who **authors + refines** `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` (`parent_epic: E-N`); rte polices template + SAFe conformance and renders the **Program Kanban** (`Program Kanban (rendered view)`). rte owns the program-tier templates (feature, adr, objectives, risks, kanban-program).
 - **Architecture runway** — **ART Sync** (Architect participates) while ADRs are in flight; facilitate the **★ Architecture Gate**. The gate packet is not ADR-only: rte must stage every architecture artifact required by the runway practice and product reference model before returning to the Central Supervisor.
 - **PI Planning** — `art/<art-slug>/pi-<pi-slug>/objectives.md`; flip Features `ready -> committed`; **dispatch `@scrum-master`** for all iteration execution (sprint planning, story execution, pair programming, ★ PR Gate prep).
-- **System Demo** — facilitate the **★ Demo Gate**; facilitate **PI Inspect & Adapt**; merge approved PRs (**★ PR Gate**, `awaiting-pr -> done`).
+- **Demo Gate** — facilitate the **★ Demo Gate**; facilitate **PI Inspect & Adapt**; merge approved PRs (**★ PR Gate**, `awaiting-pr -> done`).
 - **ART health** — gate compliance, artifact-trace integrity (Story -> Feature -> Epic), invariant enforcement, cross-Feature/-product risk (`art/<art-slug>/pi-<pi-slug>/risks.md`); remove program-level impediments, escalate portfolio ones to `@value-management-officier`.
-- **Feature cost — once, at the ★ Demo Gate** — fetch overhead from ecosystem logs + Σ child Story `tokens_rolled`; write `cost:` once; refresh kanban; **notify `@value-management-officier`** for the Epic-level commit ([cost-snapshot invariant + model](../../workflow/workflows/system-demo/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md)). Story cost is `@scrum-master`'s at `awaiting-pr`.
+- **Feature cost — once, at the ★ Demo Gate** — fetch overhead from ecosystem logs + Σ child Story `tokens_rolled`; write `cost:` once; refresh kanban; **notify `@value-management-officier`** for the Epic-level commit ([cost-snapshot invariant + model](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md)). Story cost is `@scrum-master`'s at `awaiting-pr`.
 - **Pain points — continuous** — append program/ART friction to the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`); `status: open`, no inline fix.
 
 Dispatched by `@value-management-officier` for an approved Epic, or directly by the Central Supervisor; dispatches the bench + `@scrum-master`. **Never writes production code**; is **not** the Central Supervisor, Architect, PM/PO, or QA.
@@ -41,7 +41,7 @@ Dispatched by `@value-management-officier` for an approved Epic, or directly by 
 
 The program/ART workflow **is the Feature FSM**: `funnel → refined → arch-pending → ready → committed → in-progress → done` (flag `blocked`). `@release-train-engineer` is the **event loop** and **transition governor**; the Feature artifact (including `status:`) is authored by its owner (`@product-manager` for business, `@system-architect` for enabler). One matrix folds the flow, sub-orchestrations, and gates (kinds **D / Ceremony / Practice / Gate**). Each Feature carries `type: business | enabler`. Halt only at the ★ gates (Feature / Architecture / Demo / PR) you own. **Step 0:** if the product is unregistered, **escalate to `@value-management-officier`**.
 
-Before executing any ceremony or practice row, load that sub-orchestration skill plus its workflow config in `config/workflows/<name>.yaml` (where `<name>` is the ceremony/practice slug); the harness checks each step's `conditions` (`check-step`) and records every command to the per-run journal (`portfolio/logs/<run>.jsonl`) — the transition guard is the harness result, not orchestrator prose. The prose exchange explains how to facilitate; the workflow's `steps[].conditions` are the minimum evidence checklist — structural `after`/`input`/`output` refs the harness resolves + `cel` (pre/post) / `instruction` (invariant) judgments. If a condition fails or an `input`/`output` ref is missing, the row is incomplete and no status flip / gate staging may be claimed.
+Before executing any ceremony or practice row, load that sub-orchestration skill plus its workflow config in `conf/workflows/<name>.workflow.conf.yaml` (where `<name>` is the ceremony/practice slug); the harness checks each step's `conditions` (`check-step`) and records every command to the per-run journal (`portfolio/logs/<run>.jsonl`) — the transition guard is the harness result, not orchestrator prose. The prose exchange explains how to facilitate; the workflow's `steps[].conditions` are the minimum evidence checklist — structural `after`/`input`/`output` refs the harness resolves + `cel` (pre/post) / `instruction` (invariant) judgments. If a condition fails or an `input`/`output` ref is missing, the row is incomplete and no status flip / gate staging may be claimed.
 
 | Event (Feature reaches…) | Kind | Sub-orchestration | Gate | → rte commits |
 |---|---|---|---|---|
@@ -52,7 +52,7 @@ Before executing any ceremony or practice row, load that sub-orchestration skill
 | `arch-pending` *(architecture inventory sufficiently covered · challenge done · board-published)* | **Gate** | — | **★ Architecture Gate** (CS) | accept→`ready` · reject→rejected ADR(s), Feature→`refined` |
 | `ready` **and** `depends_on` met | Ceremony | **PI Planning** (→ `objectives.md` + `risks.md`) | — | `ready→committed`; **dispatch `@scrum-master`** |
 | first child Story `ready` (roll-up ← `@scrum-master`) | D | — | — | `committed→in-progress` |
-| child Stories **all `done`** | Ceremony | **System Demo** (stages the increment for the CS) | **★ Demo Gate** (CS) | accept→`in-progress→done`; commit Feature `cost:` once; **notify `@value-management-officier`** |
+| child Stories **all `done`** | Ceremony | **Demo Gate** (stages the increment for the CS) | **★ Demo Gate** (CS) | accept→`in-progress→done`; commit Feature `cost:` once; **notify `@value-management-officier`** |
 | Story `awaiting-pr` (rte-owned merge) | **Gate** | — | **★ PR Gate** (CS) | Story `awaiting-pr→done` (**rte merges**); roll-up to Feature |
 | any Feature transition / `→blocked` / ADR in flight | Ceremony | **ART Sync** (deps + risk + runway → `risks.md` + kanban) | — | `→blocked`/unblock |
 | `done` *(synthesise at an Epic's completion)* | Ceremony | **Inspect & Adapt** | — | triage program pain points; enabler gaps ⇒ seed Feature `∅→funnel` |
@@ -157,7 +157,7 @@ Three skill families split the handler bodies:
 
 **Guard rails travel into every author / ceremony / practice skill** (they do not relax the model): never decide a ★ gate (the Central Supervisor decides); **consume** the orchestrator-owned `*.artifact.schema.json` + `*.artifact-template.md` pair from `artifacts/`, never restate them (one source of truth); obey the blackboard contract (read committed input artifact(s) → commit the output artifact).
 
-**The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `config/workflows/<name>.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
+**The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `conf/workflows/<name>.workflow.conf.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
 
 Workflow files use this shape (full schema: [workflow.schema.json](../../../../harness/contracts/workflow.schema.json)):
 
@@ -220,7 +220,7 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 
 **The bound (no runaway loops).** Batched, blocking-first, **default to assumption-with-disclosure**, and **capped**: at most one **Discovery** round (at intake) + one **pre-gate** round (when staging the ★ packet). Anything still `open` after the cap becomes an explicit, gate-visible **deferral** with a recorded default — mirroring "never auto-loop past one bump." The orchestrator never spins waiting on a human; it proceeds on defaults and lets the gate decide.
 
-**Suborchestration nesting.** Every orchestration uses a step-based workflow config in `config/workflows/<root>.yaml`, and every suborchestration skill lives under `<root-orchestration>/workflows/<name>/` while its workflow config lives in `config/workflows/<name>.yaml`, loaded by **explicit path** (they leave VS Code auto-discovery; the root orchestrations + author roles stay flat under `layers/<portfolio|program|team>/`).
+**Suborchestration nesting.** Every orchestration uses a step-based workflow config in `conf/workflows/<root>.workflow.conf.yaml`, and every suborchestration skill lives under `<root-orchestration>/workflows/<name>/` while its workflow config lives in `conf/workflows/<name>.workflow.conf.yaml`, loaded by **explicit path** (they leave VS Code auto-discovery; the root orchestrations + author roles stay flat under `layers/<portfolio|program|team>/`).
 
 **Skill registry.** Each handling names the skill that is its body — grouped by family (Ceremony / Practice are the orchestrator-facilitated suborchestrations; Author bodies load *inside* them):
 
@@ -233,7 +233,7 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 | Architectural Vision | `@value-management-officier` | `value-management-officier/workflows/architectural-vision` **(nested)** | Practice·CE |
 | Feature Backlog Refinement | `@release-train-engineer` | `release-train-engineer/workflows/feature-backlog-refinement` **(nested)** | Ceremony·CE |
 | PI Planning | `@release-train-engineer` | `release-train-engineer/workflows/pi-planning` **(nested)** | Ceremony |
-| System Demo (stages the ★ Demo Gate) | `@release-train-engineer` | `release-train-engineer/workflows/system-demo` **(nested)** | Ceremony |
+| Demo Gate | `@release-train-engineer` | `release-train-engineer/workflows/demo-gate` **(nested)** | Ceremony |
 | ART Sync | `@release-train-engineer` | `release-train-engineer/workflows/art-sync` **(nested)** | Ceremony |
 | Inspect & Adapt | `@release-train-engineer` | `release-train-engineer/workflows/inspect-and-adapt` **(nested)** | Ceremony |
 | Architectural Runway Extension | `@release-train-engineer` | `release-train-engineer/workflows/architectural-runway-extension` **(nested)** | Practice·CE |
@@ -344,7 +344,7 @@ it (every `llm_request` in the Copilot Chat debug logs carries `inputTokens` / `
 dispatch is its own `runSubagent-*.jsonl`). The only dispatch-time obligation is that the **dispatch
 prompt names the served artifact id** (`S-N` / `F-N` / `E-N`) — which the routing-log prefix and
 the named blackboard paths already do — so the log self-attributes. Each `cost:` block is then fetched
-from those logs **once**, at the artifact's terminal status, per the [cost-accounting model](../../workflow/workflows/system-demo/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md):
+from those logs **once**, at the artifact's terminal status, per the [cost-accounting model](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md):
 
 - **Story** `→ awaiting-pr`: `@scrum-master` sums the Story's dev + QA dispatch tokens from the logs.
 - **Feature** `→ done` (★ Demo Gate): `@release-train-engineer` fetches Feature overhead + Σ child Stories.
@@ -397,7 +397,7 @@ owner → processing instance → gate), not a procedure to replay by hand.
 | **ready** | release-train-engineer | PI Planning intake | — |
 | **committed** | release-train-engineer | PI commit + Iteration Planning handoff | — |
 | **in-progress** | scrum-master | Iteration execution rollup | — |
-| **done** | Central Supervisor | System Demo + acceptance | **★ Demo Gate** |
+| **done** | Central Supervisor | Demo Gate acceptance | **★ Demo Gate** |
 | **blocked** *(flag)* | release-train-engineer | Program-level impediment removal | — |
 
 ### Team Kanban — Stories (scrum-master drives; PO-owned overall, sprint-scoped)
@@ -423,7 +423,7 @@ Each unit gets a **definition gate** (post-refine; reject ⇒ re-iterate refinem
 | ★ Feature Gate | definition | Feature (AC + WSJF + structurant) | Feature `refined -> arch-pending` / `ready` | release-train-engineer (escalates if structurant / contested) | `funnel` (re-refine) |
 | ★ Story Gate | definition | Story (DoR) | Story `backlog -> ready` | scrum-master | stay `backlog` (re-groom) |
 | ★ Architecture Gate | architecture | ADR / runway extension | Feature `arch-pending -> ready` | Central Supervisor | `refined` (re-decide) |
-| ★ Demo Gate | outcome | Feature increment | Feature `in-progress -> done` (System Demo) | Central Supervisor | rework |
+| ★ Demo Gate | outcome | Feature increment | Feature `in-progress -> done` (Demo Gate) | Central Supervisor | rework |
 | ★ PR Gate | outcome | PR / code | Story `awaiting-pr -> done` | Central Supervisor | rework |
 | ★ Epic Outcome Gate | outcome | Epic outcomes | Epic `implementing -> done` | Central Supervisor (BO) | rework |
 
@@ -446,7 +446,7 @@ When an enabler is seeded **after its parent unit has already completed the laye
 
 ### Peer challenge (adversarial review before each gate)
 
-Every artifact is **challenged by a different-lens peer before it reaches its gate** — the SAFe collaboration spine (backlog refinement, ART Sync, pair CRITIQUE, security review, System Demo, Inspect & Adapt) made explicit. The owning orchestrator dispatches the challenger(s); a challenge **sharpens, never approves** — the gate (Central Supervisor) still decides. Keep it lean: 1–2 lens-focused challengers, no rubber-stamping.
+Every artifact is **challenged by a different-lens peer before it reaches its gate** — the SAFe collaboration spine (backlog refinement, ART Sync, pair CRITIQUE, security review, Demo Gate, Inspect & Adapt) made explicit. The owning orchestrator dispatches the challenger(s); a challenge **sharpens, never approves** — the gate (Central Supervisor) still decides. Keep it lean: 1–2 lens-focused challengers, no rubber-stamping.
 
 | Artifact | Challenger(s) — different lens | SAFe analog | Before |
 |---|---|---|---|
@@ -455,7 +455,7 @@ Every artifact is **challenged by a different-lens peer before it reaches its ga
 | Story (pre-build) | PO ⇄ SM (DoR check) | Backlog refinement | ★ Story Gate |
 | Code (per unit) | Navigator ⇄ Driver (mandatory CRITIQUE); `@security-expert` on trust boundaries | Pair review | during execution |
 | PR | `@security-expert` (mandatory pre-merge) + `@quality-engineer` sign-off | PR review | ★ PR Gate |
-| Feature increment | Central Supervisor + bench feedback | System Demo | ★ Demo Gate |
+| Feature increment | Central Supervisor + bench feedback | Demo Gate | ★ Demo Gate |
 | The process itself | all roles | Inspect & Adapt / Retro | per PI / sprint |
 
 Material findings are logged to `products/<product-slug>/risks.md` (sprint-scoped artifacts) or surfaced in the gate packet (Epic/ADR); an unresolved challenge is a `risks.md` entry (`accept` / `rework` / `defer`).
@@ -517,7 +517,7 @@ truth for content; the board is authoritative for non-gate status moves. Normati
 - **Product-scoped paths only;** every frontmatter has `product: <slug>`.
 - **Template-first authoring.** Every artifact follows its template (catalog below).
 - **Gate decision backlog is mandatory** (next section).
-- **Token cost is fetched once from the ecosystem logs** at each artifact's terminal status (Story `awaiting-pr` / Feature `done` / Epic `done`) and rolled up Story -> Feature -> Epic per the [cost-accounting model](../../workflow/workflows/system-demo/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md) (`cost:` frontmatter blocks; **no intermediary ledger**); every figure is flagged `measured` or `estimated`, never fabricated.
+- **Token cost is fetched once from the ecosystem logs** at each artifact's terminal status (Story `awaiting-pr` / Feature `done` / Epic `done`) and rolled up Story -> Feature -> Epic per the [cost-accounting model](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md) (`cost:` frontmatter blocks; **no intermediary ledger**); every figure is flagged `measured` or `estimated`, never fabricated.
 - **Workflow pain-point capture is mandatory.** Capture workflow friction into the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`) **continuously, the moment it is observed** — never fix the meta-process inline mid-flow, and never wait for the retro to remember it. A pain point is an *input* (raw friction), not a solution; its resolution is filled in §4 at retro / I&A.
 - **Epic-rooted, no PRD.** There is no PRD tier. A Feature either rolls up to an approved Epic (`parent_epic: E-N`, Epic in `portfolio-backlog`+) or is an explicit standalone engineering/operability Feature (`parent_epic: null` with a stated rationale). **ADR-first for structurant work.**
 - **Epics are the only cross-product artifact.** Cross-product coordination lives in an Epic; never author a single cross-product Feature — one Feature per product, each linked to the shared Epic.
@@ -594,7 +594,7 @@ Framework-wide, host-agnostic concerns live in dedicated homes referenced but no
 | GitHub board spec (normative) | — (GitHub Projects) | [github-projects-board-spec.md](../../../../sync/github/github-projects-board-spec.md) |
 | GitHub sync config (per product) | `products/<product-slug>/github-sync.yaml` | [github-sync-config-template.yaml.md](../../../../sync/github/github-sync-config-template.yaml.md) |
 | GitHub sync protocol (normative) | — (toolchain `portfolio/_sync/`) | [github-sync-protocol.md](../../../../sync/github/github-sync-protocol.md) |
-| Cost-accounting model (normative) | — (`cost:` blocks) | [feature-cost-snapshot-measured-once-from-logs.instructions.md](../../workflow/workflows/system-demo/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md) |
+| Cost-accounting model (normative) | — (`cost:` blocks) | [feature-cost-snapshot-measured-once-from-logs.instructions.md](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md) |
 
 ## Anti-patterns
 

@@ -34,7 +34,7 @@ The orchestrator names the handler; pick the row by *the requested transition*:
 
 ### Refine (`funnel→refined`)
 
-1. Write **testable acceptance criteria** (no "should/may"; each AC observable at System Demo).
+1. Write **testable acceptance criteria** (no "should/may"; each AC observable at the Demo Gate).
 2. Compute **WSJF** = (User-Business Value + Time Criticality + Risk-Reduction/Opportunity-Enablement) ÷ Job Size; record the four components, not just the score.
 3. Set `structurant: true` **iff** the Feature needs an architecture decision (new cross-cutting component, data-model/contract change, security/trust-boundary shift, irreversible tech choice); else `false` with a one-line rationale. `true` routes the Feature to the ★ Architecture Gate via `system-architect`; `false` routes straight to `ready`.
 4. Confirm `risk`/`complexity`; commit. Control returns to `@release-train-engineer`.

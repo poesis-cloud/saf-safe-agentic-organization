@@ -1,0 +1,402 @@
+# Role-based access control for the Poesis SAFe agentic framework.
+#
+# Model:
+#   - Actor: an agent file (e.g. business-owner.agent.md).
+#   - Role: a named set of Privileges assigned to one or more Actors.
+#   - Privilege: exactly one Artifact plus exactly one Action verb.
+#   - Action: CREATE | READ | UPDATE | DELETE.
+#
+# Read policy:
+#   - Every Actor is assigned the shared "workspace-reader" role, granting READ
+#     on every Artifact.
+#   - Each owner role also carries READ on its owned Artifacts so authorization
+#     succeeds even if evaluated against that role alone.
+#   - Mutate privileges (CREATE/UPDATE/DELETE) are listed per owner role and
+#     reflect the artifact owners currently registered in this ACL.
+
+actors:
+  - id: value-management-officier.agent.md
+    roles:
+      - value-management-officier
+      - workspace-reader
+  - id: business-owner.agent.md
+    roles:
+      - business-owner
+      - workspace-reader
+  - id: enterprise-architect.agent.md
+    roles:
+      - enterprise-architect
+      - workspace-reader
+  - id: release-train-engineer.agent.md
+    roles:
+      - release-train-engineer
+      - workspace-reader
+  - id: product-manager.agent.md
+    roles:
+      - product-manager
+      - workspace-reader
+  - id: system-architect.agent.md
+    roles:
+      - system-architect
+      - workspace-reader
+  - id: scrum-master.agent.md
+    roles:
+      - scrum-master
+      - workspace-reader
+  - id: product-owner.agent.md
+    roles:
+      - product-owner
+      - workspace-reader
+  - id: developer.agent.md
+    roles:
+      - developer
+      - workspace-reader
+  - id: operator.agent.md
+    roles:
+      - operator
+      - workspace-reader
+  - id: security-expert.agent.md
+    roles:
+      - security-expert
+      - workspace-reader
+  - id: ux-designer.agent.md
+    roles:
+      - ux-designer
+      - workspace-reader
+  - id: quality-engineer.agent.md
+    roles:
+      - quality-engineer
+      - workspace-reader
+  - id: tech-writer.agent.md
+    roles:
+      - workspace-reader
+
+roles:
+  - id: value-management-officier
+    privileges:
+      - artifact: portfolio-manifest.artifact.schema.json
+        action: CREATE
+      - artifact: portfolio-manifest.artifact.schema.json
+        action: READ
+      - artifact: portfolio-manifest.artifact.schema.json
+        action: UPDATE
+      - artifact: portfolio-manifest.artifact.schema.json
+        action: DELETE
+      - artifact: product-manifest.artifact.schema.json
+        action: CREATE
+      - artifact: product-manifest.artifact.schema.json
+        action: READ
+      - artifact: product-manifest.artifact.schema.json
+        action: UPDATE
+      - artifact: product-manifest.artifact.schema.json
+        action: DELETE
+  - id: business-owner
+    privileges:
+      - artifact: epic.artifact.schema.json
+        action: CREATE
+      - artifact: epic.artifact.schema.json
+        action: READ
+      - artifact: epic.artifact.schema.json
+        action: UPDATE
+      - artifact: epic.artifact.schema.json
+        action: DELETE
+      - artifact: lean-business-case.artifact.schema.json
+        action: CREATE
+      - artifact: lean-business-case.artifact.schema.json
+        action: READ
+      - artifact: lean-business-case.artifact.schema.json
+        action: UPDATE
+      - artifact: lean-business-case.artifact.schema.json
+        action: DELETE
+      - artifact: portfolio-roadmap.artifact.schema.json
+        action: CREATE
+      - artifact: portfolio-roadmap.artifact.schema.json
+        action: READ
+      - artifact: portfolio-roadmap.artifact.schema.json
+        action: UPDATE
+      - artifact: portfolio-roadmap.artifact.schema.json
+        action: DELETE
+      - artifact: portfolio-vision.artifact.schema.json
+        action: CREATE
+      - artifact: portfolio-vision.artifact.schema.json
+        action: READ
+      - artifact: portfolio-vision.artifact.schema.json
+        action: UPDATE
+      - artifact: portfolio-vision.artifact.schema.json
+        action: DELETE
+      - artifact: strategic-themes.artifact.schema.json
+        action: CREATE
+      - artifact: strategic-themes.artifact.schema.json
+        action: READ
+      - artifact: strategic-themes.artifact.schema.json
+        action: UPDATE
+      - artifact: strategic-themes.artifact.schema.json
+        action: DELETE
+  - id: enterprise-architect
+    privileges:
+      - artifact: architecture-vision.artifact.schema.json
+        action: CREATE
+      - artifact: architecture-vision.artifact.schema.json
+        action: READ
+      - artifact: architecture-vision.artifact.schema.json
+        action: UPDATE
+      - artifact: architecture-vision.artifact.schema.json
+        action: DELETE
+      - artifact: epic-enabler.artifact.schema.json
+        action: CREATE
+      - artifact: epic-enabler.artifact.schema.json
+        action: READ
+      - artifact: epic-enabler.artifact.schema.json
+        action: UPDATE
+      - artifact: epic-enabler.artifact.schema.json
+        action: DELETE
+  - id: release-train-engineer
+    privileges:
+      - artifact: art-manifest.artifact.schema.json
+        action: CREATE
+      - artifact: art-manifest.artifact.schema.json
+        action: READ
+      - artifact: art-manifest.artifact.schema.json
+        action: UPDATE
+      - artifact: art-manifest.artifact.schema.json
+        action: DELETE
+      - artifact: pain-point.artifact.schema.json
+        action: CREATE
+      - artifact: pain-point.artifact.schema.json
+        action: READ
+      - artifact: pain-point.artifact.schema.json
+        action: UPDATE
+      - artifact: pain-point.artifact.schema.json
+        action: DELETE
+  - id: product-manager
+    privileges:
+      - artifact: feature.artifact.schema.json
+        action: CREATE
+      - artifact: feature.artifact.schema.json
+        action: READ
+      - artifact: feature.artifact.schema.json
+        action: UPDATE
+      - artifact: feature.artifact.schema.json
+        action: DELETE
+      - artifact: objectives.artifact.schema.json
+        action: CREATE
+      - artifact: objectives.artifact.schema.json
+        action: READ
+      - artifact: objectives.artifact.schema.json
+        action: UPDATE
+      - artifact: objectives.artifact.schema.json
+        action: DELETE
+      - artifact: product-roadmap.artifact.schema.json
+        action: CREATE
+      - artifact: product-roadmap.artifact.schema.json
+        action: READ
+      - artifact: product-roadmap.artifact.schema.json
+        action: UPDATE
+      - artifact: product-roadmap.artifact.schema.json
+        action: DELETE
+      - artifact: product-vision.artifact.schema.json
+        action: CREATE
+      - artifact: product-vision.artifact.schema.json
+        action: READ
+      - artifact: product-vision.artifact.schema.json
+        action: UPDATE
+      - artifact: product-vision.artifact.schema.json
+        action: DELETE
+      - artifact: risks.artifact.schema.json
+        action: CREATE
+      - artifact: risks.artifact.schema.json
+        action: READ
+      - artifact: risks.artifact.schema.json
+        action: UPDATE
+      - artifact: risks.artifact.schema.json
+        action: DELETE
+  - id: system-architect
+    privileges:
+      - artifact: adr.artifact.schema.json
+        action: CREATE
+      - artifact: adr.artifact.schema.json
+        action: READ
+      - artifact: adr.artifact.schema.json
+        action: UPDATE
+      - artifact: adr.artifact.schema.json
+        action: DELETE
+      - artifact: architecture-review.artifact.schema.json
+        action: CREATE
+      - artifact: architecture-review.artifact.schema.json
+        action: READ
+      - artifact: architecture-review.artifact.schema.json
+        action: UPDATE
+      - artifact: architecture-review.artifact.schema.json
+        action: DELETE
+      - artifact: architecture-runway.artifact.schema.json
+        action: CREATE
+      - artifact: architecture-runway.artifact.schema.json
+        action: READ
+      - artifact: architecture-runway.artifact.schema.json
+        action: UPDATE
+      - artifact: architecture-runway.artifact.schema.json
+        action: DELETE
+      - artifact: feature-enabler.artifact.schema.json
+        action: CREATE
+      - artifact: feature-enabler.artifact.schema.json
+        action: READ
+      - artifact: feature-enabler.artifact.schema.json
+        action: UPDATE
+      - artifact: feature-enabler.artifact.schema.json
+        action: DELETE
+      - artifact: nfr-list.artifact.schema.json
+        action: CREATE
+      - artifact: nfr-list.artifact.schema.json
+        action: READ
+      - artifact: nfr-list.artifact.schema.json
+        action: UPDATE
+      - artifact: nfr-list.artifact.schema.json
+        action: DELETE
+  - id: scrum-master
+    privileges:
+      - artifact: plan.artifact.schema.json
+        action: CREATE
+      - artifact: plan.artifact.schema.json
+        action: READ
+      - artifact: plan.artifact.schema.json
+        action: UPDATE
+      - artifact: plan.artifact.schema.json
+        action: DELETE
+      - artifact: team-manifest.artifact.schema.json
+        action: CREATE
+      - artifact: team-manifest.artifact.schema.json
+        action: READ
+      - artifact: team-manifest.artifact.schema.json
+        action: UPDATE
+      - artifact: team-manifest.artifact.schema.json
+        action: DELETE
+  - id: product-owner
+    privileges:
+      - artifact: story.artifact.schema.json
+        action: CREATE
+      - artifact: story.artifact.schema.json
+        action: READ
+      - artifact: story.artifact.schema.json
+        action: UPDATE
+      - artifact: story.artifact.schema.json
+        action: DELETE
+  - id: developer
+    privileges:
+      - artifact: feasibility-review.artifact.schema.json
+        action: CREATE
+      - artifact: feasibility-review.artifact.schema.json
+        action: READ
+      - artifact: feasibility-review.artifact.schema.json
+        action: UPDATE
+      - artifact: feasibility-review.artifact.schema.json
+        action: DELETE
+      - artifact: story-enabler.artifact.schema.json
+        action: CREATE
+      - artifact: story-enabler.artifact.schema.json
+        action: READ
+      - artifact: story-enabler.artifact.schema.json
+        action: UPDATE
+      - artifact: story-enabler.artifact.schema.json
+        action: DELETE
+  - id: operator
+    privileges:
+      - artifact: operability-review.artifact.schema.json
+        action: CREATE
+      - artifact: operability-review.artifact.schema.json
+        action: READ
+      - artifact: operability-review.artifact.schema.json
+        action: UPDATE
+      - artifact: operability-review.artifact.schema.json
+        action: DELETE
+  - id: security-expert
+    privileges:
+      - artifact: security-review.artifact.schema.json
+        action: CREATE
+      - artifact: security-review.artifact.schema.json
+        action: READ
+      - artifact: security-review.artifact.schema.json
+        action: UPDATE
+      - artifact: security-review.artifact.schema.json
+        action: DELETE
+  - id: ux-designer
+    privileges:
+      - artifact: ux-review.artifact.schema.json
+        action: CREATE
+      - artifact: ux-review.artifact.schema.json
+        action: READ
+      - artifact: ux-review.artifact.schema.json
+        action: UPDATE
+      - artifact: ux-review.artifact.schema.json
+        action: DELETE
+  - id: quality-engineer
+    privileges:
+      - artifact: qa-signoff.artifact.schema.json
+        action: CREATE
+      - artifact: qa-signoff.artifact.schema.json
+        action: READ
+      - artifact: qa-signoff.artifact.schema.json
+        action: UPDATE
+      - artifact: qa-signoff.artifact.schema.json
+        action: DELETE
+  - id: workspace-reader
+    privileges:
+      - artifact: adr.artifact.schema.json
+        action: READ
+      - artifact: architecture-review.artifact.schema.json
+        action: READ
+      - artifact: architecture-runway.artifact.schema.json
+        action: READ
+      - artifact: architecture-vision.artifact.schema.json
+        action: READ
+      - artifact: art-manifest.artifact.schema.json
+        action: READ
+      - artifact: epic-enabler.artifact.schema.json
+        action: READ
+      - artifact: epic.artifact.schema.json
+        action: READ
+      - artifact: feasibility-review.artifact.schema.json
+        action: READ
+      - artifact: feature-enabler.artifact.schema.json
+        action: READ
+      - artifact: feature.artifact.schema.json
+        action: READ
+      - artifact: lean-business-case.artifact.schema.json
+        action: READ
+      - artifact: nfr-list.artifact.schema.json
+        action: READ
+      - artifact: objectives.artifact.schema.json
+        action: READ
+      - artifact: operability-review.artifact.schema.json
+        action: READ
+      - artifact: pain-point.artifact.schema.json
+        action: READ
+      - artifact: plan.artifact.schema.json
+        action: READ
+      - artifact: portfolio-manifest.artifact.schema.json
+        action: READ
+      - artifact: portfolio-roadmap.artifact.schema.json
+        action: READ
+      - artifact: portfolio-vision.artifact.schema.json
+        action: READ
+      - artifact: product-manifest.artifact.schema.json
+        action: READ
+      - artifact: product-roadmap.artifact.schema.json
+        action: READ
+      - artifact: product-vision.artifact.schema.json
+        action: READ
+      - artifact: qa-signoff.artifact.schema.json
+        action: READ
+      - artifact: risks.artifact.schema.json
+        action: READ
+      - artifact: security-review.artifact.schema.json
+        action: READ
+      - artifact: story-enabler.artifact.schema.json
+        action: READ
+      - artifact: story.artifact.schema.json
+        action: READ
+      - artifact: strategic-themes.artifact.schema.json
+        action: READ
+      - artifact: team-manifest.artifact.schema.json
+        action: READ
+      - artifact: ux-review.artifact.schema.json
+        action: READ

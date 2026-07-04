@@ -1,7 +1,7 @@
 ---
 name: inspect-and-adapt
 user-invocable: false
-description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@release-train-engineer` at PI end. USE FOR: the PI quantitative metrics review + the problem-solving workshop; root-causing program-scope pain points from the ART improvement-backlog; dispatching owning actors to create derived Features/Stories/enablers. DO NOT USE FOR: the ★ Demo Gate (use `system-demo`); portfolio re-ranking (use `strategic-portfolio-review`); iteration retrospectives. Loaded by `@release-train-engineer` before facilitating.'
+description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@release-train-engineer` at PI end. USE FOR: the PI quantitative metrics review + the problem-solving workshop; root-causing program-scope pain points from the ART improvement-backlog; dispatching owning actors to create derived Features/Stories/enablers. DO NOT USE FOR: the ★ Demo Gate (use `demo-gate` in the ART workflow); portfolio re-ranking (use `strategic-portfolio-review`); iteration retrospectives. Loaded by `@release-train-engineer` before facilitating.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,7 +20,7 @@ description: '**SAFe CEREMONY SKILL.** The Inspect & Adapt playbook loaded by `@
 
 # SAFe Ceremony — Inspect & Adapt
 
-The **program-scope** closed-loop event at the end of a PI. It has **no system demo** (that is the separate `system-demo` workflow). The **normative spec** is the machine-readable **[config/workflows/inspect-and-adapt.yaml](../../../../../../config/workflows/inspect-and-adapt.yaml)** — every step + its `conditions` (metrics review → retrospective), consumed by `@release-train-engineer` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+The **program-scope** closed-loop event at the end of a PI. It has **no demo gate** (that is handled by the ART workflow). The **normative spec** is the machine-readable **[conf/workflows/inspect-and-adapt.workflow.conf.yaml](../../../../../../conf/workflows/inspect-and-adapt.workflow.conf.yaml)** — every step + its `conditions` (metrics review → retrospective), consumed by `@release-train-engineer` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
 Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[RTE orchestration core](../../../actors/release-train-engineer/release-train-engineer.skill.md)**.
 

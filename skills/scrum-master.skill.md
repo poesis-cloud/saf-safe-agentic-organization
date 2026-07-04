@@ -40,7 +40,7 @@ Dispatched by `@release-train-engineer` at PI/Iteration Planning, or directly by
 
 The iteration workflow **is the Story FSM**: `backlog → ready → in-progress → in-review → in-qa → awaiting-pr → done` (flag `blocked`). sm is the **event loop** and **transition governor**; the Story artifact (including `status:`) is authored by its owner (`@product-owner` for business, `@system-architect` for enabler). One matrix folds the flow, sub-orchestrations, and gates (kinds **D / Ceremony / Practice / Gate**). The pair micro-cycle and verification are **CI practices** (multi-agent sub-orchestrations), not solo work.
 
-Before executing any ceremony or practice row, load that sub-orchestration skill plus its workflow config in `config/workflows/<name>.yaml` (where `<name>` is the ceremony/practice slug); the harness checks each step's `conditions` (`check-step`) and records every command to the per-run journal (`portfolio/logs/<run>.jsonl`) — the transition guard is the harness result, not orchestrator prose. The prose exchange explains how to facilitate; the workflow's `steps[].conditions` are the minimum evidence checklist — structural `after`/`input`/`output` refs the harness resolves + `cel` (pre/post) / `instruction` (invariant) judgments. If a condition fails or an `input`/`output` ref is missing, the row is incomplete and no status flip / gate staging may be claimed.
+Before executing any ceremony or practice row, load that sub-orchestration skill plus its workflow config in `conf/workflows/<name>.workflow.conf.yaml` (where `<name>` is the ceremony/practice slug); the harness checks each step's `conditions` (`check-step`) and records every command to the per-run journal (`portfolio/logs/<run>.jsonl`) — the transition guard is the harness result, not orchestrator prose. The prose exchange explains how to facilitate; the workflow's `steps[].conditions` are the minimum evidence checklist — structural `after`/`input`/`output` refs the harness resolves + `cel` (pre/post) / `instruction` (invariant) judgments. If a condition fails or an `input`/`output` ref is missing, the row is incomplete and no status flip / gate staging may be claimed.
 
 | Event (Story reaches…) | Kind | Sub-orchestration | Gate | → sm commits |
 |---|---|---|---|---|
@@ -189,7 +189,7 @@ Three skill families split the handler bodies:
 
 **Guard rails travel into every author / ceremony / practice skill** (they do not relax the model): never decide a ★ gate (the Central Supervisor decides); **consume** the orchestrator-owned `*.artifact.schema.json` + `*.artifact-template.md` pair from `artifacts/`, never restate them (one source of truth); obey the blackboard contract (read committed input artifact(s) → commit the output artifact).
 
-**The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `config/workflows/<name>.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
+**The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `conf/workflows/<name>.workflow.conf.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
 
 Workflow files use this shape (full schema: [workflow.schema.json](../../../../harness/contracts/workflow.schema.json)):
 
@@ -252,7 +252,7 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 
 **The bound (no runaway loops).** Batched, blocking-first, **default to assumption-with-disclosure**, and **capped**: at most one **Discovery** round (at intake) + one **pre-gate** round (when staging the ★ packet). Anything still `open` after the cap becomes an explicit, gate-visible **deferral** with a recorded default — mirroring "never auto-loop past one bump." The orchestrator never spins waiting on a human; it proceeds on defaults and lets the gate decide.
 
-**Suborchestration nesting.** Every orchestration uses a step-based workflow config in `config/workflows/<root>.yaml`, and every suborchestration skill lives under `<root-orchestration>/workflows/<name>/` while its workflow config lives in `config/workflows/<name>.yaml`, loaded by **explicit path** (they leave VS Code auto-discovery; the root orchestrations + author roles stay flat under `layers/<portfolio|program|team>/`).
+**Suborchestration nesting.** Every orchestration uses a step-based workflow config in `conf/workflows/<root>.workflow.conf.yaml`, and every suborchestration skill lives under `<root-orchestration>/workflows/<name>/` while its workflow config lives in `conf/workflows/<name>.workflow.conf.yaml`, loaded by **explicit path** (they leave VS Code auto-discovery; the root orchestrations + author roles stay flat under `layers/<portfolio|program|team>/`).
 
 **Skill registry.** Each handling names the skill that is its body — grouped by family (Ceremony / Practice are the orchestrator-facilitated suborchestrations; Author bodies load *inside* them):
 
@@ -265,7 +265,7 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 | Architectural Vision | `@value-management-officier` | `value-management-officier/workflows/architectural-vision` **(nested)** | Practice·CE |
 | Feature Backlog Refinement | `@release-train-engineer` | `release-train-engineer/workflows/feature-backlog-refinement` **(nested)** | Ceremony·CE |
 | PI Planning | `@release-train-engineer` | `release-train-engineer/workflows/pi-planning` **(nested)** | Ceremony |
-| System Demo (stages the ★ Demo Gate) | `@release-train-engineer` | `release-train-engineer/workflows/system-demo` **(nested)** | Ceremony |
+| Demo Gate | `@release-train-engineer` | `release-train-engineer/workflows/demo-gate` **(nested)** | Ceremony |
 | ART Sync | `@release-train-engineer` | `release-train-engineer/workflows/art-sync` **(nested)** | Ceremony |
 | Inspect & Adapt | `@release-train-engineer` | `release-train-engineer/workflows/inspect-and-adapt` **(nested)** | Ceremony |
 | Architectural Runway Extension | `@release-train-engineer` | `release-train-engineer/workflows/architectural-runway-extension` **(nested)** | Practice·CE |
@@ -429,7 +429,7 @@ owner → processing instance → gate), not a procedure to replay by hand.
 | **ready** | release-train-engineer | PI Planning intake | — |
 | **committed** | release-train-engineer | PI commit + Iteration Planning handoff | — |
 | **in-progress** | scrum-master | Iteration execution rollup | — |
-| **done** | Central Supervisor | System Demo + acceptance | **★ Demo Gate** |
+| **done** | Central Supervisor | Demo Gate acceptance | **★ Demo Gate** |
 | **blocked** *(flag)* | release-train-engineer | Program-level impediment removal | — |
 
 ### Team Kanban — Stories (scrum-master drives; PO-owned overall, sprint-scoped)
@@ -455,7 +455,7 @@ Each unit gets a **definition gate** (post-refine; reject ⇒ re-iterate refinem
 | ★ Feature Gate | definition | Feature (AC + WSJF + structurant) | Feature `refined -> arch-pending` / `ready` | release-train-engineer (escalates if structurant / contested) | `funnel` (re-refine) |
 | ★ Story Gate | definition | Story (DoR) | Story `backlog -> ready` | scrum-master | stay `backlog` (re-groom) |
 | ★ Architecture Gate | architecture | ADR / runway extension | Feature `arch-pending -> ready` | Central Supervisor | `refined` (re-decide) |
-| ★ Demo Gate | outcome | Feature increment | Feature `in-progress -> done` (System Demo) | Central Supervisor | rework |
+| ★ Demo Gate | outcome | Feature increment | Feature `in-progress -> done` (Demo Gate) | Central Supervisor | rework |
 | ★ PR Gate | outcome | PR / code | Story `awaiting-pr -> done` | Central Supervisor | rework |
 | ★ Epic Outcome Gate | outcome | Epic outcomes | Epic `implementing -> done` | Central Supervisor (BO) | rework |
 
@@ -478,7 +478,7 @@ When an enabler is seeded **after its parent unit has already completed the laye
 
 ### Peer challenge (adversarial review before each gate)
 
-Every artifact is **challenged by a different-lens peer before it reaches its gate** — the SAFe collaboration spine (backlog refinement, ART Sync, pair CRITIQUE, security review, System Demo, Inspect & Adapt) made explicit. The owning orchestrator dispatches the challenger(s); a challenge **sharpens, never approves** — the gate (Central Supervisor) still decides. Keep it lean: 1–2 lens-focused challengers, no rubber-stamping.
+Every artifact is **challenged by a different-lens peer before it reaches its gate** — the SAFe collaboration spine (backlog refinement, ART Sync, pair CRITIQUE, security review, Demo Gate, Inspect & Adapt) made explicit. The owning orchestrator dispatches the challenger(s); a challenge **sharpens, never approves** — the gate (Central Supervisor) still decides. Keep it lean: 1–2 lens-focused challengers, no rubber-stamping.
 
 | Artifact | Challenger(s) — different lens | SAFe analog | Before |
 |---|---|---|---|
@@ -487,7 +487,7 @@ Every artifact is **challenged by a different-lens peer before it reaches its ga
 | Story (pre-build) | PO ⇄ SM (DoR check) | Backlog refinement | ★ Story Gate |
 | Code (per unit) | Navigator ⇄ Driver (mandatory CRITIQUE); `@security-expert` on trust boundaries | Pair review | during execution |
 | PR | `@security-expert` (mandatory pre-merge) + `@quality-engineer` sign-off | PR review | ★ PR Gate |
-| Feature increment | Central Supervisor + bench feedback | System Demo | ★ Demo Gate |
+| Feature increment | Central Supervisor + bench feedback | Demo Gate | ★ Demo Gate |
 | The process itself | all roles | Inspect & Adapt / Retro | per PI / sprint |
 
 Material findings are logged to `products/<product-slug>/risks.md` (sprint-scoped artifacts) or surfaced in the gate packet (Epic/ADR); an unresolved challenge is a `risks.md` entry (`accept` / `rework` / `defer`).

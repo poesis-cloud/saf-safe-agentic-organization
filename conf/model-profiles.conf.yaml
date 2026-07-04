@@ -1,0 +1,392 @@
+# Copyright 2026 Poesis Cloud and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ============================================================
+# Host-agnostic model profile catalog — canonical model identity, independent of any host.
+# ============================================================
+# `id` here is the CANONICAL model id. It is NOT a valid `runSubagent` model argument by itself —
+# no host understands these ids directly. Each host adapter maps a canonical `id` to that host's
+# own model identifier via its own `harness/adapters/<env>/models.yaml` (see
+# `harness/adapters/github-copilot/models.yaml` for the GitHub Copilot binding).
+#
+# This file only carries identity + capability metadata (what the model IS), never routing policy
+# (tiers, role-default floors, scoring, config profiles) — that policy stays in
+# `conf/llm-routing.conf.yaml` and is expressed in terms of these canonical ids.
+#
+# Fields:
+#   id                 — internal canonical model id (stable across hosts; hosts resolve it via
+#                        their own adapters/<env>/models.yaml). Reuses the GitHub Copilot catalog
+#                        `id` verbatim where available (see harness/adapters/github-copilot/models.yaml)
+#                        so cross-referencing against that host's models.json stays trivial.
+#   cost_rank          — relative cost, 1 (cheapest) .. 10 (most expensive). MECHANICALLY derived
+#                        from each model's blended token price (0.25*input + 0.75*output, USD per
+#                        1M tokens, from this host's models.json billing.token_prices), percentile-
+#                        ranked across the 20-model catalog. High confidence, reproducible.
+#                        model's position on the Artificial Analysis Intelligence Index v4.1
+#                        leaderboard (artificialanalysis.ai, snapshot 2026-07-04) where the model is
+#                        directly observed there; otherwise interpolated from its family/generation
+#                        position relative to observed siblings (flagged per-model below).
+#   description        — human-readable summary, 120 characters max
+#   capability_scores  — relative 0..10 judgments per capability tag. Tags map to distinct
+#                        Artificial Analysis evaluation categories (chosen because each one's
+#                        leaderboard order was independently verified to diverge from the others —
+#                        see "capability tag rationale" below); NOT vibes-based restatements of a
+#                        single underlying "how good is this model" judgment.
+#
+# Capability tag rationale (revised 2026-07-04; supersedes the original 8-tag list):
+#   deep-reasoning        — AA "Reasoning & knowledge" / GPQA Diamond / Humanity's Last Exam.
+#   coding                — AA "Coding" index + AA Coding Agent Index (SWE-bench-style, pass@1).
+#                           Renamed from `code-specialized`: this harness dispatches agentic
+#                           coding (edit/build/test loops), which AA ranks separately from raw
+#                           "Coding" — the coding-agent numbers are what's cited here.
+#   tool-use              — AA "Agentic tool use" eval. Kept SEPARATE from agentic-coding because
+#                           their leaderboard orders diverge (e.g. GPT-5.5 leads tool-use but not
+#                           coding; Claude Fable 5 leads coding but not tool-use) — proof this is an
+#                           independent axis, not a duplicate of code-specialized.
+#   long-context          — AA-LCR ("long context reasoning") eval, not just raw context-window
+#                           size (that's a hard limit already visible in the host's models.json).
+#   multimodal            — AA "Visual reasoning" eval. Diverges sharply from every other axis
+#                           (Gemini 3.x dominates here despite not leading overall intelligence).
+#   writing-quality       — AA GDPval-AA v2 + AA-Briefcase (real-world deliverables: memos, decks,
+#                           analysis). REPLACES the old `creative` + `editorial` pair: those two
+#                           tags never actually diverged in practice and had no benchmark backing;
+#                           this SAFe/ITIP harness dispatches PRDs/ADRs/reviews, not fiction, so a
+#                           real-world-deliverable-quality proxy is more pertinent than "creative."
+#   instruction-following — AA "Instruction following" eval. ADDED: its leaderboard order is
+#                           essentially uncorrelated with the Intelligence Index (the top reasoning
+#                           models are NOT the top instruction-followers) — a genuinely independent,
+#                           previously-missing signal that matters for agent-dispatch reliability.
+#   fast-iteration        — AA "Output Speed" (tokens/sec), not merely 1/cost_rank (a fast model
+#                           can still be expensive per token, e.g. claude-opus-4.8-fast).
+#   schema-adherence      — ADDED (Replaces structured-output): SAFe orchestration relies entirely on
+#                           complex YAML/JSON artifact contracts. While `models.json` claims uniform
+#                           support, real-world reliability in generating deep nested schemas without
+#                           hallucinating keys or breaking syntax has a massive observed gradient.
+#                           This score (0..10) is essential to separate Tier-1 reasoning models from
+#                           smaller models that fail on SAFe artifact layouts.
+#
+# Catalog snapshot: every `model_picker_enabled: true` chat model from the GitHub Copilot
+# models.json catalog as of 2026-07-04 (20 models). Disabled/legacy/embedding entries in that
+# catalog (old GPT-4 family, text-embedding-*, disabled MAI-Code-1-Flash duplicates,
+# trajectory-compaction) are intentionally excluded — they are not selectable dispatch targets.
+#
+# CONFIDENCE CAVEAT: Artificial Analysis publishes only its top-N models per chart; not every
+# catalog model surfaced in every list fetched here. Where a model is not directly observed in a
+# given AA ranking, its scores are interpolated from its family/generation position relative to
+# siblings that WERE observed (e.g. `claude-opus-4.6` sits below the directly-observed
+# `claude-opus-4.7`). This is lower-confidence than a directly observed rank and should be
+# refreshed against artificialanalysis.ai per-model pages if this file starts driving real routing.
+# ============================================================
+
+
+models:
+  - id: claude-fable-5
+    cost_rank: 10
+    description: "Anthropic's experimental Mythos-class model featuring 1M token context."
+    notes: "AA Intelligence Index #1; also #1 on AA-Briefcase/GDPval. Exceptional creative and complex workflow capability."
+    capability_scores:
+      deep-reasoning: 10
+      coding: 10
+      tool-use: 8
+      long-context: 7
+      multimodal: 7
+      writing-quality: 10
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 8
+
+  - id: claude-opus-4.8
+    cost_rank: 8
+    description: "Anthropic's flagship reasoning model."
+    notes: "AA #1 on coding & terminal use. Top-tier choice for deep reasoning and artifact generation."
+    capability_scores:
+      deep-reasoning: 10
+      coding: 9
+      tool-use: 9
+      long-context: 7
+      multimodal: 6
+      writing-quality: 9
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 9
+
+  - id: gpt-5.5
+    cost_rank: 9
+    description: "OpenAI's most capable general-purpose reasoning model."
+    notes: "AA #1 on tool-use and long-context reasoning. Matches Opus 4.8 broadly but slightly edges on strict schema compliance."
+    capability_scores:
+      deep-reasoning: 9
+      coding: 9
+      tool-use: 10
+      long-context: 9
+      multimodal: 5
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 4
+      schema-adherence: 10
+
+  - id: claude-sonnet-5
+    cost_rank: 4
+    description: "Anthropic's mid-tier balanced model."
+    notes: "AA #2 on agentic tool-use. Extremely cost-effective for its intelligence depth (ranks alongside heavier flagships)."
+    capability_scores:
+      deep-reasoning: 8
+      coding: 8
+      tool-use: 9
+      long-context: 6
+      multimodal: 5
+      writing-quality: 8
+      instruction-following: 7
+      fast-iteration: 4
+      schema-adherence: 9
+
+  - id: claude-opus-4.8-fast
+    cost_rank: 10
+    description: "Anthropic's speed-optimized variant of Opus 4.8."
+    notes: "Trades some reasoning depth for latency. Useful when Opus quality is needed within tight timeout boundaries."
+    capability_scores:
+      deep-reasoning: 8
+      coding: 8
+      tool-use: 8
+      long-context: 6
+      multimodal: 6
+      writing-quality: 8
+      instruction-following: 7
+      fast-iteration: 6
+      schema-adherence: 8
+
+  - id: claude-opus-4.7
+    cost_rank: 8
+    description: "Anthropic's prior-generation flagship reasoning model."
+    notes: "Below Opus 4.8 on coding bounds; one generation behind on reasoning effort but historically stable."
+    capability_scores:
+      deep-reasoning: 8
+      coding: 7
+      tool-use: 7
+      long-context: 6
+      multimodal: 6
+      writing-quality: 7
+      instruction-following: 6
+      fast-iteration: 3
+      schema-adherence: 8
+
+  - id: gpt-5.4
+    cost_rank: 6
+    description: "OpenAI's high-tier fast reasoning model."
+    notes: "The primary 'tier-balanced' workhorse. Strong capabilities with acceptable latency and cost."
+    capability_scores:
+      deep-reasoning: 8
+      coding: 7
+      tool-use: 8
+      long-context: 7
+      multimodal: 5
+      writing-quality: 7
+      instruction-following: 7
+      fast-iteration: 5
+      schema-adherence: 9
+
+  - id: gemini-3.1-pro-preview
+    cost_rank: 5
+    description: "Google's Pro-tier multimodal reasoning model."
+    notes: "Top-tier visual capabilities, AA #2 on coding index. Slightly underperforms on tool-use consistency vs tier peers."
+    capability_scores:
+      deep-reasoning: 8
+      coding: 8
+      tool-use: 6
+      long-context: 7
+      multimodal: 10
+      writing-quality: 6
+      instruction-following: 6
+      fast-iteration: 4
+      schema-adherence: 7
+
+  - id: claude-opus-4.6
+    cost_rank: 7
+    description: "Anthropic's older reasoning model."
+    notes: "Lacks the 'xhigh' reasoning effort introduced in 4.7/4.8. Safely superseded."
+    capability_scores:
+      deep-reasoning: 7
+      coding: 6
+      tool-use: 6
+      long-context: 5
+      multimodal: 5
+      writing-quality: 6
+      instruction-following: 6
+      fast-iteration: 3
+      schema-adherence: 7
+
+  - id: gpt-5.3-codex
+    cost_rank: 5
+    description: "OpenAI's code-specialized model."
+    notes: "Highly tuned for implementation/test-heavy agentic dispatches. Schema adherence is notably robust."
+    capability_scores:
+      deep-reasoning: 6
+      coding: 9
+      tool-use: 6
+      long-context: 6
+      multimodal: 3
+      writing-quality: 5
+      instruction-following: 7
+      fast-iteration: 6
+      schema-adherence: 9
+
+  - id: gemini-3.5-flash
+    cost_rank: 3
+    description: "Google's fast, lightweight multimodal model."
+    notes: "Previous 8.0 int_rank was artificially inflated. It's an excellent fast-loop router but struggles with deep nested reasoning."
+    capability_scores:
+      deep-reasoning: 6
+      coding: 6
+      tool-use: 6
+      long-context: 6
+      multimodal: 9
+      writing-quality: 5
+      instruction-following: 6
+      fast-iteration: 9
+      schema-adherence: 6
+
+  - id: claude-sonnet-4.6
+    cost_rank: 6
+    description: "Anthropic's prior-generation balanced model."
+    notes: "Mid-tier coding/reasoning. Superseded by Sonnet 5 for cost-efficiency."
+    capability_scores:
+      deep-reasoning: 6
+      coding: 6
+      tool-use: 6
+      long-context: 5
+      multimodal: 5
+      writing-quality: 6
+      instruction-following: 6
+      fast-iteration: 5
+      schema-adherence: 8
+
+  - id: claude-sonnet-4.5
+    cost_rank: 7
+    description: "Anthropic's legacy balanced model."
+    notes: "Non-reasoning generation (no effort levels). No longer competitive on performance/price."
+    capability_scores:
+      deep-reasoning: 5
+      coding: 5
+      tool-use: 5
+      long-context: 4
+      multimodal: 5
+      writing-quality: 5
+      instruction-following: 5
+      fast-iteration: 5
+      schema-adherence: 7
+
+  - id: claude-opus-4.5
+    cost_rank: 9
+    description: "Anthropic's legacy flagship model."
+    notes: "Oldest Opus generation in catalog. Very expensive relative to current AI performance."
+    capability_scores:
+      deep-reasoning: 6
+      coding: 5
+      tool-use: 5
+      long-context: 4
+      multimodal: 5
+      writing-quality: 6
+      instruction-following: 5
+      fast-iteration: 3
+      schema-adherence: 6
+
+  - id: gemini-2.5-pro
+    cost_rank: 4
+    description: "Google's prior-generation Pro model."
+    notes: "128K context only (vs 1M for 3.x line). Outdated by 3.1 Pro."
+    capability_scores:
+      deep-reasoning: 5
+      coding: 5
+      tool-use: 5
+      long-context: 5
+      multimodal: 7
+      writing-quality: 5
+      instruction-following: 5
+      fast-iteration: 5
+      schema-adherence: 6
+
+  - id: kimi-k2.7-code
+    cost_rank: 1
+    description: "Moonshot AI's code-focused preview model."
+    notes: "Mid-tier coding via K2.6-family AA results. Fast and cheap but unverified on complex generic tasks."
+    capability_scores:
+      deep-reasoning: 4
+      coding: 7
+      tool-use: 4
+      long-context: 5
+      multimodal: 5
+      writing-quality: 3
+      instruction-following: 4
+      fast-iteration: 8
+      schema-adherence: 5
+
+  - id: gpt-5.4-mini
+    cost_rank: 2
+    description: "OpenAI's compact and very fast model."
+    notes: "Punches above its class on AA agentic tool-use. Excellent for pure-routing or format translation."
+    capability_scores:
+      deep-reasoning: 4
+      coding: 5
+      tool-use: 6
+      long-context: 4
+      multimodal: 4
+      writing-quality: 4
+      instruction-following: 6
+      fast-iteration: 9
+      schema-adherence: 7
+
+  - id: mai-code-1-flash
+    cost_rank: 2
+    description: "Microsoft's in-house fast code-completion model."
+    notes: "Strictly code-oriented. Lower reliability for generic natural language reasoning or complex artifact schemas."
+    capability_scores:
+      deep-reasoning: 3
+      coding: 6
+      tool-use: 4
+      long-context: 3
+      multimodal: 2
+      writing-quality: 3
+      instruction-following: 4
+      fast-iteration: 9
+      schema-adherence: 4
+
+  - id: claude-haiku-4.5
+    cost_rank: 3
+    description: "Anthropic's fastest and most cost-effective older model."
+    notes: "Lowest reasoning depth natively, largely used for high-throughput single-step parsing tasks."
+    capability_scores:
+      deep-reasoning: 3
+      coding: 4
+      tool-use: 4
+      long-context: 3
+      multimodal: 5
+      writing-quality: 4
+      instruction-following: 6
+      fast-iteration: 10
+      schema-adherence: 5
+
+  - id: gpt-5-mini
+    cost_rank: 1
+    description: "Azure OpenAI's legacy fallback lightweight model."
+    notes: "Cheapest and fastest. Used primarily when others fail or for trivial regex-like mapping."
+    capability_scores:
+      deep-reasoning: 3
+      coding: 4
+      tool-use: 3
+      long-context: 3
+      multimodal: 5
+      writing-quality: 3
+      instruction-following: 4
+      fast-iteration: 10
+      schema-adherence: 4

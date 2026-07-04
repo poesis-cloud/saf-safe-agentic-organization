@@ -1,0 +1,101 @@
+workflow:
+  id: architectural-vision
+  kind: practice
+  parent: lpm
+  facilitator: '@value-management-officier'
+  steps:
+  - id: ea-draft
+    capabilities:
+      deep-reasoning: 9
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@enterprise-architect'
+    output: architecture-vision
+    conditions: []
+  - id: challenge-security-nfr
+    capabilities:
+      deep-reasoning: 9
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@security-expert'
+    output: security-review
+    conditions:
+    - id: after_ea_draft
+      kind: precondition
+      type: after
+      step_id: ea-draft
+  - id: challenge-operability
+    capabilities:
+      deep-reasoning: 8
+      coding: 2
+      tool-use: 3
+      long-context: 6
+      multimodal: 0
+      writing-quality: 6
+      instruction-following: 8
+      fast-iteration: 3
+      schema-adherence: 6
+    kind: challenge
+    actor: '@operator'
+    output: operability-review
+    conditions:
+    - id: after_ea_draft
+      kind: precondition
+      type: after
+      step_id: ea-draft
+  - id: owner-rewrite
+    capabilities:
+      deep-reasoning: 9
+      coding: 0
+      tool-use: 4
+      long-context: 6
+      multimodal: 0
+      writing-quality: 8
+      instruction-following: 8
+      fast-iteration: 2
+      schema-adherence: 8
+    kind: author
+    actor: '@enterprise-architect'
+    output: architecture-vision
+    conditions:
+    - id: after_challenge_security_nfr
+      kind: precondition
+      type: after
+      step_id: challenge-security-nfr
+    - id: after_challenge_operability
+      kind: precondition
+      type: after
+      step_id: challenge-operability
+  - id: render
+    capabilities:
+      deep-reasoning: 2
+      coding: 3
+      tool-use: 5
+      long-context: 3
+      multimodal: 0
+      writing-quality: 4
+      instruction-following: 8
+      fast-iteration: 7
+      schema-adherence: 9
+    kind: render
+    actor: '@enterprise-architect'
+    output: architecture-vision
+    conditions:
+    - id: after_owner_rewrite
+      kind: precondition
+      type: after
+      step_id: owner-rewrite
