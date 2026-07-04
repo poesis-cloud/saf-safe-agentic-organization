@@ -156,4 +156,3 @@ NONE   (or: list of GitHub Issues with severity:blocker)
 ## Lifecycle
 
 Created at Iteration Planning; updated by SM at every Daily Sync (Progress section) and at Iteration Review (Done + QA Sign-off Roll-up sections). One file per iteration — there is no separate progress artifact/file.
-

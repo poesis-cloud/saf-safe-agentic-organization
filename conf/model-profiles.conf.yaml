@@ -89,7 +89,6 @@
 # refreshed against artificialanalysis.ai per-model pages if this file starts driving real routing.
 # ============================================================
 
-
 models:
   - id: claude-fable-5
     cost_rank: 10
