@@ -1,7 +1,6 @@
 workflow:
   id: feature-derivation
   kind: ceremony
-  parent: art
   facilitator: '@release-train-engineer'
   steps:
   - id: derive-business
@@ -15,9 +14,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@product-manager'
-    output: feature
+    artifacts: [feature]
     conditions: []
   - id: derive-enabler
     capabilities:
@@ -30,9 +28,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@system-architect'
-    output: feature-enabler
+    artifacts: [feature-enabler]
     conditions:
     - id: after_derive_business
       kind: precondition

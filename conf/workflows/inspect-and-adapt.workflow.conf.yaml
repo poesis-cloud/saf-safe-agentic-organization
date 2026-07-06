@@ -1,7 +1,6 @@
 workflow:
   id: inspect-and-adapt
   kind: ceremony
-  parent: art
   facilitator: "@release-train-engineer"
   steps:
     - id: metrics-review
@@ -15,7 +14,6 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@release-train-engineer"
       instructions:
         - instructions/program-inspect-and-adapt-metrics-review.instructions.md
@@ -30,9 +28,8 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@release-train-engineer"
-      output: pain-point
+      artifacts: [pain-point]
       instructions:
         - instructions/program-inspect-and-adapt-retrospective.instructions.md
       conditions:
@@ -51,9 +48,8 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@product-manager"
-      output: feature
+      artifacts: [feature]
       instructions:
         - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
@@ -72,9 +68,8 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@product-owner"
-      output: story
+      artifacts: [story]
       instructions:
         - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
@@ -93,9 +88,8 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@system-architect"
-      output: feature-enabler
+      artifacts: [feature-enabler]
       instructions:
         - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:
@@ -114,9 +108,8 @@ workflow:
         instruction-following: 8
         fast-iteration: 2
         schema-adherence: 8
-      kind: author
       actor: "@system-architect"
-      output: story-enabler
+      artifacts: [story-enabler]
       instructions:
         - instructions/program-inspect-and-adapt-derive-backlog-items.instructions.md
       conditions:

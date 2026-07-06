@@ -1,7 +1,6 @@
 workflow:
   id: iteration-review
   kind: ceremony
-  parent: scrum
   facilitator: '@scrum-master'
   steps:
   - id: review
@@ -15,6 +14,5 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@scrum-master'
-    output: iteration-review
+    artifacts: [iteration-review]

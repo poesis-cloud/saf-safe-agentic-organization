@@ -1,7 +1,6 @@
 workflow:
   id: strategic-portfolio-review
   kind: ceremony
-  parent: lpm
   facilitator: '@value-management-officier'
   steps:
   - id: rerank
@@ -15,9 +14,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@business-owner'
-    output: strategic-themes
+    artifacts: [strategic-themes]
   - id: challenge-runway
     capabilities:
       deep-reasoning: 9
@@ -29,9 +27,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@enterprise-architect'
-    output: architecture-review
+    artifacts: [architecture-review]
     conditions:
     - id: after_rerank
       kind: precondition
@@ -48,9 +45,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@security-expert'
-    output: security-review
+    artifacts: [security-review]
     conditions:
     - id: after_rerank
       kind: precondition
@@ -67,9 +63,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@business-owner'
-    output: strategic-themes
+    artifacts: [strategic-themes]
     conditions:
     - id: after_challenge_runway
       kind: precondition
@@ -90,9 +85,8 @@ workflow:
       instruction-following: 9
       fast-iteration: 8
       schema-adherence: 8
-    kind: commit
     actor: central-supervisor (Business-Owner hat)
-    output: portfolio-review-decision
+    artifacts: [portfolio-review-decision]
     conditions:
     - id: after_owner_rewrite
       kind: precondition

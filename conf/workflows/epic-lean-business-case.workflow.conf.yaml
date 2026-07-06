@@ -1,7 +1,6 @@
 workflow:
   id: epic-lean-business-case
   kind: practice
-  parent: lpm
   facilitator: '@value-management-officier'
   steps:
   - id: discovery-and-draft
@@ -15,9 +14,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@business-owner'
-    output: epic-lean-business-case
+    artifacts: [epic-lean-business-case]
     conditions: []
     instructions:
     - instructions/discovery-open-items-recorded-or-explicitly-none.instructions.md
@@ -32,9 +30,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@enterprise-architect'
-    output: architecture-review
+    artifacts: [architecture-review]
     conditions:
     - id: after_discovery_and_draft
       kind: precondition
@@ -51,9 +48,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@security-expert'
-    output: security-review
+    artifacts: [security-review]
     conditions:
     - id: after_discovery_and_draft
       kind: precondition
@@ -70,9 +66,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@business-owner'
-    output: epic-lean-business-case
+    artifacts: [epic-lean-business-case]
     conditions:
     - id: after_ea_challenge
       kind: precondition
@@ -93,9 +88,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 7
       schema-adherence: 9
-    kind: render
     actor: '@business-owner'
-    output: epic-lean-business-case
+    artifacts: [epic-lean-business-case]
     conditions:
     - id: after_owner_rewrite
       kind: precondition

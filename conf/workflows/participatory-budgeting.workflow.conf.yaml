@@ -1,7 +1,6 @@
 workflow:
   id: participatory-budgeting
   kind: ceremony
-  parent: lpm
   facilitator: '@value-management-officier'
   steps:
   - id: arguments-split
@@ -15,9 +14,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@enterprise-architect'
-    output: architecture-review
+    artifacts: [architecture-review]
   - id: arguments-guardrails
     capabilities:
       deep-reasoning: 9
@@ -29,9 +27,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@security-expert'
-    output: security-review
+    artifacts: [security-review]
   - id: commit
     capabilities:
       deep-reasoning: 2
@@ -43,9 +40,8 @@ workflow:
       instruction-following: 9
       fast-iteration: 8
       schema-adherence: 8
-    kind: commit
     actor: central-supervisor (Business-Owner hat)
-    output: budget-allocation
+    artifacts: [budget-allocation]
     conditions:
     - id: after_arguments_split
       kind: precondition

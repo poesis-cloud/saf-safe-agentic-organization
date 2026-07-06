@@ -1,7 +1,7 @@
 workflow:
   id: pair-programming
   kind: practice
-  parent: scrum
+  after: [story-backlog-refinement]
   facilitator: '@scrum-master'
   steps:
   - id: drive
@@ -15,9 +15,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@developer'
-    output: code-change
+    artifacts: [code-change]
     conditions: []
   - id: critique
     capabilities:
@@ -30,9 +29,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@developer'
-    output: feasibility-review
+    artifacts: [feasibility-review]
     conditions:
     - id: after_drive
       kind: precondition
@@ -49,9 +47,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@security-expert'
-    output: security-review
+    artifacts: [security-review]
     conditions:
     - id: after_drive
       kind: precondition

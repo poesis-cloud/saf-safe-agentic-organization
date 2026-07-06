@@ -1,7 +1,7 @@
 workflow:
   id: architectural-vision
   kind: practice
-  parent: lpm
+  after: [epic-lean-business-case]
   facilitator: '@value-management-officier'
   steps:
   - id: ea-draft
@@ -15,9 +15,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@enterprise-architect'
-    output: architecture-vision
+    artifacts: [architecture-vision]
     conditions: []
   - id: challenge-security-nfr
     capabilities:
@@ -30,9 +29,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@security-expert'
-    output: security-review
+    artifacts: [security-review]
     conditions:
     - id: after_ea_draft
       kind: precondition
@@ -49,9 +47,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@operator'
-    output: operability-review
+    artifacts: [operability-review]
     conditions:
     - id: after_ea_draft
       kind: precondition
@@ -68,9 +65,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@enterprise-architect'
-    output: architecture-vision
+    artifacts: [architecture-vision]
     conditions:
     - id: after_challenge_security_nfr
       kind: precondition
@@ -91,9 +87,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 7
       schema-adherence: 9
-    kind: render
     actor: '@enterprise-architect'
-    output: architecture-vision
+    artifacts: [architecture-vision]
     conditions:
     - id: after_owner_rewrite
       kind: precondition

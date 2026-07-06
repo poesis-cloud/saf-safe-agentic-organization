@@ -1,7 +1,7 @@
 workflow:
   id: story-backlog-refinement
   kind: ceremony
-  parent: scrum
+  after: [iteration-planning]
   facilitator: '@scrum-master'
   steps:
   - id: draft
@@ -15,9 +15,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@product-owner'
-    output: story
+    artifacts: [story]
     conditions: []
     instructions:
     - instructions/discovery-open-items-recorded-or-explicitly-none.instructions.md
@@ -32,9 +31,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@developer'
-    output: feasibility-review
+    artifacts: [feasibility-review]
     conditions:
     - id: after_draft
       kind: precondition
@@ -51,9 +49,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@ux-designer'
-    output: ux-review
+    artifacts: [ux-review]
     conditions:
     - id: after_draft
       kind: precondition
@@ -70,9 +67,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 3
       schema-adherence: 6
-    kind: challenge
     actor: '@system-architect'
-    output: architecture-review
+    artifacts: [architecture-review]
     conditions:
     - id: after_draft
       kind: precondition
@@ -89,9 +85,8 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@product-owner'
-    output: story
+    artifacts: [story]
     conditions:
     - id: after_challenge_split
       kind: precondition

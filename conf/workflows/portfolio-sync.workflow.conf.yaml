@@ -1,7 +1,6 @@
 workflow:
   id: portfolio-sync
   kind: ceremony
-  parent: lpm
   facilitator: '@value-management-officier'
   steps:
   - id: sync
@@ -15,8 +14,7 @@ workflow:
       instruction-following: 8
       fast-iteration: 2
       schema-adherence: 8
-    kind: author
     actor: '@value-management-officier'
-    output: portfolio-sync-record
+    artifacts: [portfolio-sync-record]
     instructions:
     - instructions/business-owner-priority-or-risk-view-recorded.instructions.md
