@@ -25,7 +25,9 @@ agent execution environments that support custom agents and skills. It includes:
 - **Specialist bench**: framework-owned author, architecture, development, QA, security, operator, docs, and UX agents
 - **Skills**: SAFe ceremony, practice, authoring, and orchestration playbooks loaded on demand
 - **Model routing**: deterministic LLM tier + capability-score routing — no random model selection
-- **Portable harness**: deterministic artifact, gate-packet, and runtime-trace checks independent of VS Code hooks
+- **Portable harness**: deterministic artifact, gate-packet, and runtime-trace checks independent of VS Code hooks —
+  methodology- and host-agnostic, so the same familiar agentic work method follows you from host to host as you
+  move between environments
 
 ## Layout
 

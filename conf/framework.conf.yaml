@@ -18,7 +18,7 @@
 # framework root; '.' means the root itself (this framework colocates its skills
 # there). The workspace (= this framework's portfolio) is a separate plane,
 # described by conf/workspace.conf.yaml. Validated against
-# harness/contracts/framework.conf.schema.json at harness initialization.
+# harness/contracts/conf/framework.conf.schema.json at harness initialization.
 # ============================================================
 
 paths:
