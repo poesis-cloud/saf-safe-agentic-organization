@@ -8,7 +8,7 @@ id: ADR-1
 title: <short decision title>
 status: proposed              # proposed | accepted | rejected | superseded
 product: <product-slug>
-parent_feature: F-12
+parentFeature: F-12
 decision_scope: <single governed decision unit>
 deciders:
   - central-supervisor                  # ★ Architecture Gate decider
@@ -22,7 +22,7 @@ supersedes: null              # ADR id, if applicable
 superseded_by: null
 related_adrs: []              # sibling, cross-product, or predecessor/successor
                               # ADR ids
-depends_on: []                # prerequisite ADR ids that must be understood
+dependsOn: []                # prerequisite ADR ids that must be understood
                               # first
 ---
 

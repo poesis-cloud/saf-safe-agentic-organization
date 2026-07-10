@@ -10,45 +10,45 @@ id: F-12
 title: <Enabler Feature title>
 status: funnel           # funnel | refined | arch-pending | ready | committed | in-progress | done | blocked
 type: enabler
-enabler_type: architectural   # exploration | architectural | infrastructure | compliance
-parent_epic: E-1
-epic_rationale: "<why this enabler serves the Epic, or 'standalone: <reason>'>"
-work_item_relations:
-  depends_on: []         # hard prerequisite Feature/Epic ids for this enabler to be actionable
+enablerType: architectural   # exploration | architectural | infrastructure | compliance
+parentEpic: E-1
+epicRationale: "<why this enabler serves the Epic, or 'standalone: <reason>'>"
+workItemRelations:
+  dependsOn: []         # hard prerequisite Feature/Epic ids for this enabler to be actionable
   enables: []            # downstream Feature/Story ids this enabler unblocks
-  related_to: []         # non-gating adjacency or same-runway-area relation
+  relatedTo: []         # non-gating adjacency or same-runway-area relation
   supersedes: []         # Feature ids intentionally replaced by this enabler
 wsjf:
-  user_business_value: 0
-  time_criticality: 0
-  risk_reduction: 0
-  job_size: 0
+  userBusinessValue: 0
+  timeCriticality: 0
+  riskReduction: 0
+  jobSize: 0
   score: 0
 structurant: false
 risk: medium
 complexity: involved
-architecture_inventory: null   # required when structurant=true;
+architectureInventory: null   # required when structurant=true;
                                # path to <adr-slug>.adr.md in the feature folder
 adrs: []
 pi: M
 owner: SE-Architect
 created: YYYY-MM-DD
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Feature/Architecture Gate.
 cost:
-  tokens_in: 0
-  tokens_out: 0
-  tokens_cached: 0
-  tokens_self: 0
-  tokens_rolled: 0
+  tokensIn: 0
+  tokensOut: 0
+  tokensCached: 0
+  tokensSelf: 0
+  tokensRolled: 0
   dispatches: 0
   source: estimated
   committed: null
 github:
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # F-12 — <title>
@@ -109,11 +109,11 @@ Other Features, ADRs, external systems.
 
 Use typed relations to make the enabler's program effect explicit.
 
-- `depends_on` — hard prerequisite relation. Use when this enabler itself relies on another Epic or
+- `dependsOn` — hard prerequisite relation. Use when this enabler itself relies on another Epic or
   Feature outcome before it can remove the intended blocker.
 - `enables` — primary enabler relation. Use to name the downstream Features or Stories whose path is
   opened by this work.
-- `related_to` — non-gating adjacency. Use when two units share the same runway area but do not
+- `relatedTo` — non-gating adjacency. Use when two units share the same runway area but do not
   impose ordering on one another.
 - `supersedes` — replacement relation. Use when this enabler absorbs or retires an earlier Feature.
 
@@ -121,17 +121,17 @@ Best-practice rules:
 
 - At least one `enables` target is expected whenever the enabler exists to unblock named downstream
   work; if absent, explain the broad platform/operability outcome in prose.
-- Do not mirror architecture artifacts here; keep `adrs` for decisions and `work_item_relations` for
+- Do not mirror architecture artifacts here; keep `adrs` for decisions and `workItemRelations` for
   backlog-unit links only.
 
 ## Architecture decision inventory
 If `structurant: true`, point to the committed architecture inventory artifact
 that tracks the Feature's decision units, their coverage state, linked ADRs,
 waivers, and enabler follow-up. If `structurant: false`, set
-`architecture_inventory: null` and omit this section.
+`architectureInventory: null` and omit this section.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../release-train-engineer/release-train-engineer.skill.md#open-item-ledger)) — this enabler Feature's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be

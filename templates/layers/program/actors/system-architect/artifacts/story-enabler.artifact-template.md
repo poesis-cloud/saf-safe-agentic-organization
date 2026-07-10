@@ -10,40 +10,40 @@ id: S-101
 title: <Enabler Story title>
 status: backlog          # backlog | ready | in-progress | in-review | in-qa | awaiting-pr | done | blocked
 type: enabler
-enabler_type: architectural   # exploration (spike) | architectural | infrastructure | compliance
-parent_feature: F-12
-work_item_relations:
-  depends_on: []         # hard prerequisite Story/Feature ids for this enabler Story
+enablerType: architectural   # exploration (spike) | architectural | infrastructure | compliance
+parentFeature: F-12
+workItemRelations:
+  dependsOn: []         # hard prerequisite Story/Feature ids for this enabler Story
   enables: []            # downstream Story/Feature ids unblocked by this Story
-  related_to: []         # non-gating adjacency in the same enablement area
+  relatedTo: []         # non-gating adjacency in the same enablement area
   supersedes: []         # Story ids intentionally replaced by this Story
 sprint: N
 pi: M
 adrs: []
 driver: @developer
 navigator: @developer
-pair_swaps: []
-estimate_points: 0
+pairSwaps: []
+estimatePoints: 0
 risk: medium
 complexity: involved
 owner: SE-Architect
 created: YYYY-MM-DD
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Story Gate (DoR).
 cost:
-  tokens_in: 0
-  tokens_out: 0
-  tokens_cached: 0
-  tokens_self: 0
-  tokens_rolled: 0
+  tokensIn: 0
+  tokensOut: 0
+  tokensCached: 0
+  tokensSelf: 0
+  tokensRolled: 0
   dispatches: 0
   source: estimated
   committed: null
 github:
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # S-101 — <title>
@@ -92,11 +92,11 @@ Use exactly one sentence in this form:
 
 Use typed links to show exactly what this enabler Story removes or sequences.
 
-- `depends_on` — hard prerequisite relation. Use when this Story itself cannot proceed before another
+- `dependsOn` — hard prerequisite relation. Use when this Story itself cannot proceed before another
   Story or Feature outcome lands.
 - `enables` — primary enabler relation. Use to name the downstream Story or Feature whose path is
   opened once this Story is done.
-- `related_to` — non-gating adjacency. Use for same-runway-area work that should stay visible but not
+- `relatedTo` — non-gating adjacency. Use for same-runway-area work that should stay visible but not
   ordered.
 - `supersedes` — replacement relation. Use when this Story intentionally absorbs prior technical
   slices.
@@ -105,10 +105,10 @@ Best-practice rules:
 
 - At least one `enables` target is expected when the enabler exists to unblock a named downstream
   Story or Feature; otherwise explain the broader technical outcome in prose.
-- Keep `adrs` for decision dependencies and `work_item_relations` for backlog-unit links.
+- Keep `adrs` for decision dependencies and `workItemRelations` for backlog-unit links.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../release-train-engineer/release-train-engineer.skill.md#open-item-ledger)) — this enabler Story's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be

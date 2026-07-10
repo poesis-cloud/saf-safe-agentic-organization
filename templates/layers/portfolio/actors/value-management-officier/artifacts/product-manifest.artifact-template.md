@@ -15,7 +15,7 @@ created: YYYY-MM-DD
 repos:
   - <relative/path/to/repo>
 
-# Cross-product relationships (referenced by `depends_on:` in Feature/Story frontmatter).
+# Cross-product relationships (referenced by `dependsOn:` in Feature/Story frontmatter).
 upstream: []                          # products this one consumes
 downstream: []                        # products that consume this one
 

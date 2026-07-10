@@ -154,7 +154,7 @@ Every layer's flow is one **artifact state machine** driven by an **event loop**
 **Reactive dual (the canonical reading).** Each artifact (Epic / Feature / Story) is a **finite state machine** — its states are the kanban columns, its edges are status transitions. A transition is at once the **OUTPUT** of one step and the **EVENT** that triggers the next, so the two readings are one machine. The orchestrator is the **event loop**: observe a transition → run the **guard** → execute the **handler** → commit the new `status:` (which emits the next event).
 
 - **Event** = a transition `X → Y`, or a **roll-up** (a child's transition fires a parent's): first child Feature `funnel` ⇒ Epic `→implementing`; last child Feature `done` ⇒ Epic `→done`; first child Story `ready` ⇒ Feature `→in-progress`; Story `done` rolls up to its Feature.
-- **Guard** = VALIDATE, folded: `artifact-schema-valid(output) ∧ gate-ok (★) ∧ challenge-done ∧ WIP-ok ∧ owner-correct ∧ no-open-blocking-items`. Fail ⇒ rework or block. A **★ gate guard is a human halt** — never auto-fired (a board move across a gate is a *request*, not the decision). The `no-open-blocking-items` conjunct folds in the open-item ledger: a unit carrying any `open_items` entry with `blocking: true` + `status: open` cannot cross a ★ gate.
+- **Guard** = VALIDATE, folded: `artifact-schema-valid(output) ∧ gate-ok (★) ∧ challenge-done ∧ WIP-ok ∧ owner-correct ∧ no-open-blocking-items`. Fail ⇒ rework or block. A **★ gate guard is a human halt** — never auto-fired (a board move across a gate is a *request*, not the decision). The `no-open-blocking-items` conjunct folds in the open-item ledger: a unit carrying any `openItems` entry with `blocking: true` + `status: open` cannot cross a ★ gate.
 - **Handler** = the step body `INPUT → AGENT·hat → OUTPUT` (the matrix row).
 - **Emits** = the new status + any roll-up event.
 
@@ -164,7 +164,7 @@ State lives only in `status:` frontmatter; **the git history of those flips is t
 
 There is **one event source — a unit's `status:`** (Epic / Feature / Story). The orchestrator is a **per-unit streamer**: it advances **one unit at a time** — pick a unit, evaluate the handlers whose trigger-predicate that unit satisfies, fire one, commit the new status, move to the next unit. Divide & conquer; never "gather a cohort," never wait on a clock (agentic has no wall clock and no fixed capacity, so batch windows are undefinable).
 
-A handler's **trigger** is a predicate on a **single unit** — its own state, its own children's states, and its own `depends_on`. Its **scope** is that unit (reading parent/sibling context read-only where needed). **Owner-actuator invariant: the artifact owner writes `status:`; the orchestrator governs the transition guard and kanban projection** — every other actor produces *output* that routes through the owner-rewrite and guard path before transition commit. Four per-unit **handling** kinds:
+A handler's **trigger** is a predicate on a **single unit** — its own state, its own children's states, and its own `dependsOn`. Its **scope** is that unit (reading parent/sibling context read-only where needed). **Owner-actuator invariant: the artifact owner writes `status:`; the orchestrator governs the transition guard and kanban projection** — every other actor produces *output* that routes through the owner-rewrite and guard path before transition commit. Four per-unit **handling** kinds:
 
 - **direct (D)** — the orchestrator commits the transition itself: mechanical edges, roll-ups, loop edges. No agents.
 - **ceremony** — a **sub-orchestration** that is a SAFe **event** (cadence/milestone): a facilitated multi-participant exchange producing output, returned to the orchestrator.
@@ -173,7 +173,7 @@ A handler's **trigger** is a predicate on a **single unit** — its own state, i
 
 Ceremony and practice are mechanically identical (facilitated, ≥2 participants, `input → output`, return-to-orchestrator); the label only marks *SAFe event vs SAFe practice*. The **Continuous Delivery Pipeline (CDP)** classifies the practices: **Continuous Exploration (CE)** → **Continuous Integration (CI)** → **Continuous Deployment (CD)** → **Release on Demand (RoD)** — CE groups the definition / architecture / refinement work, CI the build + verify (pair + verification), CD the merge + deploy, RoD is **N/A** (no production release modeled).
 
-What batch SAFe bought, per-unit covers without a clock: **cross-Feature coordination** → `depends_on` guards on `ready→committed` (a unit waits for its deps); **capacity** → **WIP limits** (per-unit flow control); **collective retrospection** → per-unit captures accumulate in the *ART `improvement-backlog`* (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), synthesised by the PI Inspect & Adapt ceremony that is itself per-unit-triggered (e.g. on Epic `done`). Only **re-ranking** reads the whole set — but it is **triggered by a single Epic's** enter/exit, so it too is per-unit. Each layer states its flow as **one handling matrix** — `Event | Handling (D / Ceremony / Practice / Gate) | Sub-orchestration | Gate | → status commit (orchestrator-only)` — folding the kanban transitions, the gates, the sub-orchestrations, and WIP together.
+What batch SAFe bought, per-unit covers without a clock: **cross-Feature coordination** → `dependsOn` guards on `ready→committed` (a unit waits for its deps); **capacity** → **WIP limits** (per-unit flow control); **collective retrospection** → per-unit captures accumulate in the *ART `improvement-backlog`* (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), synthesised by the PI Inspect & Adapt ceremony that is itself per-unit-triggered (e.g. on Epic `done`). Only **re-ranking** reads the whole set — but it is **triggered by a single Epic's** enter/exit, so it too is per-unit. Each layer states its flow as **one handling matrix** — `Event | Handling (D / Ceremony / Practice / Gate) | Sub-orchestration | Gate | → status commit (orchestrator-only)` — folding the kanban transitions, the gates, the sub-orchestrations, and WIP together.
 
 ### Handlers & ceremonies as loadable skills (the router/handler split)
 
@@ -191,27 +191,33 @@ Three skill families split the handler bodies:
 
 **The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `conf/workflows/<name>.workflow.conf.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
 
-Workflow files use this shape (full schema: [workflow.schema.json](../../../../harness/contracts/workflow.schema.json)):
+Workflow files use this shape (full schema: [workflow.conf.schema.json](../../../../harness/contracts/conf/framework/workflow.conf.schema.json)):
 
 ```yaml
-workflow:
-  id: <skill-name>
-  kind: ceremony | practice          # suborchestrations only; canonical noun is "suborchestration"
-  parent: <root-orchestration>       # suborchestrations only (root ids: lpm / art / scrum)
-  facilitator: <orchestrator>
-  steps:
-    - id: <step-id>
-      kind: facilitate | author | challenge | delegate | render | gate
-      actor: <orchestrator or hat>
-      conditions:                        # each: {kind, type, expression, value, id}
-        - {kind: precondition,  type: after,     expression: ref,         value: <predecessor-step-id>,             id: <id>}
-        - {kind: precondition,  type: input,     expression: ref,         value: <input artifact ref>,              id: <id>}
-        - {kind: precondition,  type: state,     expression: cel,         value: <CEL predicate>,                   id: <id>}
-        - {kind: invariant,     type: authority, expression: instruction, value: instructions/<dashed-id>.instructions.md, id: <id>}
-        - {kind: postcondition, type: output,    expression: ref,         value: <output artifact ref>,             id: <id>}
+slug: <skill-name>
+orchestrator: <orchestrator>
+steps:
+  - slug: <step-slug>
+    actor: <orchestrator or hat>
+    artifact: <artifact-schema-slug>
+    capabilities:
+      deep-reasoning: 0
+      coding: 0
+      tool-use: 0
+      long-context: 0
+      multimodal: 0
+      writing-quality: 0
+      instruction-following: 0
+      fast-iteration: 0
+      schema-adherence: 0
+    conditions:
+      - {kind: precondition,  slug: <slug>, step: <predecessor-step-slug>}
+      - {kind: precondition,  slug: <slug>, setSelector: {setQuery: <CEL referencing artifacts by slug>}, setPredicate: <CEL>}
+      - {kind: postcondition, slug: <slug>, setSelector: {setQuery: <CEL referencing artifacts by slug>}, setPredicate: <CEL>}
+    instructions: instructions/<dashed-id>.instructions.md
 ```
 
-Each condition has three attributes — `kind` (precondition/postcondition — WHEN it holds), `type` (`after` a structural predecessor, or `state` a state assertion — WHAT it is), and an `id` on every condition. An `after` condition names a predecessor `step_id`; a `state` condition carries a `set_selector` + `set_predicate` (a CEL boolean over the acting unit or a selected artifact set) that the harness evaluates against portfolio state. Behavioral guidance the agent must follow rides at the step level (step.instructions / step.prompts). They make the non-negotiable transition guard visible enough that the orchestrator cannot treat an evidence requirement as optional narrative.
+Each condition is one of two dedicated types — `stepCondition` (binds another step by slug: `step` is the predecessor for `kind: precondition`, the successor for `kind: postcondition`) or `stateCondition` (`setSelector.setQuery`, a CEL expression referencing artifacts directly by their schema slug — no alias pre-declaration — feeding `setPredicate`, a CEL boolean over the resulting `selected` set that the harness evaluates against portfolio state) — each carrying `kind` (precondition/postcondition — WHEN it holds) and a `slug` on every condition. Behavioral guidance the agent must follow rides at the step level (`step.instructions`). They make the non-negotiable transition guard visible enough that the orchestrator cannot treat an evidence requirement as optional narrative.
 
 **Ceremonies and practices are facilitated sub-orchestrations.** Neither is solo work: each names its **Participants** (≥2, drawn from **the Bench** below) and an **Exchange** table that sequences their turns in the same `input → agent·hat → output` shape as the handlings: `# | participant·hat | contributes (reads → produces) | hands to`. The orchestrator is the **facilitator**: it opens the sub-orchestration, sequences the turns, and validates each output, but **authors nothing** — and does not directly rewrite owner artifacts; it commits transitions only through guard-approved, owner-authored state changes and flow-owned kanban/gate collation. Every participant authors only its own contribution per its role skill / bench role. The **Central Supervisor** joins only where a ★ gate or a pivot decision applies. Pick the participant roster systematically from the Bench, not just the owning hat.
 
@@ -234,7 +240,7 @@ A unit reaches its gate with its blocking unknowns *resolved or explicitly defer
 
 **Why a record, not an interrupt.** Subagents are synchronous and stateless — a dispatched hat **cannot block mid-run** waiting for an answer; it must **return**. A raised item is therefore never a live prompt fired from inside a task; it is a **recorded entry the orchestrator routes between turns**, under the same blackboard discipline as every other artifact.
 
-**The record — `open_items` (every backlog template carries it).** One envelope for both kinds: `{ id, kind, raised_by, owner, blocking, status }`, `kind ∈ {clarification, challenge}`, `status ∈ {open, resolved, withdrawn}` — with one **hard invariant**: `kind: challenge ⇒ owner is an agent hat` (equivalently `owner: human ⇒ kind: clarification`), because a challenge is reactive on an agent-authored artifact and the Supervisor authors none. A **clarification** adds `{ question, options[], default_if_unanswered }`; a **challenge** adds `{ finding, severity, recommended_change }`. `blocking: true` ⇒ the unit cannot cross its next ★ gate while the entry is `open` (the `no-open-blocking-items` guard conjunct). `blocking: false` ⇒ the author proceeds under the recorded default (`default_if_unanswered`, or "draft stands" for a challenge) as an **assumption-with-disclosure**; the gate adjudicates it.
+**The record — `openItems` (every backlog template carries it).** One envelope for both kinds: `{ id, kind, raised_by, owner, blocking, status }`, `kind ∈ {clarification, challenge}`, `status ∈ {open, resolved, withdrawn}` — with one **hard invariant**: `kind: challenge ⇒ owner is an agent hat` (equivalently `owner: human ⇒ kind: clarification`), because a challenge is reactive on an agent-authored artifact and the Supervisor authors none. A **clarification** adds `{ question, options[], default_if_unanswered }`; a **challenge** adds `{ finding, severity, recommended_change }`. `blocking: true` ⇒ the unit cannot cross its next ★ gate while the entry is `open` (the `no-open-blocking-items` guard conjunct). `blocking: false` ⇒ the author proceeds under the recorded default (`default_if_unanswered`, or "draft stands" for a challenge) as an **assumption-with-disclosure**; the gate adjudicates it.
 
 **Persisted universally (audit + memory).** Every item is logged and **kept after resolution** — the status flips `open → resolved`/`withdrawn`, the entry is not deleted — even one answered inside the same ceremony. The ledger is the unit's **auditability + workflow-improvement + agent-memory** trail: a stateless hat re-dispatched onto the unit reads *what was already asked, answered, or challenged*. "Always record" is the simplest invariant to apply and maintain — no exclusion rule.
 
@@ -294,7 +300,7 @@ All SAFe artifacts live at **poesis level** at the workspace root, **never insid
 
 ### Portfolio scope (singleton, cross-product)
 
-`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../schemas/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md)). It owns:
+`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md)). It owns:
 
 - `portfolio-manifest.yaml` — manifest and authoritative product registry (`products[]`; `arts[]` may remain as a compatibility list).
 - `strategic-themes.md` — the Strategic Themes singleton (top of the spine).
@@ -307,7 +313,7 @@ All SAFe artifacts live at **poesis level** at the workspace root, **never insid
 The authoritative product list is `portfolio-manifest.yaml > products[]`. Each product owns:
 
 - `products/<product-slug>/product-manifest.yaml` — manifest: name, description, owner, business-line, status, **repos[]** (workspace paths), upstream/downstream deps.
-- `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` (each optionally `parent_epic: E-N`) · `art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md`
+- `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` (each optionally `parentEpic: E-N`) · `art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md`
 - `<objectives-slug>.objectives.md`, `<risks-slug>.risks.md`, `<plan-slug>.plan.md`, `<progress-slug>.progress.md`
 - `art/<art-slug>/program-backlog/<feature>/` — `<feature-slug>.feature.md`, `<feature-slug>.feature-enabler.md`, ADRs, reviews, `<feature-slug>.nfr-list.md`
 - `art/<art-slug>/teams/<team-slug>/team-backlog/<story>/` — `<story-slug>.story.md`, `<story-slug>.story-enabler.md`, `<qa-signoff-slug>.qa-signoff.md`
@@ -317,7 +323,7 @@ The authoritative product list is `portfolio-manifest.yaml > products[]`. Each p
 ### Product-scope rules (mandatory)
 
 - Every product-scoped artifact MUST include `product: <slug>` in frontmatter and live under that product's folder. ART-scoped artifacts live under `art/<art-slug>/`.
-- **Cross-product Features are forbidden.** Two products affected => one Feature per product, linked via `depends_on:`.
+- **Cross-product Features are forbidden.** Two products affected => one Feature per product, linked via `dependsOn:`.
 - A Story's commits may touch only repos listed in its product's `product-manifest.yaml`.
 - No repo-level `docs/` for SAFe state (repo `docs/` is code-level documentation only).
 - **Step 0 first:** if `portfolio-manifest.yaml > products[]` does not list the product in scope, run ART / Product Init (the VMO owns the registry) before any other step.
@@ -401,7 +407,7 @@ gate is are computed by the harness from the unit's artifacts + workflow config 
 the cursor every turn. The tables below are the **governance semantics** the harness enforces (column →
 owner → processing instance → gate), not a procedure to replay by hand.
 
-**Owner vs Actors:** Owner = single accountable role, one per column, flips the field. Other actors contribute; named in `notes`.
+**Owner vs Actors:** Owner = single accountable role, one per column, flips the field. Other actors contribute; named in `note`.
 
 ### Portfolio Kanban — Epics (value-management-officier drives; Business-Owner-owned overall, cross-product)
 `funnel -> reviewing -> analyzing -> portfolio-backlog -> implementing -> done`. Flag: `blocked`.
@@ -549,7 +555,7 @@ truth for content; the board is authoritative for non-gate status moves. Normati
 - **Gate decision backlog is mandatory** (next section).
 - **Token cost is fetched once from the ecosystem logs** at each artifact's terminal status (Story `awaiting-pr` / Feature `done` / Epic `done`) and rolled up Story -> Feature -> Epic per the [cost-accounting model](../../workflow/workflows/verification/instructions/story-cost-snapshot-measured-once-from-logs.instructions.md) (`cost:` frontmatter blocks; **no intermediary ledger**); every figure is flagged `measured` or `estimated`, never fabricated.
 - **Workflow pain-point capture is mandatory.** Capture workflow friction into the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`) **continuously, the moment it is observed** — never fix the meta-process inline mid-flow, and never wait for the retro to remember it. A pain point is an *input* (raw friction), not a solution; its resolution is filled in §4 at retro / I&A.
-- **Epic-rooted, no PRD.** There is no PRD tier. A Feature either rolls up to an approved Epic (`parent_epic: E-N`, Epic in `portfolio-backlog`+) or is an explicit standalone engineering/operability Feature (`parent_epic: null` with a stated rationale). **ADR-first for structurant work.**
+- **Epic-rooted, no PRD.** There is no PRD tier. A Feature either rolls up to an approved Epic (`parentEpic: E-N`, Epic in `portfolio-backlog`+) or is an explicit standalone engineering/operability Feature (`parentEpic: null` with a stated rationale). **ADR-first for structurant work.**
 - **Epics are the only cross-product artifact.** Cross-product coordination lives in an Epic; never author a single cross-product Feature — one Feature per product, each linked to the shared Epic.
 - **Authoring vs policing.** The hat-wearing **author agents own the backlog artifacts**: `@business-owner` authors Epics + Strategic Themes, `@product-manager` authors Features, `@product-owner` authors Stories, `@enterprise-architect` authors the EA runway and enabler Epics, and `@system-architect` authors ADRs plus enabler Features and Stories. The **orchestrators never author or own these** — they *police* their layer. The **Central Supervisor approves** at the gates.
 - **QA-before-PR.** No Story reaches the **★ PR Gate** without `qa/S-N-signoff.md`.
@@ -576,7 +582,7 @@ truth for content; the board is authoritative for non-gate status moves. Normati
 
 ## Artifact schemas and templates (mandatory)
 
-Artifact schemas live under [schemas/](../../../../schemas) and each is paired 1:1 with its `*.artifact-template.md` distributed to the producing skill. Refuse to author an artifact without consulting its schema/template pair.
+Artifact schemas live under [artifacts/](../../../../artifacts) and each is paired 1:1 with its `*.artifact-template.md` distributed to the producing skill. Refuse to author an artifact without consulting its schema/template pair.
 
 Each artifact bundle uses exactly these names:
 
@@ -599,28 +605,28 @@ Framework-wide, host-agnostic concerns live in dedicated homes referenced but no
 
 | Artifact | Path | Schema + Template |
 |---|---|---|
-| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../schemas/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md) |
-| Strategic Themes (singleton) | `strategic-themes.md` | [strategic-themes.artifact.schema.json](../../../../schemas/strategic-themes.artifact.schema.json) + [strategic-themes.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/strategic-themes.artifact-template.md) |
-| Epic (business) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic.artifact.schema.json](../../../../schemas/epic.artifact.schema.json) + [epic.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/epic.artifact-template.md) |
-| Epic (enabler) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic-enabler.artifact.schema.json](../../../../schemas/epic-enabler.artifact.schema.json) + [epic-enabler.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/epic-enabler.artifact-template.md) |
-| Lean Business Case | `portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md` | [lean-business-case.artifact.schema.json](../../../../schemas/lean-business-case.artifact.schema.json) + [lean-business-case.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/lean-business-case.artifact-template.md) |
-| Architectural Vision (singleton) | `portfolio/architectural-vision.md` | [architectural-vision.artifact.schema.json](../../../../schemas/architectural-vision.artifact.schema.json) + [architectural-vision.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/architectural-vision.artifact-template.md) |
-| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../schemas/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md) |
-| Feature (business) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature.artifact.schema.json](../../../../schemas/feature.artifact.schema.json) + [feature.artifact-template.md](../../../program/actors/product-manager/artifacts/feature.artifact-template.md) |
-| Feature (enabler) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature-enabler.artifact.schema.json](../../../../schemas/feature-enabler.artifact.schema.json) + [feature-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/feature-enabler.artifact-template.md) |
-| Product Vision | `products/<product-slug>/vision.md` | [vision.artifact.schema.json](../../../../schemas/vision.artifact.schema.json) + [vision.artifact-template.md](../../../program/actors/product-manager/artifacts/vision.artifact-template.md) |
-| Roadmap | `products/<product-slug>/roadmap.md` | [roadmap.artifact.schema.json](../../../../schemas/roadmap.artifact.schema.json) + [roadmap.artifact-template.md](../../../program/actors/product-manager/artifacts/roadmap.artifact-template.md) |
-| NFR register | `art/<art-slug>/program-backlog/nfrs.md` | [nfr-register.artifact.schema.json](../../../../schemas/nfr-register.artifact.schema.json) + [nfr-register.artifact-template.md](../../../program/actors/system-architect/artifacts/nfr-register.artifact-template.md) |
-| Architectural Runway | `art/<art-slug>/program-backlog/runway.md` | [runway-register.artifact.schema.json](../../../../schemas/runway-register.artifact.schema.json) + [runway-register.artifact-template.md](../../../program/actors/system-architect/artifacts/runway-register.artifact-template.md) |
-| Architecture decision inventory | `art/<art-slug>/program-backlog/decision-inventory-F-N-*.md` | [architecture-decision-inventory.artifact.schema.json](../../../../schemas/architecture-decision-inventory.artifact.schema.json) + [architecture-decision-inventory.artifact-template.md](../../../program/actors/system-architect/artifacts/architecture-decision-inventory.artifact-template.md) |
-| ADR | `art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md` | [adr.artifact.schema.json](../../../../schemas/adr.artifact.schema.json) + [adr.artifact-template.md](../../../program/actors/system-architect/artifacts/adr.artifact-template.md) |
-| Sprint plan | `products/<product-slug>/<plan-slug>.plan.md` | [sprint-plan.artifact.schema.json](../../../../schemas/sprint-plan.artifact.schema.json) + [sprint-plan.artifact-template.md](artifacts/sprint-plan.artifact-template.md) |
-| Story (business) | `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md` | [story.artifact.schema.json](../../../../schemas/story.artifact.schema.json) + [story.artifact-template.md](../product-owner/artifacts/story.artifact-template.md) |
-| Story (enabler) | `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md` | [story-enabler.artifact.schema.json](../../../../schemas/story-enabler.artifact.schema.json) + [story-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/story-enabler.artifact-template.md) |
-| Gate decision backlog | `products/<product-slug>/risks.md` | [risks.artifact.schema.json](../../../../schemas/risks.artifact.schema.json) + [risks.artifact-template.md](artifacts/risks.artifact-template.md) |
-| PI objectives | `art/<art-slug>/pi-<pi-slug>/objectives.md` | [objectives.artifact.schema.json](../../../../schemas/objectives.artifact.schema.json) + [objectives.artifact-template.md](../../../program/actors/release-train-engineer/artifacts/objectives.artifact-template.md) |
-| PI risks | `art/<art-slug>/pi-<pi-slug>/risks.md` | [risks.artifact.schema.json](../../../../schemas/risks.artifact.schema.json) + [risks.artifact-template.md](../../../program/actors/release-train-engineer/artifacts/risks.artifact-template.md) |
-| Project brief (per repo) | `<repo>/PROJECT_BRIEF.md` | [project-brief.artifact.schema.json](../../../../schemas/project-brief.artifact.schema.json) + [project-brief.artifact-template.md](../../../program/actors/product-manager/artifacts/project-brief.artifact-template.md) |
+| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md) |
+| Strategic Themes (singleton) | `strategic-themes.md` | [strategic-themes.artifact.schema.json](../../../../artifacts/strategic-themes.artifact.schema.json) + [strategic-themes.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/strategic-themes.artifact-template.md) |
+| Epic (business) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic.artifact.schema.json](../../../../artifacts/epic.artifact.schema.json) + [epic.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/epic.artifact-template.md) |
+| Epic (enabler) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic-enabler.artifact.schema.json](../../../../artifacts/epic-enabler.artifact.schema.json) + [epic-enabler.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/epic-enabler.artifact-template.md) |
+| Lean Business Case | `portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md` | [lean-business-case.artifact.schema.json](../../../../artifacts/lean-business-case.artifact.schema.json) + [lean-business-case.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/lean-business-case.artifact-template.md) |
+| Architectural Vision (singleton) | `portfolio/architectural-vision.md` | [architectural-vision.artifact.schema.json](../../../../artifacts/architectural-vision.artifact.schema.json) + [architectural-vision.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/architectural-vision.artifact-template.md) |
+| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../artifacts/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md) |
+| Feature (business) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature.artifact.schema.json](../../../../artifacts/feature.artifact.schema.json) + [feature.artifact-template.md](../../../program/actors/product-manager/artifacts/feature.artifact-template.md) |
+| Feature (enabler) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature-enabler.artifact.schema.json](../../../../artifacts/feature-enabler.artifact.schema.json) + [feature-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/feature-enabler.artifact-template.md) |
+| Product Vision | `products/<product-slug>/vision.md` | [vision.artifact.schema.json](../../../../artifacts/vision.artifact.schema.json) + [vision.artifact-template.md](../../../program/actors/product-manager/artifacts/vision.artifact-template.md) |
+| Roadmap | `products/<product-slug>/roadmap.md` | [roadmap.artifact.schema.json](../../../../artifacts/roadmap.artifact.schema.json) + [roadmap.artifact-template.md](../../../program/actors/product-manager/artifacts/roadmap.artifact-template.md) |
+| NFR register | `art/<art-slug>/program-backlog/nfrs.md` | [nfr-register.artifact.schema.json](../../../../artifacts/nfr-register.artifact.schema.json) + [nfr-register.artifact-template.md](../../../program/actors/system-architect/artifacts/nfr-register.artifact-template.md) |
+| Architectural Runway | `art/<art-slug>/program-backlog/runway.md` | [runway-register.artifact.schema.json](../../../../artifacts/runway-register.artifact.schema.json) + [runway-register.artifact-template.md](../../../program/actors/system-architect/artifacts/runway-register.artifact-template.md) |
+| Architecture decision inventory | `art/<art-slug>/program-backlog/decision-inventory-F-N-*.md` | [architecture-decision-inventory.artifact.schema.json](../../../../artifacts/architecture-decision-inventory.artifact.schema.json) + [architecture-decision-inventory.artifact-template.md](../../../program/actors/system-architect/artifacts/architecture-decision-inventory.artifact-template.md) |
+| ADR | `art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md` | [adr.artifact.schema.json](../../../../artifacts/adr.artifact.schema.json) + [adr.artifact-template.md](../../../program/actors/system-architect/artifacts/adr.artifact-template.md) |
+| Sprint plan | `products/<product-slug>/<plan-slug>.plan.md` | [sprint-plan.artifact.schema.json](../../../../artifacts/sprint-plan.artifact.schema.json) + [sprint-plan.artifact-template.md](artifacts/sprint-plan.artifact-template.md) |
+| Story (business) | `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md` | [story.artifact.schema.json](../../../../artifacts/story.artifact.schema.json) + [story.artifact-template.md](../product-owner/artifacts/story.artifact-template.md) |
+| Story (enabler) | `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md` | [story-enabler.artifact.schema.json](../../../../artifacts/story-enabler.artifact.schema.json) + [story-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/story-enabler.artifact-template.md) |
+| Gate decision backlog | `products/<product-slug>/risks.md` | [risks.artifact.schema.json](../../../../artifacts/risks.artifact.schema.json) + [risks.artifact-template.md](artifacts/risks.artifact-template.md) |
+| PI objectives | `art/<art-slug>/pi-<pi-slug>/objectives.md` | [objectives.artifact.schema.json](../../../../artifacts/objectives.artifact.schema.json) + [objectives.artifact-template.md](../../../program/actors/release-train-engineer/artifacts/objectives.artifact-template.md) |
+| PI risks | `art/<art-slug>/pi-<pi-slug>/risks.md` | [risks.artifact.schema.json](../../../../artifacts/risks.artifact.schema.json) + [risks.artifact-template.md](../../../program/actors/release-train-engineer/artifacts/risks.artifact-template.md) |
+| Project brief (per repo) | `<repo>/PROJECT_BRIEF.md` | [project-brief.artifact.schema.json](../../../../artifacts/project-brief.artifact.schema.json) + [project-brief.artifact-template.md](../../../program/actors/product-manager/artifacts/project-brief.artifact-template.md) |
 | GitHub board spec (normative) | — (GitHub Projects) | [github-projects-board-spec.md](../../../../sync/github/github-projects-board-spec.md) |
 | GitHub sync config (per product) | `products/<product-slug>/github-sync.yaml` | [github-sync-config-template.yaml.md](../../../../sync/github/github-sync-config-template.yaml.md) |
 | GitHub sync protocol (normative) | — (toolchain `portfolio/_sync/`) | [github-sync-protocol.md](../../../../sync/github/github-sync-protocol.md) |

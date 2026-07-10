@@ -1,96 +1,95 @@
-workflow:
-  id: architectural-vision
-  kind: practice
-  after: [epic-lean-business-case]
-  facilitator: '@value-management-officier'
-  steps:
-  - id: ea-draft
-    capabilities:
-      deep-reasoning: 9
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@enterprise-architect'
-    artifacts: [architecture-vision]
-    conditions: []
-  - id: challenge-security-nfr
-    capabilities:
-      deep-reasoning: 9
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@security-expert'
-    artifacts: [security-review]
-    conditions:
-    - id: after_ea_draft
-      kind: precondition
-      type: after
-      step_id: ea-draft
-  - id: challenge-operability
-    capabilities:
-      deep-reasoning: 8
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@operator'
-    artifacts: [operability-review]
-    conditions:
-    - id: after_ea_draft
-      kind: precondition
-      type: after
-      step_id: ea-draft
-  - id: owner-rewrite
-    capabilities:
-      deep-reasoning: 9
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@enterprise-architect'
-    artifacts: [architecture-vision]
-    conditions:
-    - id: after_challenge_security_nfr
-      kind: precondition
-      type: after
-      step_id: challenge-security-nfr
-    - id: after_challenge_operability
-      kind: precondition
-      type: after
-      step_id: challenge-operability
-  - id: render
-    capabilities:
-      deep-reasoning: 2
-      coding: 3
-      tool-use: 5
-      long-context: 3
-      multimodal: 0
-      writing-quality: 4
-      instruction-following: 8
-      fast-iteration: 7
-      schema-adherence: 9
-    actor: '@enterprise-architect'
-    artifacts: [architecture-vision]
-    conditions:
-    - id: after_owner_rewrite
-      kind: precondition
-      type: after
-      step_id: owner-rewrite
+slug: architectural-vision
+predecessors:
+- epic-lean-business-case
+orchestrator: value-management-officier
+steps:
+- slug: ea-draft
+  capabilities:
+    deep-reasoning: 9
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: enterprise-architect
+  artifact: architecture-vision
+  conditions: []
+  instructions: step-default
+- slug: challenge-security-nfr
+  capabilities:
+    deep-reasoning: 9
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: security-expert
+  artifact: security-review
+  conditions:
+  - slug: after-ea-draft
+    kind: precondition
+    step: ea-draft
+  instructions: step-default
+- slug: challenge-operability
+  capabilities:
+    deep-reasoning: 8
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: operator
+  artifact: operability-review
+  conditions:
+  - slug: after-ea-draft
+    kind: precondition
+    step: ea-draft
+  instructions: step-default
+- slug: owner-rewrite
+  capabilities:
+    deep-reasoning: 9
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: enterprise-architect
+  artifact: architecture-vision
+  conditions:
+  - slug: after-challenge-security-nfr
+    kind: precondition
+    step: challenge-security-nfr
+  - slug: after-challenge-operability
+    kind: precondition
+    step: challenge-operability
+  instructions: step-default
+- slug: render
+  capabilities:
+    deep-reasoning: 2
+    coding: 3
+    tool-use: 5
+    long-context: 3
+    multimodal: 0
+    writing-quality: 4
+    instruction-following: 8
+    fast-iteration: 7
+    schema-adherence: 9
+  actor: enterprise-architect
+  artifact: architecture-vision
+  conditions:
+  - slug: after-owner-rewrite
+    kind: precondition
+    step: owner-rewrite
+  instructions: step-default

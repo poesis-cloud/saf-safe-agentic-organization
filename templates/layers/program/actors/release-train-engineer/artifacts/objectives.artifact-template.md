@@ -9,16 +9,16 @@ product: <product-slug>
 start_date: YYYY-MM-DD
 end_date: YYYY-MM-DD
 capacity_points: 0
-committed_features:
+committedFeatures:
   - id: F-12
     title: ...
-    planned_bv: 8
-    actual_bv: null           # filled at Inspect & Adapt
+    plannedBv: 8
+    actualBv: null           # filled at Inspect & Adapt
     status: committed          # committed | in-progress | done | blocked | cancelled
-stretch_features:
+stretchFeatures:
   - id: F-15
     title: ...
-    planned_bv: 5
+    plannedBv: 5
     status: refined            # refined | in-progress | done | blocked | cancelled
 ---
 

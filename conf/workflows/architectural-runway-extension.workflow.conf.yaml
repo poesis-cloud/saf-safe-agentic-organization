@@ -1,100 +1,98 @@
-workflow:
-  id: architectural-runway-extension
-  kind: practice
-  after: [feature-backlog-refinement]
-  facilitator: '@release-train-engineer'
-  steps:
-  - id: inventory
-    capabilities:
-      deep-reasoning: 9
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@system-architect'
-    artifacts: [adr]
-    conditions: []
-  - id: challenge-security
-    capabilities:
-      deep-reasoning: 9
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@security-expert'
-    artifacts: [security-review]
-    conditions:
-    - id: after_inventory
-      kind: precondition
-      type: after
-      step_id: inventory
-  - id: challenge-operability
-    capabilities:
-      deep-reasoning: 8
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@operator'
-    artifacts: [operability-review]
-    conditions:
-    - id: after_inventory
-      kind: precondition
-      type: after
-      step_id: inventory
-  - id: challenge-feasibility
-    capabilities:
-      deep-reasoning: 8
-      coding: 8
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@developer'
-    artifacts: [feasibility-review]
-    conditions:
-    - id: after_inventory
-      kind: precondition
-      type: after
-      step_id: inventory
-  - id: owner-rewrite
-    capabilities:
-      deep-reasoning: 9
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@system-architect'
-    artifacts: [architecture-runway]
-    conditions:
-    - id: after_challenge_security
-      kind: precondition
-      type: after
-      step_id: challenge-security
-    - id: after_challenge_operability
-      kind: precondition
-      type: after
-      step_id: challenge-operability
-    - id: after_challenge_feasibility
-      kind: precondition
-      type: after
-      step_id: challenge-feasibility
+slug: architectural-runway-extension
+predecessors:
+- feature-backlog-refinement
+orchestrator: release-train-engineer
+steps:
+- slug: inventory
+  capabilities:
+    deep-reasoning: 9
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: system-architect
+  artifact: adr
+  conditions: []
+  instructions: step-default
+- slug: challenge-security
+  capabilities:
+    deep-reasoning: 9
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: security-expert
+  artifact: security-review
+  conditions:
+  - slug: after-inventory
+    kind: precondition
+    step: inventory
+  instructions: step-default
+- slug: challenge-operability
+  capabilities:
+    deep-reasoning: 8
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: operator
+  artifact: operability-review
+  conditions:
+  - slug: after-inventory
+    kind: precondition
+    step: inventory
+  instructions: step-default
+- slug: challenge-feasibility
+  capabilities:
+    deep-reasoning: 8
+    coding: 8
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: developer
+  artifact: feasibility-review
+  conditions:
+  - slug: after-inventory
+    kind: precondition
+    step: inventory
+  instructions: step-default
+- slug: owner-rewrite
+  capabilities:
+    deep-reasoning: 9
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: system-architect
+  artifact: architecture-runway
+  conditions:
+  - slug: after-challenge-security
+    kind: precondition
+    step: challenge-security
+  - slug: after-challenge-operability
+    kind: precondition
+    step: challenge-operability
+  - slug: after-challenge-feasibility
+    kind: precondition
+    step: challenge-feasibility
+  instructions: step-default

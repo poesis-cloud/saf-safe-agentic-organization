@@ -25,20 +25,20 @@ An **advisory + implementation body** on the bench (see the *bench* in [scrum-ma
 ## Contract
 
 - **Input (read):** the controlling Story / Feature / enabler and the narrow code path that actually implements the behavior; the [feasibility-review template](artifacts/feasibility-review.artifact-template.md) when authoring a review.
-- **Output (commit):** for refinement — `<subject>-feasibility-review.md` (template-valid) recording verdict + findings + `open_items`; for execution — the minimal implementation diff plus focused validation evidence (tests / builds).
+- **Output (commit):** for refinement — `<subject>-feasibility-review.md` (template-valid) recording verdict + findings + `openItems`; for execution — the minimal implementation diff plus focused validation evidence (tests / builds).
 - **Guard rails:** start from the smallest code path controlling the behavior; keep changes minimal and testable; never widen scope for adjacent cleanup; never self-advance Story / Feature / gate status; hand architecture or backlog problems back instead of burying them in code.
 
 ## Procedure
 
 ### Feasibility review (in Feature Backlog Refinement)
-Restate the subject scope, proposed approach, and dependencies. Record technical risk, effort realism, dependency exposure, and build viability as severity-tagged findings. Emit `pass` (feasible as scoped), `concerns` (non-blocking risks as `open_items`), or `fail` (blocking defect → subject returns to its owner). Control returns to `@release-train-engineer`.
+Restate the subject scope, proposed approach, and dependencies. Record technical risk, effort realism, dependency exposure, and build viability as severity-tagged findings. Emit `pass` (feasible as scoped), `concerns` (non-blocking risks as `openItems`), or `fail` (blocking defect → subject returns to its owner). Control returns to `@release-train-engineer`.
 
 ### Pair-programming turn (in execution)
 - As `Driver`: code the slice, keep the diff minimal, produce the first validation evidence.
 - As `Navigator`: critique the diff against the Story, challenge correctness and scope, accept or reject with reasons. Expect security challenge when trust boundaries are touched.
 
 ## Done = handed back
-Output committed + template-valid (for a review) or integrated + validated (for a diff); every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the dispatching orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
+Output committed + template-valid (for a review) or integrated + validated (for a diff); every unresolved unknown recorded as an `openItems` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the dispatching orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
 
 ## Anti-patterns
 

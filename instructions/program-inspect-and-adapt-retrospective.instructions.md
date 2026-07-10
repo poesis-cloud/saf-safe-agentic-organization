@@ -18,12 +18,12 @@ Run the PI problem-solving workshop. This step updates pain-point artifacts but 
    - Cluster related pain points.
    - Apply five-whys / fishbone analysis.
    - Decide resolution: `workflow-improvement`, `product-improvement`, `accepted`, or `duplicate`.
-3. **Update pain points** — set `root_cause`, `resolution`, `target_artifact`, and `status` on each reviewed pain point.
+3. **Update pain points** — set `rootCause`, `resolution`, `targetArtifact`, and `status` on each reviewed pain point.
 4. **Triage** — for each pain point, record:
    - `workflow-improvement` → target meta-artifact (`layers/...`, `instructions/...`, `conf/...`) and owning actor.
    - `product-improvement` → derived backlog item type, owning actor, and location.
 5. **Prepare derived backlog items** — for each `product-improvement` pain point, set:
-   - `derived_features` or `derived_stories` placeholders
+   - `derivedFeatures` or `derivedStories` placeholders
    - Type: `feature`, `story`, `feature-enabler`, or `story-enabler`
    - Owning actor: `@product-manager` (Features), `@product-owner` (Stories), or `@system-architect` (enablers)
    - Proposed title and rationale in the pain point body

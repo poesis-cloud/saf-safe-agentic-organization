@@ -16,41 +16,41 @@ title: <Epic title — a large outcome spanning products/capabilities>
 status: funnel            # funnel | reviewing | analyzing | portfolio-backlog | implementing | done | blocked
 type: business
 strategic_theme: <theme-id or name>   # see strategic-themes.artifact-template.md
-business_owner: central-supervisor    # the BO-hat approver (you)
-enterprise_architect: central-supervisor  # the EA-hat owner of the runway (you)
+businessOwner: central-supervisor    # the BO-hat approver (you)
+enterpriseArchitect: central-supervisor  # the EA-hat owner of the runway (you)
 products: []             # product slugs this Epic spans (>=1); cross-product is allowed HERE only
-work_item_relations:
-  depends_on: []         # hard prerequisite Epics that must advance/land before this Epic can realize its MVP
+workItemRelations:
+  dependsOn: []         # hard prerequisite Epics that must advance/land before this Epic can realize its MVP
   enables: []            # Epic/Feature ids this Epic intentionally makes possible or materially easier
-  related_to: []         # non-gating semantic or strategic links; never use as a hidden dependency list
+  relatedTo: []         # non-gating semantic or strategic links; never use as a hidden dependency list
   supersedes: []         # Epic ids intentionally replaced by this Epic
 wsjf:
-  user_business_value: 0
-  time_criticality: 0
-  risk_reduction: 0      # risk reduction / opportunity enablement
-  job_size: 0
+  userBusinessValue: 0
+  timeCriticality: 0
+  riskReduction: 0      # risk reduction / opportunity enablement
+  jobSize: 0
   score: 0               # (UBV + TC + RR) / JS
-mvp_features: []         # Feature ids that constitute the MVP (the pivot/persevere test)
+mvpFeatures: []         # Feature ids that constitute the MVP (the pivot/persevere test)
 risk: medium             # low | medium | critical
 complexity: complex      # simple | involved | complex
 created: YYYY-MM-DD
 approved: null           # set to YYYY-MM-DD on ★ Epic Gate (portfolio-backlog)
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Epic Gate.
 cost:                    # token cost accounting — see the cost-snapshot invariant instructions
-  tokens_in: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of THIS Epic's overhead dispatches
-  tokens_out: 0          # self: Σ outputTokens of those dispatches
-  tokens_cached: 0       # self: Σ cachedTokens (re-sent context; not in tokens_self — for billed-cost reconstruction)
-  tokens_self: 0         # tokens_in + tokens_out — the Epic's own net cost ("point")
-  tokens_rolled: 0       # tokens_self + Σ child Feature.tokens_rolled — Epic end-to-end cost
-  dispatches: 0          # number of subagent dispatches counted into tokens_self (not llm_request turns)
+  tokensIn: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of THIS Epic's overhead dispatches
+  tokensOut: 0          # self: Σ outputTokens of those dispatches
+  tokensCached: 0       # self: Σ cachedTokens (re-sent context; not in tokensSelf — for billed-cost reconstruction)
+  tokensSelf: 0         # tokensIn + tokensOut — the Epic's own net cost ("point")
+  tokensRolled: 0       # tokensSelf + Σ child Feature.tokensRolled — Epic end-to-end cost
+  dispatches: 0          # number of subagent dispatches counted into tokensSelf (not llm_request turns)
   source: estimated      # measured | estimated | mixed
   committed: null        # YYYY-MM-DD the one-time snapshot was written (terminal status; immutable after)
 github:                  # filled by portfolio/_sync (Portfolio Project); null when authoring
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # E-1 — <title>
@@ -93,11 +93,11 @@ Use one row per product seed in this form:
 |---|---|---|
 | <slug> | <one-line Feature intent> | ... |
 
-Each seed becomes a product-scoped Feature (`parent_epic: E-1`). Cross-product work is
+Each seed becomes a product-scoped Feature (`parentEpic: E-1`). Cross-product work is
 expressed as one Feature per product linked to this Epic — never a single cross-product Feature.
 
 ## MVP & pivot/persevere
-The smallest Feature set (`mvp_features`) that validates the hypothesis. After the MVP,
+The smallest Feature set (`mvpFeatures`) that validates the hypothesis. After the MVP,
 the Business Owner decides pivot / persevere / stop at ★ Epic Gate review or Inspect & Adapt.
 
 ### Syntax
@@ -112,11 +112,11 @@ Other Epics, external systems, regulations.
 
 Use only relation types that change planning or governance behavior.
 
-- `depends_on` — hard prerequisite relation. Use when this Epic cannot reach its MVP or expected
+- `dependsOn` — hard prerequisite relation. Use when this Epic cannot reach its MVP or expected
   outcome before the referenced Epic delivers a named capability, decision, or compliance outcome.
 - `enables` — capability-unblocking relation. Use when this Epic creates runway or reusable product
   capability that another Epic or Feature is expected to consume.
-- `related_to` — non-gating semantic relation. Use for overlap, shared outcome area, or adjacency
+- `relatedTo` — non-gating semantic relation. Use for overlap, shared outcome area, or adjacency
   that should be visible but must not gate ordering.
 - `supersedes` — replacement relation. Use when this Epic intentionally obsoletes an earlier Epic's
   intent or delivery path.
@@ -124,14 +124,14 @@ Use only relation types that change planning or governance behavior.
 Best-practice rules:
 
 - Prefer the narrowest true relation: if the link is hierarchy, use `products[]` + child Features,
-  not `related_to`; if it is a prerequisite, use `depends_on`, not `related_to`.
+  not `relatedTo`; if it is a prerequisite, use `dependsOn`, not `relatedTo`.
 - Keep each link specific and justified in prose here or in the affected section above.
 - Avoid reciprocal bookkeeping unless it adds human clarity; one authoritative side is enough.
 - Do not model external systems, repos, or ADRs as work-item relations here; capture those in the
   normal dependency/constraint prose.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../value-management-officier/value-management-officier.skill.md#open-item-ledger)) — this Epic's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be
@@ -170,7 +170,7 @@ Orthogonal flag: `blocked`.
 ## Identity / linkage
 
 - An Epic's id `E-N` is portfolio-unique (not per product).
-- A Feature points up via `parent_epic: E-N` (optional — a Feature may exist without an Epic).
+- A Feature points up via `parentEpic: E-N` (optional — a Feature may exist without an Epic).
 - The Epic lists its products in `products[]`; child Features remain product-scoped.
-- `work_item_relations` carries only typed links to other backlog units; use it for planning-governed
+- `workItemRelations` carries only typed links to other backlog units; use it for planning-governed
   relationships, not for general documentation cross-references.

@@ -20,6 +20,6 @@ Use the ART (and team, for team-level items) identified in the pain point or by 
 ## Required back-links
 
 - Link the new artifact to the source pain point (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
-- Update the pain point's `derived_features` or `derived_stories` list with the new artifact id.
+- Update the pain point's `derivedFeatures` or `derivedStories` list with the new artifact id.
 
 Do not change the pain point's `status` — that is owned by `@release-train-engineer`.

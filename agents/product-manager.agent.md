@@ -1,7 +1,7 @@
 ---
 name: product-manager
 user-invocable: false
-description: '**SAFe AUTHOR SKILL — PM hat.** The Product-Manager authoring procedure loaded by the SE agent that `@release-train-engineer` dispatches to execute a business-Feature transition handler. USE FOR: deriving business Features from an approved Epic (`Feature ∅→funnel`); refining a business Feature to acceptance criteria + WSJF + the `structurant` flag (`funnel→refined`); setting `parent_epic`. DO NOT USE FOR: enabler Features (use `system-architect`); deciding any ★ gate (Central Supervisor); authoring Epics (use `business-owner`) or Stories (use `product-owner`); ADRs (use `system-architect`). Loaded explicitly by dispatch prompt: `Acting as PM — load skills/product-manager, execute handler "<Feature@state>"`.'
+description: '**SAFe AUTHOR SKILL — PM hat.** The Product-Manager authoring procedure loaded by the SE agent that `@release-train-engineer` dispatches to execute a business-Feature transition handler. USE FOR: deriving business Features from an approved Epic (`Feature ∅→funnel`); refining a business Feature to acceptance criteria + WSJF + the `structurant` flag (`funnel→refined`); setting `parentEpic`. DO NOT USE FOR: enabler Features (use `system-architect`); deciding any ★ gate (Central Supervisor); authoring Epics (use `business-owner`) or Stories (use `product-owner`); ADRs (use `system-architect`). Loaded explicitly by dispatch prompt: `Acting as PM — load skills/product-manager, execute handler "<Feature@state>"`.'
 ---
 
 # SAFe Author — Product Manager (PM hat)
@@ -11,8 +11,8 @@ The **body** of the business-Feature authoring handlers in the program/ART flow 
 ## Contract
 
 - **Input (read from the blackboard):** the approved Epic `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` (`status: portfolio-backlog`+) *or* a standalone-Feature mandate; the target product's `products/<product-slug>/product-manifest.yaml`; the business Feature template.
-- **Output (commit to the blackboard):** `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md`, conforming to the business Feature template, with `product:`, `parent_epic:` (or `null` + rationale), `status:`, `risk` + `complexity`, and the WSJF block.
-- **Guard rails:** never flip a ★ gate; never author enabler Features, Epics, Stories, or ADRs; one Feature per product (cross-product ⇒ split + `depends_on:`); commit input is read-before, output is commit-after.
+- **Output (commit to the blackboard):** `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md`, conforming to the business Feature template, with `product:`, `parentEpic:` (or `null` + rationale), `status:`, `risk` + `complexity`, and the WSJF block.
+- **Guard rails:** never flip a ★ gate; never author enabler Features, Epics, Stories, or ADRs; one Feature per product (cross-product ⇒ split + `dependsOn:`); commit input is read-before, output is commit-after.
 - **Review-packet duty:** when `@release-train-engineer` returns participant or Central-Supervisor review comments on a PM-owned Feature, this skill must perform the substantive rewrite itself. Treat the packet as challenge input to be re-synthesized into the Feature artifact; do not assume the orchestrator may patch the Feature for you.
 
 ## Handler entry table (input-keyed)
@@ -21,15 +21,15 @@ The orchestrator names the handler; pick the row by *the requested transition*:
 
 | Handler (requested) | Input | Procedure → Output |
 |---|---|---|
-| `Feature ∅→funnel` (**derive**) | Epic in `portfolio-backlog` | one Feature per coherent slice of the Epic; `parent_epic: E-N`; status `funnel`; provisional `risk`/`complexity` → §Derive |
+| `Feature ∅→funnel` (**derive**) | Epic in `portfolio-backlog` | one Feature per coherent slice of the Epic; `parentEpic: E-N`; status `funnel`; provisional `risk`/`complexity` → §Derive |
 | `Feature funnel→refined` (**refine**) | a `funnel` Feature | add acceptance criteria, WSJF, `structurant` → §Refine |
 
 ### Derive (`∅→funnel`)
 
 1. Read the Epic hypothesis + EA Feature seeds; slice only the **business-delivering increments** into Features.
 2. If a requested slice is runway, infrastructure, compliance, or exploration work, do not author it here; hand it back as architect-owned enabler work for `system-architect`.
-3. For each business slice: create `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` from the business Feature template; set `product:`, `parent_epic: E-N`, `status: funnel`, and provisional `risk`/`complexity`.
-4. Reject scope that spans two products — emit one Feature per product linked by `depends_on:`.
+3. For each business slice: create `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` from the business Feature template; set `product:`, `parentEpic: E-N`, `status: funnel`, and provisional `risk`/`complexity`.
+4. Reject scope that spans two products — emit one Feature per product linked by `dependsOn:`.
 5. Commit. Control returns to `@release-train-engineer` (it notifies `@value-management-officier` to flip the Epic `→implementing`).
 
 ### Refine (`funnel→refined`)
@@ -73,4 +73,4 @@ The orchestrator names the handler; pick the row by *the requested transition*:
 
 ## Done = handed back
 
-Output committed + template-valid + AC testable + WSJF components present + `structurant` decided. Record any unresolved unknown as an `open_items` entry (`kind: clarification`) per the [open-item ledger](../release-train-engineer/release-train-engineer.skill.md#open-item-ledger) — blocking ones routed to `@release-train-engineer` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; if it is workflow friction, append a pain point to the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`) — do not invent scope.
+Output committed + template-valid + AC testable + WSJF components present + `structurant` decided. Record any unresolved unknown as an `openItems` entry (`kind: clarification`) per the [open-item ledger](../release-train-engineer/release-train-engineer.skill.md#open-item-ledger) — blocking ones routed to `@release-train-engineer` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; if it is workflow friction, append a pain point to the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`) — do not invent scope.

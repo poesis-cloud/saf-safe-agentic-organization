@@ -1,246 +1,250 @@
 # Workspace structure map.
 #
-# This file is a structural blueprint for the workspace. It lists the artifact
-# paths, schemas, and templates that the harness recognizes. Every node below is
-# implicitly a node of the workspace; no explicit root or folder hierarchy is
-# required. Children are nested under their parent node so tools can traverse
-# containment without parsing path strings.
+# This file is a structural blueprint for the workspace: a recursive tree of
+# `artifact` nodes (a file bound to an artifact schema + template, required
+# cardinality) and `folder` nodes (a container of `children`, no schema/
+# template/required cardinality of its own). Every node's `slug` is its OWN
+# path segment only — the full workspace-relative path is deduced by
+# concatenating ancestor slugs top-down; a `slug` may embed one or more
+# `<name>` variable placeholders (e.g. `<epic-slug>`, or `<epic-slug>.epic.md`
+# mixing a variable with literal text) shared consistently across a node and
+# its descendants.
 
 nodes:
-  - path: portfolio
+  - slug: portfolio
     description: Workspace root folder.
     cardinality: "1"
     children:
-      - path: portfolio-manifest.yaml
+      - slug: portfolio-manifest.yaml
         description: Portfolio manifest and ART/product registry.
-        schema: portfolio-manifest.artifact.schema.json
-        template: templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md
+        artifact: portfolio-manifest
+        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-manifest
         cardinality: "1"
 
-      - path: strategic-themes.md
+      - slug: strategic-themes.md
         description: Portfolio-level strategic themes.
-        schema: strategic-themes.artifact.schema.json
-        template: templates/layers/portfolio/actors/business-owner/artifacts/strategic-themes.artifact-template.md
+        artifact: strategic-themes
+        template: layers/portfolio/actors/business-owner/artifacts/strategic-themes
         cardinality: "1"
 
-      - path: portfolio-vision.md
+      - slug: portfolio-vision.md
         description: Portfolio vision.
-        schema: portfolio-vision.artifact.schema.json
-        template: templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-vision.artifact-template.md
+        artifact: portfolio-vision
+        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-vision
         cardinality: "1"
 
-      - path: portfolio-roadmap.md
+      - slug: portfolio-roadmap.md
         description: Portfolio roadmap.
-        schema: portfolio-roadmap.artifact.schema.json
-        template: templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-roadmap.artifact-template.md
+        artifact: portfolio-roadmap
+        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-roadmap
         cardinality: "1"
 
-      - path: portfolio-backlog
+      - slug: portfolio-backlog
         description: Portfolio-scoped epics backlog.
         cardinality: "1"
         children:
-          - path: portfolio-backlog/<epic-slug>
+          - slug: <epic-slug>
             description: Epic folder.
             cardinality: "1..*"
             children:
-              - path: portfolio-backlog/<epic-slug>/<epic-slug>.epic.md
+              - slug: <epic-slug>.epic.md
                 description: Portfolio-scoped epic.
-                schema: epic.artifact.schema.json
-                template: templates/layers/portfolio/actors/business-owner/artifacts/epic.artifact-template.md
+                artifact: epic
+                template: layers/portfolio/actors/business-owner/artifacts/epic
                 cardinality: "1"
-              - path: portfolio-backlog/<epic-slug>/<epic-slug>.epic-enabler.md
+              - slug: <epic-slug>.epic-enabler.md
                 description: Portfolio-scoped enabler epic.
-                schema: epic-enabler.artifact.schema.json
-                template: templates/layers/portfolio/actors/enterprise-architect/artifacts/epic-enabler.artifact-template.md
+                artifact: epic-enabler
+                template: layers/portfolio/actors/enterprise-architect/artifacts/epic-enabler
                 cardinality: "1"
-              - path: portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md
+              - slug: <epic-slug>.lean-business-case.md
                 description: Lean business case for the epic.
-                schema: lean-business-case.artifact.schema.json
-                template: templates/layers/portfolio/actors/business-owner/artifacts/lean-business-case.artifact-template.md
+                artifact: lean-business-case
+                template: layers/portfolio/actors/business-owner/artifacts/lean-business-case
                 cardinality: "1"
 
-      - path: art
+      - slug: art
         description: Agile Release Train (ART) workspace (one folder per ART slug).
         cardinality: "1..*"
         children:
-          - path: art/<art-slug>
+          - slug: <art-slug>
             description: ART folder.
             cardinality: "1..*"
             children:
-              - path: art/<art-slug>/art-manifest.yaml
+              - slug: art-manifest.yaml
                 description: ART manifest and registry entry.
-                schema: art-manifest.artifact.schema.json
-                template: templates/layers/program/actors/release-train-engineer/artifacts/art-manifest.artifact-template.md
+                artifact: art-manifest
+                template: layers/program/actors/release-train-engineer/artifacts/art-manifest
                 cardinality: "1"
 
-              - path: art/<art-slug>/improvement-backlog
+              - slug: improvement-backlog
                 description: ART-scoped continuous improvement backlog.
                 cardinality: "1"
                 children:
-                  - path: art/<art-slug>/improvement-backlog/<pain-point-slug>
+                  - slug: <pain-point-slug>
                     description: Pain point folder.
                     cardinality: "1..*"
                     children:
-                      - path: art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md
+                      - slug: <pain-point-slug>.pain-point.md
                         description: Improvement pain point.
-                        schema: pain-point.artifact.schema.json
-                        template: templates/layers/program/actors/release-train-engineer/artifacts/pain-point.artifact-template.md
+                        artifact: pain-point
+                        template: layers/program/actors/release-train-engineer/artifacts/pain-point
                         cardinality: "1"
 
-              - path: art/<art-slug>/program-backlog
+              - slug: program-backlog
                 description: ART-scoped program backlog.
                 cardinality: "1"
                 children:
-                  - path: art/<art-slug>/program-backlog/<feature-slug>
+                  - slug: <feature-slug>
                     description: Feature folder.
                     cardinality: "1..*"
                     children:
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md
+                      - slug: <feature-slug>.feature.md
                         description: Program-scoped feature.
-                        schema: feature.artifact.schema.json
-                        template: templates/layers/program/actors/product-manager/artifacts/feature.artifact-template.md
+                        artifact: feature
+                        template: layers/program/actors/product-manager/artifacts/feature
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature-enabler.md
+                      - slug: <feature-slug>.feature-enabler.md
                         description: Program-scoped enabler feature.
-                        schema: feature-enabler.artifact.schema.json
-                        template: templates/layers/program/actors/system-architect/artifacts/feature-enabler.artifact-template.md
+                        artifact: feature-enabler
+                        template: layers/program/actors/system-architect/artifacts/feature-enabler
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<adr-slug>.adr.md
+                      - slug: <adr-slug>.adr.md
                         description: Architecture decision records.
-                        schema: adr.artifact.schema.json
-                        template: templates/layers/program/actors/system-architect/artifacts/adr.artifact-template.md
+                        artifact: adr
+                        template: layers/program/actors/system-architect/artifacts/adr
                         cardinality: "0..*"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.nfr-list.md
+                      - slug: <feature-slug>.nfr-list.md
                         description: Non-functional requirements list.
-                        schema: nfr-list.artifact.schema.json
-                        template: templates/layers/program/actors/system-architect/artifacts/nfr-list.artifact-template.md
+                        artifact: nfr-list
+                        template: layers/program/actors/system-architect/artifacts/nfr-list
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.architecture-review.md
+                      - slug: <feature-slug>.architecture-review.md
                         description: Architecture review.
-                        schema: architecture-review.artifact.schema.json
-                        template: templates/layers/program/actors/system-architect/artifacts/architecture-review.artifact-template.md
+                        artifact: architecture-review
+                        template: layers/program/actors/system-architect/artifacts/architecture-review
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feasibility-review.md
+                      - slug: <feature-slug>.feasibility-review.md
                         description: Feasibility review.
-                        schema: feasibility-review.artifact.schema.json
-                        template: templates/layers/team/actors/developer/artifacts/feasibility-review.artifact-template.md
+                        artifact: feasibility-review
+                        template: layers/team/actors/developer/artifacts/feasibility-review
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.operability-review.md
+                      - slug: <feature-slug>.operability-review.md
                         description: Operability review.
-                        schema: operability-review.artifact.schema.json
-                        template: templates/layers/team/actors/operator/artifacts/operability-review.artifact-template.md
+                        artifact: operability-review
+                        template: layers/team/actors/operator/artifacts/operability-review
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.security-review.md
+                      - slug: <feature-slug>.security-review.md
                         description: Security review.
-                        schema: security-review.artifact.schema.json
-                        template: templates/layers/team/actors/security-expert/artifacts/security-review.artifact-template.md
+                        artifact: security-review
+                        template: layers/team/actors/security-expert/artifacts/security-review
                         cardinality: "1"
-                      - path: art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.ux-review.md
+                      - slug: <feature-slug>.ux-review.md
                         description: UX review.
-                        schema: ux-review.artifact.schema.json
-                        template: templates/layers/team/actors/ux-designer/artifacts/ux-review.artifact-template.md
+                        artifact: ux-review
+                        template: layers/team/actors/ux-designer/artifacts/ux-review
                         cardinality: "1"
 
-              - path: art/<art-slug>/teams
+              - slug: teams
                 description: Teams belonging to the ART.
                 cardinality: "1"
                 children:
-                  - path: art/<art-slug>/teams/<team-slug>
+                  - slug: <team-slug>
                     description: Team folder.
                     cardinality: "1..*"
                     children:
-                      - path: art/<art-slug>/teams/<team-slug>/team-manifest.yaml
+                      - slug: team-manifest.yaml
                         description: Team manifest and registry entry.
-                        schema: team-manifest.artifact.schema.json
-                        template: templates/layers/team/actors/scrum-master/artifacts/team-manifest.artifact-template.md
+                        artifact: team-manifest
+                        template: layers/team/actors/scrum-master/artifacts/team-manifest
                         cardinality: "1"
 
-                      - path: art/<art-slug>/teams/<team-slug>/team-backlog
+                      - slug: team-backlog
                         description: Team-scoped backlog.
                         cardinality: "1"
                         children:
-                          - path: art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>
+                          - slug: <story-slug>
                             description: Story folder.
                             cardinality: "1..*"
                             children:
-                              - path: art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md
+                              - slug: <story-slug>.story.md
                                 description: Team-scoped story.
-                                schema: story.artifact.schema.json
-                                template: templates/layers/team/actors/product-owner/artifacts/story.artifact-template.md
+                                artifact: story
+                                template: layers/team/actors/product-owner/artifacts/story
                                 cardinality: "1"
-                              - path: art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story-enabler.md
+                              - slug: <story-slug>.story-enabler.md
                                 description: Team-scoped enabler story.
-                                schema: story-enabler.artifact.schema.json
-                                template: templates/layers/program/actors/system-architect/artifacts/story-enabler.artifact-template.md
+                                artifact: story-enabler
+                                template: layers/program/actors/system-architect/artifacts/story-enabler
                                 cardinality: "1"
-                              - path: art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.qa-signoff.md
+                              - slug: <story-slug>.qa-signoff.md
                                 description: QA signoff.
-                                schema: qa-signoff.artifact.schema.json
-                                template: templates/layers/team/actors/quality-engineer/artifacts/qa-signoff.artifact-template.md
+                                artifact: qa-signoff
+                                template: layers/team/actors/quality-engineer/artifacts/qa-signoff
                                 cardinality: "1"
 
-              - path: art/<art-slug>/pi-<pi-slug>
+              - slug: pi-<pi-slug>
                 description: PI folder.
                 cardinality: "1..*"
                 children:
-                  - path: art/<art-slug>/pi-<pi-slug>/objectives.md
+                  - slug: objectives.md
                     description: PI objectives.
-                    schema: objectives.artifact.schema.json
-                    template: templates/layers/program/actors/release-train-engineer/artifacts/objectives.artifact-template.md
+                    artifact: objectives
+                    template: layers/program/actors/release-train-engineer/artifacts/objectives
                     cardinality: "1"
-                  - path: art/<art-slug>/pi-<pi-slug>/risks.md
+                  - slug: risks.md
                     description: PI risks.
-                    schema: risks.artifact.schema.json
-                    template: templates/layers/program/actors/release-train-engineer/artifacts/risks.artifact-template.md
+                    artifact: risks
+                    template: layers/program/actors/release-train-engineer/artifacts/risks
                     cardinality: "1"
-                  - path: art/<art-slug>/pi-<pi-slug>/iterations
+                  - slug: iterations
                     description: PI iterations.
                     cardinality: "1"
                     children:
-                      - path: art/<art-slug>/pi-<pi-slug>/iterations/<iteration-slug>
+                      - slug: <iteration-slug>
                         description: Iteration folder.
                         cardinality: "1..*"
                         children:
-                          - path: art/<art-slug>/pi-<pi-slug>/iterations/<iteration-slug>/plan.md
+                          - slug: plan.md
                             description: Iteration plan (includes Progress and Done sections directly; there is no separate progress artifact).
-                            schema: plan.artifact.schema.json
-                            template: templates/layers/team/actors/scrum-master/artifacts/plan.artifact-template.md
+                            artifact: plan
+                            template: layers/team/actors/scrum-master/artifacts/plan
                             cardinality: "1"
 
-      - path: products
+      - slug: products
         description: Product definitions (not backlogs).
         cardinality: "1"
         children:
-          - path: products/<product-slug>
+          - slug: <product-slug>
             description: Product folder (one per product slug).
             cardinality: "1..*"
             children:
-              - path: products/<product-slug>/product-manifest.yaml
+              - slug: product-manifest.yaml
                 description: Product manifest and registry entry.
-                schema: product-manifest.artifact.schema.json
-                template: templates/layers/portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md
+                artifact: product-manifest
+                template: layers/portfolio/actors/value-management-officier/artifacts/product-manifest
                 cardinality: "1"
 
-              - path: products/<product-slug>/product-vision.md
+              - slug: product-vision.md
                 description: Product vision.
-                schema: product-vision.artifact.schema.json
-                template: templates/layers/program/actors/product-manager/artifacts/product-vision.artifact-template.md
+                artifact: product-vision
+                template: layers/program/actors/product-manager/artifacts/product-vision
                 cardinality: "1"
 
-              - path: products/<product-slug>/product-roadmap.md
+              - slug: product-roadmap.md
                 description: Product roadmap.
-                schema: product-roadmap.artifact.schema.json
-                template: templates/layers/program/actors/product-manager/artifacts/product-roadmap.artifact-template.md
+                artifact: product-roadmap
+                template: layers/program/actors/product-manager/artifacts/product-roadmap
                 cardinality: "1"
 
-              - path: products/<product-slug>/architecture-vision.md
+              - slug: architecture-vision.md
                 description: Architecture vision.
-                schema: architecture-vision.artifact.schema.json
-                template: templates/layers/portfolio/actors/enterprise-architect/artifacts/architecture-vision.artifact-template.md
+                artifact: architecture-vision
+                template: layers/portfolio/actors/enterprise-architect/artifacts/architecture-vision
                 cardinality: "1"
 
-              - path: products/<product-slug>/architecture-runway.md
+              - slug: architecture-runway.md
                 description: Architecture runway.
-                schema: architecture-runway.artifact.schema.json
-                template: templates/layers/program/actors/system-architect/artifacts/architecture-runway.artifact-template.md
+                artifact: architecture-runway
+                template: layers/program/actors/system-architect/artifacts/architecture-runway
                 cardinality: "1"

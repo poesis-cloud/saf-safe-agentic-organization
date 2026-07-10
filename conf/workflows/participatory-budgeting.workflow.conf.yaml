@@ -1,53 +1,52 @@
-workflow:
-  id: participatory-budgeting
-  kind: ceremony
-  facilitator: '@value-management-officier'
-  steps:
-  - id: arguments-split
-    capabilities:
-      deep-reasoning: 9
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@enterprise-architect'
-    artifacts: [architecture-review]
-  - id: arguments-guardrails
-    capabilities:
-      deep-reasoning: 9
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@security-expert'
-    artifacts: [security-review]
-  - id: commit
-    capabilities:
-      deep-reasoning: 2
-      coding: 3
-      tool-use: 8
-      long-context: 2
-      multimodal: 0
-      writing-quality: 1
-      instruction-following: 9
-      fast-iteration: 8
-      schema-adherence: 8
-    actor: central-supervisor (Business-Owner hat)
-    artifacts: [budget-allocation]
-    conditions:
-    - id: after_arguments_split
-      kind: precondition
-      type: after
-      step_id: arguments-split
-    - id: after_arguments_guardrails
-      kind: precondition
-      type: after
-      step_id: arguments-guardrails
+slug: participatory-budgeting
+orchestrator: value-management-officier
+steps:
+- slug: arguments-split
+  capabilities:
+    deep-reasoning: 9
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: enterprise-architect
+  artifact: architecture-review
+  instructions: step-default
+- slug: arguments-guardrails
+  capabilities:
+    deep-reasoning: 9
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: security-expert
+  artifact: security-review
+  instructions: step-default
+- slug: commit
+  capabilities:
+    deep-reasoning: 2
+    coding: 3
+    tool-use: 8
+    long-context: 2
+    multimodal: 0
+    writing-quality: 1
+    instruction-following: 9
+    fast-iteration: 8
+    schema-adherence: 8
+  actor: business-owner
+  artifact: budget-allocation
+  conditions:
+  - slug: after-arguments-split
+    kind: precondition
+    step: arguments-split
+  - slug: after-arguments-guardrails
+    kind: precondition
+    step: arguments-guardrails
+  instructions: step-default

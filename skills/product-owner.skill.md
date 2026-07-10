@@ -25,7 +25,7 @@ The **body** of the business-Story derivation handler in the iteration flow (see
 ## Contract
 
 - **Input (read):** the parent Feature `features/F-N-*.md` (`status: committed`/`in-progress`); `products/<product-slug>/product-manifest.yaml` (for `repos[]`); the business Story template.
-- **Output (commit):** `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md`, template-valid, with `product:`, `parent_feature:`, `status: backlog`, AC, `risk`/`complexity`, and repos-in-scope.
+- **Output (commit):** `art/<art-slug>/teams/<team-slug>/team-backlog/<story-slug>/<story-slug>.story.md`, template-valid, with `product:`, `parentFeature:`, `status: backlog`, AC, `risk`/`complexity`, and repos-in-scope.
 - **Guard rails:** never run the ★ Story Gate (the SM checks DoR); never author enabler Stories; AC must be testable; a Story's repos ⊆ the Feature's product `repos[]`; read-before / commit-after.
 
 ## Handler entry table (input-keyed)
@@ -36,10 +36,10 @@ The **body** of the business-Story derivation handler in the iteration flow (see
 | *(in Story Backlog Refinement)* groom | upcoming `backlog` Stories | DoR-prepped Stories → §Groom |
 
 ### Derive (`∅→backlog`)
-Slice the Feature into **thin vertical business Stories** (each independently demonstrable). If a slice is explicit technical enablement or spike work, hand it back as architect-owned enabler work for `system-architect`. For each business Story: create `S-N.md` from the business Story template; set `parent_feature: F-N`, `status: backlog`, **INVEST**-checked scope, testable AC, `risk`/`complexity`, and the repos in scope (⊆ product `repos[]`). Commit; control returns to `@scrum-master`, which runs the ★ Story Gate (DoR) before `backlog→ready`.
+Slice the Feature into **thin vertical business Stories** (each independently demonstrable). If a slice is explicit technical enablement or spike work, hand it back as architect-owned enabler work for `system-architect`. For each business Story: create `S-N.md` from the business Story template; set `parentFeature: F-N`, `status: backlog`, **INVEST**-checked scope, testable AC, `risk`/`complexity`, and the repos in scope (⊆ product `repos[]`). Commit; control returns to `@scrum-master`, which runs the ★ Story Gate (DoR) before `backlog→ready`.
 
 ### Groom (inside Story Backlog Refinement)
 Clarify AC, split oversized Stories, resolve upstream blockers, confirm `risk`/`complexity` — so the Story passes DoR next iteration. Stories stay `backlog`; `story-backlog-refinement` drives the ceremony.
 
 ## Done = handed back
-Output committed + template-valid + AC testable + repos in scope + DoR-ready. Record unresolved unknowns as `open_items` entries (`kind: clarification`) per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) — blocking ones routed to `@scrum-master` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the sprint retro (§2b) → ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
+Output committed + template-valid + AC testable + repos in scope + DoR-ready. Record unresolved unknowns as `openItems` entries (`kind: clarification`) per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) — blocking ones routed to `@scrum-master` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the sprint retro (§2b) → ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).

@@ -25,7 +25,7 @@ An **advisory body** on the bench (see the *bench* in [scrum-master orchestratio
 ## Contract
 
 - **Input (read):** the feature request or Story, nearby product docs, mockups, design-system assets, and existing flows; the [ux-review template](artifacts/ux-review.artifact-template.md).
-- **Output (commit):** `<subject>-ux-review.md` (template-valid) recording UX findings tied to specific flows or screens, journey / affordance clarifications, and accessibility concerns, with verdict + `open_items`.
+- **Output (commit):** `<subject>-ux-review.md` (template-valid) recording UX findings tied to specific flows or screens, journey / affordance clarifications, and accessibility concerns, with verdict + `openItems`.
 - **Guard rails:** user goal first, interface second; ground recommendations in the current artifact and user-facing behavior; separate real usability risk from visual taste; when the artifact is not user-facing, say so and do not force UX work onto the slice; route findings that materially alter a backlog artifact back to its owning author.
 
 ## Procedure
@@ -34,4 +34,4 @@ An **advisory body** on the bench (see the *bench* in [scrum-master orchestratio
 Identify the user, role, context, and accessibility needs implied by the artifact and the real job behind the requested feature. Ask what the user must know at each step, what could confuse or block them, what happens when the happy path fails, and whether the hierarchy and interaction model are learnable and accessible. Record findings with severity; emit `pass` / `concerns` / `fail`. Control returns to the dispatching orchestrator (`@release-train-engineer` at program layer, `@scrum-master` in execution).
 
 ## Done = handed back
-Output committed + template-valid; every unresolved unknown recorded as an `open_items` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the owning orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
+Output committed + template-valid; every unresolved unknown recorded as an `openItems` entry per the [open-item ledger](../scrum-master/scrum-master.skill.md#open-item-ledger) and routed to the owning orchestrator; workflow friction captured in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).

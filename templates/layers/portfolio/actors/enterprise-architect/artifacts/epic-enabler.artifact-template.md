@@ -10,43 +10,43 @@ id: E-1
 title: <Enabler Epic title>
 status: funnel            # funnel | reviewing | analyzing | portfolio-backlog | implementing | done | blocked
 type: enabler
-enabler_type: architectural   # architectural | infrastructure | compliance
+enablerType: architectural   # architectural | infrastructure | compliance
 strategic_theme: <theme-id or name>
-business_owner: central-supervisor
-enterprise_architect: central-supervisor
+businessOwner: central-supervisor
+enterpriseArchitect: central-supervisor
 products: []
-work_item_relations:
-  depends_on: []         # hard prerequisite Epics that must land before this enabler is actionable
+workItemRelations:
+  dependsOn: []         # hard prerequisite Epics that must land before this enabler is actionable
   enables: []            # downstream Epic/Feature ids this enabler unblocks
-  related_to: []         # non-gating semantic or strategic adjacency
+  relatedTo: []         # non-gating semantic or strategic adjacency
   supersedes: []         # Epic ids intentionally replaced by this enabler Epic
 wsjf:
-  user_business_value: 0
-  time_criticality: 0
-  risk_reduction: 0
-  job_size: 0
+  userBusinessValue: 0
+  timeCriticality: 0
+  riskReduction: 0
+  jobSize: 0
   score: 0
-mvp_features: []
+mvpFeatures: []
 risk: medium
 complexity: complex
 created: YYYY-MM-DD
 approved: null
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Epic Gate.
 cost:
-  tokens_in: 0
-  tokens_out: 0
-  tokens_cached: 0
-  tokens_self: 0
-  tokens_rolled: 0
+  tokensIn: 0
+  tokensOut: 0
+  tokensCached: 0
+  tokensSelf: 0
+  tokensRolled: 0
   dispatches: 0
   source: estimated
   committed: null
 github:
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # E-1 — <title>
@@ -98,7 +98,7 @@ Use one row per product seed in this form:
 | <slug> | <one-line enabler Feature intent> | ... |
 
 ## MVP & pivot/persevere
-The smallest enabler Feature set (`mvp_features`) that makes the blocked delivery path viable.
+The smallest enabler Feature set (`mvpFeatures`) that makes the blocked delivery path viable.
 
 ### Syntax
 - `MVP feature set: <Feature id list or named seed list>`
@@ -112,11 +112,11 @@ Other Epics, external systems, regulations.
 
 Use only relation types that materially shape sequencing or runway intent.
 
-- `depends_on` — hard prerequisite relation. Use when this enabler Epic cannot remove its target
+- `dependsOn` — hard prerequisite relation. Use when this enabler Epic cannot remove its target
   constraint before another Epic produces a prerequisite decision or capability.
 - `enables` — primary relation for enabler Epics. Use to name the downstream Epics or Features whose
   path becomes viable because this enabler lands.
-- `related_to` — non-gating adjacency. Use for shared runway area or conceptual coupling that should
+- `relatedTo` — non-gating adjacency. Use for shared runway area or conceptual coupling that should
   remain visible but must not drive scheduling.
 - `supersedes` — replacement relation. Use when this enabler Epic intentionally retires or absorbs an
   earlier runway Epic.
@@ -125,12 +125,12 @@ Best-practice rules:
 
 - Prefer `enables` over vague prose when the value of the enabler is specifically to unblock named
   downstream work.
-- Use `depends_on` sparingly; enablers should remove blockers, not accumulate them without cause.
+- Use `dependsOn` sparingly; enablers should remove blockers, not accumulate them without cause.
 - Do not encode architecture references (ADR ids, runway files, NFR registers) as work-item links;
   keep this contract limited to backlog units.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../value-management-officier/value-management-officier.skill.md#open-item-ledger)) — this enabler Epic's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be

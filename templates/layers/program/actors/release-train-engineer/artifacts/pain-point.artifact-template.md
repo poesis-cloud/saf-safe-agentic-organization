@@ -11,12 +11,12 @@ origin: iteration            # iteration | pi | workflow | cross-product | metri
 layer: program               # portfolio | program | team
 symptom: <one-sentence observable friction>
 impact: <who is affected and how much>
-root_cause: null             # filled during I&A problem-solving
+rootCause: null             # filled during I&A problem-solving
 resolution: null             # workflow-improvement | product-improvement | accepted | duplicate
-target_artifact: null        # file/artifact for workflow improvements
-derived_features: []         # filled when resolution = product-improvement
-derived_stories: []          # filled when resolution = product-improvement
-related_pain_points: []
+targetArtifact: null        # file/artifact for workflow improvements
+derivedFeatures: []         # filled when resolution = product-improvement
+derivedStories: []          # filled when resolution = product-improvement
+relatedPainPoints: []
 owner: @release-train-engineer
 created: YYYY-MM-DD
 ---
@@ -53,5 +53,5 @@ For product improvements: links to the created Feature / Story artifacts.
 ## Lifecycle
 
 1. **Capture** — anyone may append a pain point the moment friction is observed.
-2. **Triage** — `@release-train-engineer` triages at Inspect & Adapt, setting `resolution` and `root_cause`.
+2. **Triage** — `@release-train-engineer` triages at Inspect & Adapt, setting `resolution` and `rootCause`.
 3. **Resolve or convert** — workflow improvements are implemented and marked `resolved`; product improvements spawn Features/Stories and are marked `converted`.

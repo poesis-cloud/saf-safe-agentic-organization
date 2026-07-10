@@ -9,39 +9,39 @@ id: S-101
 title: <Story title>
 status: backlog          # backlog | ready | in-progress | in-review | in-qa | awaiting-pr | done | blocked
 type: user
-parent_feature: F-12
-work_item_relations:
-  depends_on: []         # hard prerequisite Story/Feature ids for DoR or execution sequencing
+parentFeature: F-12
+workItemRelations:
+  dependsOn: []         # hard prerequisite Story/Feature ids for DoR or execution sequencing
   enables: []            # downstream Story ids or slices made possible by this Story
-  related_to: []         # non-gating adjacency within the same user journey or capability area
+  relatedTo: []         # non-gating adjacency within the same user journey or capability area
   supersedes: []         # Story ids intentionally replaced by this Story
 sprint: N
 pi: M
 adrs: []                 # ADR ids the Story depends on
 driver: @developer      # assigned at Iteration Planning
 navigator: @developer   # assigned at Iteration Planning
-pair_swaps: []           # log of HUDDLE→SWAP cycles
-estimate_points: 0
+pairSwaps: []           # log of HUDDLE→SWAP cycles
+estimatePoints: 0
 risk: medium             # low | medium | critical; set by PO before leaving backlog
 complexity: involved     # simple | involved | complex; set by PO before leaving backlog
 owner: SE-Product-Manager
 created: YYYY-MM-DD
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Story Gate (DoR).
 cost:                    # token cost accounting — see the cost-snapshot invariant instructions
-  tokens_in: 0           # NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of this Story's dispatches (dev D/N, QA, PO grooming)
-  tokens_out: 0          # Σ outputTokens of those dispatches
-  tokens_cached: 0       # Σ cachedTokens (re-sent context; not in tokens_self — for billed-cost reconstruction)
-  tokens_self: 0         # tokens_in + tokens_out — the Story's net cost (a Story is a leaf)
-  tokens_rolled: 0       # == tokens_self for a Story (no children)
-  dispatches: 0          # number of subagent dispatches counted into tokens_self (not llm_request turns)
+  tokensIn: 0           # NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of this Story's dispatches (dev D/N, QA, PO grooming)
+  tokensOut: 0          # Σ outputTokens of those dispatches
+  tokensCached: 0       # Σ cachedTokens (re-sent context; not in tokensSelf — for billed-cost reconstruction)
+  tokensSelf: 0         # tokensIn + tokensOut — the Story's net cost (a Story is a leaf)
+  tokensRolled: 0       # == tokensSelf for a Story (no children)
+  dispatches: 0          # number of subagent dispatches counted into tokensSelf (not llm_request turns)
   source: estimated      # measured | estimated | mixed
   committed: null        # YYYY-MM-DD the one-time snapshot was written (terminal status; immutable after)
 github:                  # filled by portfolio/_sync (GitHub Projects board sync); null when authoring
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # S-101 — <title>
@@ -78,24 +78,24 @@ Use exactly one sentence in this form:
 
 Use only relations that help the team decide DoR, execution order, or slice boundaries.
 
-- `depends_on` — hard prerequisite relation. Use when this Story should not pass DoR or should not
+- `dependsOn` — hard prerequisite relation. Use when this Story should not pass DoR or should not
   start execution before the referenced Story or Feature delivers a required outcome.
 - `enables` — slice-unblocking relation. Use when this Story deliberately prepares or unlocks a
   follow-on Story.
-- `related_to` — non-gating adjacency. Use for shared workflow, common screen, or semantic coupling
+- `relatedTo` — non-gating adjacency. Use for shared workflow, common screen, or semantic coupling
   that should be visible without driving scheduling.
 - `supersedes` — replacement relation. Use when this Story replaces or absorbs an older Story.
 
 Best-practice rules:
 
-- Use `parent_feature` for hierarchy, not `related_to`.
+- Use `parentFeature` for hierarchy, not `relatedTo`.
 - Prefer Story↔Story links for thin-slice sequencing inside one Feature; use Feature-level links only
   when the blocker genuinely lives above the Story.
-- A `depends_on` link should normally show up in the DoR dependency check; a `related_to` link should
+- A `dependsOn` link should normally show up in the DoR dependency check; a `relatedTo` link should
   not.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../scrum-master/scrum-master.skill.md#open-item-ledger)) — this Story's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be

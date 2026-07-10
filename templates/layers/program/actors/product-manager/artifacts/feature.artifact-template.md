@@ -1,7 +1,7 @@
 # Feature Template — `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md`
 
 Authored by `@product-manager` (PM hat). A Feature optionally rolls up to a portfolio **Epic**
-(`parent_epic: E-N`); there is **no PRD tier** — the defining intent lives in the Epic (or, for
+(`parentEpic: E-N`); there is **no PRD tier** — the defining intent lives in the Epic (or, for
 standalone engineering/operability Features, in the Feature itself). Lives at
 `art/<art-slug>/program-backlog/<feature>/`.
 
@@ -11,44 +11,44 @@ id: F-12
 title: <Feature title>
 status: funnel           # funnel | refined | arch-pending | ready | committed | in-progress | done | blocked
 type: business
-parent_epic: E-1         # portfolio Epic id, or null for a standalone Feature
-epic_rationale: "<why this Feature serves the Epic, or 'standalone: <reason>'>"
-work_item_relations:
-  depends_on: []         # hard prerequisite Feature/Epic ids for sequencing or readiness
+parentEpic: E-1         # portfolio Epic id, or null for a standalone Feature
+epicRationale: "<why this Feature serves the Epic, or 'standalone: <reason>'>"
+workItemRelations:
+  dependsOn: []         # hard prerequisite Feature/Epic ids for sequencing or readiness
   enables: []            # downstream Feature/Story ids materially unblocked by this Feature
-  related_to: []         # non-gating semantic adjacency; not a hidden prerequisite list
+  relatedTo: []         # non-gating semantic adjacency; not a hidden prerequisite list
   supersedes: []         # Feature ids intentionally replaced by this Feature
 wsjf:
-  user_business_value: 0
-  time_criticality: 0
-  risk_reduction: 0
-  job_size: 0
+  userBusinessValue: 0
+  timeCriticality: 0
+  riskReduction: 0
+  jobSize: 0
   score: 0               # (UBV + TC + RR) / JS
 structurant: false       # true ⇒ requires architecture decisions (one or more ADRs) ⇒ arch-pending
 risk: medium             # low | medium | critical; set by PM before leaving funnel
 complexity: involved     # simple | involved | complex; set by PM before leaving funnel
-architecture_inventory: null   # required when structurant=true;
+architectureInventory: null   # required when structurant=true;
                                # path to <adr-slug>.adr.md in the feature folder
 adrs: []                 # ADR ids referenced; may contain multiple decisions for one structurant Feature
 pi: M                    # set on transition to `committed`
 owner: SE-Product-Manager
 created: YYYY-MM-DD
-open_items: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
+openItems: []           # clarification + challenge ledger — see orchestrator "Open-item ledger".
                          # Each entry: { id, kind, raised_by, owner, blocking, status, … }; kind: clarification | challenge.
                          # status: open | resolved | withdrawn. A blocking+open entry HALTS the ★ Feature/Architecture Gate.
 cost:                    # token cost accounting — see the cost-snapshot invariant instructions
-  tokens_in: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of THIS Feature's overhead dispatches
-  tokens_out: 0          # self: Σ outputTokens of those dispatches
-  tokens_cached: 0       # self: Σ cachedTokens (re-sent context; not in tokens_self — for billed-cost reconstruction)
-  tokens_self: 0         # tokens_in + tokens_out — the Feature's own net cost ("point")
-  tokens_rolled: 0       # tokens_self + Σ child Story.tokens_rolled — Feature end-to-end cost
-  dispatches: 0          # number of subagent dispatches counted into tokens_self (not llm_request turns)
+  tokensIn: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) of THIS Feature's overhead dispatches
+  tokensOut: 0          # self: Σ outputTokens of those dispatches
+  tokensCached: 0       # self: Σ cachedTokens (re-sent context; not in tokensSelf — for billed-cost reconstruction)
+  tokensSelf: 0         # tokensIn + tokensOut — the Feature's own net cost ("point")
+  tokensRolled: 0       # tokensSelf + Σ child Story.tokensRolled — Feature end-to-end cost
+  dispatches: 0          # number of subagent dispatches counted into tokensSelf (not llm_request turns)
   source: estimated      # measured | estimated | mixed
   committed: null        # YYYY-MM-DD the one-time snapshot was written (terminal status; immutable after)
 github:                  # filled by portfolio/_sync (GitHub Projects board sync); null when authoring
-  issue_number: null
-  issue_node_id: null
-  project_item_id: null
+  issueNumber: null
+  issueNodeId: null
+  projectItemId: null
 ---
 
 # F-12 — <title>
@@ -63,7 +63,7 @@ What is this Feature, in one paragraph.
   - `- AC1. Given <context>, when <action>, then <observable outcome>.`
   - `- AC2. <System/work item> must <measurable rule or result>.`
 - Each criterion must be independently testable.
-- If `parent_epic` is set, each criterion must trace to the Epic's hypothesis or in-scope items.
+- If `parentEpic` is set, each criterion must trace to the Epic's hypothesis or in-scope items.
 
 - AC1. ...
 - AC2. ...
@@ -96,20 +96,20 @@ parent Epic (one Feature per product), never a single cross-product Feature.
 
 Use typed work-item relations only when they affect flow, decomposition, or governance.
 
-- `depends_on` — hard prerequisite relation. Use when this Feature should not be treated as ready or
+- `dependsOn` — hard prerequisite relation. Use when this Feature should not be treated as ready or
   independently executable before the referenced Epic/Feature has produced a required outcome.
 - `enables` — capability-unblocking relation. Use when this Feature intentionally opens a downstream
   Feature or Story path, especially for platform or foundation work.
-- `related_to` — non-gating adjacency. Use for semantic overlap, shared user journey, or common
+- `relatedTo` — non-gating adjacency. Use for semantic overlap, shared user journey, or common
   outcome area that should remain visible without imposing ordering.
 - `supersedes` — replacement relation. Use when this Feature replaces an earlier Feature's scope or
   delivery path.
 
 Best-practice rules:
 
-- Use `parent_epic` for hierarchy, not `related_to`.
-- Use `depends_on` only for hard ordering; if the link is informative rather than gating, use
-  `related_to`.
+- Use `parentEpic` for hierarchy, not `relatedTo`.
+- Use `dependsOn` only for hard ordering; if the link is informative rather than gating, use
+  `relatedTo`.
 - Prefer Feature↔Feature links for program sequencing. Link to Stories only when a committed thin
   slice is the thing actually enabled.
 - Keep the inverse relation only when it adds clarity; duplicate bookkeeping is optional, not
@@ -119,10 +119,10 @@ Best-practice rules:
 If `structurant: true`, point to the committed architecture inventory artifact
 that tracks the Feature's decision units, their coverage state, linked ADRs,
 waivers, and enabler follow-up. If `structurant: false`, set
-`architecture_inventory: null` and omit this section.
+`architectureInventory: null` and omit this section.
 
 ## Open items
-The human-readable companion to the `open_items:` frontmatter ledger (the [open-item
+The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
 ledger](../../release-train-engineer/release-train-engineer.skill.md#open-item-ledger)) — this Feature's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be
@@ -155,7 +155,7 @@ Orthogonal flag: `blocked`.
 
 | From | To | Trigger / actor |
 | --- | --- | --- |
-| (none) | `funnel` | PM derives from an Epic (`parent_epic`) or files a standalone Feature |
+| (none) | `funnel` | PM derives from an Epic (`parentEpic`) or files a standalone Feature |
 | `funnel` | `refined` | Feature Backlog Refinement (PM completes AC + WSJF + `structurant`) |
 | `refined` | `arch-pending` | **★ Feature Gate** accept + `structurant: true` + committed architecture inventory |
 | `refined` | `ready` | **★ Feature Gate** accept + `structurant: false` |
@@ -169,8 +169,8 @@ Orthogonal flag: `blocked`.
 
 ## Relation discipline at this layer
 
-- `depends_on` is the authoritative program-level gating relation and should align with PI Planning
+- `dependsOn` is the authoritative program-level gating relation and should align with PI Planning
   and readiness decisions.
 - `enables` captures the intended downstream unlock created by this Feature; use it to explain why a
   foundation or enabler Feature exists.
-- `related_to` must never be used to smuggle a sequencing rule past refinement or planning.
+- `relatedTo` must never be used to smuggle a sequencing rule past refinement or planning.

@@ -1,4 +1,4 @@
-common_tools: &common_tools
+commonTools: &commonTools
   - execute/getTerminalOutput
   - execute/killTerminal
   - execute/sendToTerminal
@@ -23,7 +23,7 @@ common_tools: &common_tools
   - search/textSearch
   - search/usages
 
-dispatch_tools: &dispatch_tools
+dispatchTools: &dispatchTools
   - execute/getTerminalOutput
   - execute/killTerminal
   - execute/sendToTerminal
@@ -49,7 +49,7 @@ dispatch_tools: &dispatch_tools
   - search/textSearch
   - search/usages
 
-ux_tools: &ux_tools
+uxTools: &uxTools
   - execute/getTerminalOutput
   - execute/killTerminal
   - execute/sendToTerminal
@@ -76,17 +76,17 @@ ux_tools: &ux_tools
   - search/usages
 
 agents:
-  agents/business-owner.agent.md: *common_tools
-  agents/enterprise-architect.agent.md: *common_tools
-  agents/value-management-officier.agent.md: *dispatch_tools
-  agents/product-manager.agent.md: *common_tools
-  agents/release-train-engineer.agent.md: *dispatch_tools
-  agents/system-architect.agent.md: *common_tools
-  agents/developer.agent.md: *common_tools
-  agents/operator.agent.md: *common_tools
-  agents/product-owner.agent.md: *common_tools
-  agents/quality-engineer.agent.md: *common_tools
-  agents/scrum-master.agent.md: *dispatch_tools
-  agents/security-expert.agent.md: *common_tools
-  agents/tech-writer.agent.md: *common_tools
-  agents/ux-designer.agent.md: *ux_tools
+  agents/business-owner.agent.md: *commonTools
+  agents/enterprise-architect.agent.md: *commonTools
+  agents/value-management-officier.agent.md: *dispatchTools
+  agents/product-manager.agent.md: *commonTools
+  agents/release-train-engineer.agent.md: *dispatchTools
+  agents/system-architect.agent.md: *commonTools
+  agents/developer.agent.md: *commonTools
+  agents/operator.agent.md: *commonTools
+  agents/product-owner.agent.md: *commonTools
+  agents/quality-engineer.agent.md: *commonTools
+  agents/scrum-master.agent.md: *dispatchTools
+  agents/security-expert.agent.md: *commonTools
+  agents/tech-writer.agent.md: *commonTools
+  agents/ux-designer.agent.md: *uxTools

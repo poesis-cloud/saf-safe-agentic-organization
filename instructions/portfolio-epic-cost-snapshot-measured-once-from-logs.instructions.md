@@ -4,7 +4,7 @@ description: 'the value-management-officier writes the Epic `cost:` block exactl
 
 # Invariant: epic_cost_snapshot_measured_once_from_logs
 
-At the Epic's outcome acceptance (`implementing → done`) the **value-management-officier** commits the `cost:` block **exactly once**: the Epic's own overhead dispatches **measured** net-of-cache from the debug logs (matched by `E-N`), plus the sum of its already-committed child-Feature `tokens_rolled`. Self overhead is **never fabricated as if measured**; child rollups are read from immutable committed snapshots, **not recomputed**; the Epic block is **immutable** once `committed` is set. The companion CEL postcondition `outcome_accepted_and_cost_committed` only checks that the block exists; this invariant governs its **provenance + write-once** discipline. The full normative model is inlined below.
+At the Epic's outcome acceptance (`implementing → done`) the **value-management-officier** commits the `cost:` block **exactly once**: the Epic's own overhead dispatches **measured** net-of-cache from the debug logs (matched by `E-N`), plus the sum of its already-committed child-Feature `tokensRolled`. Self overhead is **never fabricated as if measured**; child rollups are read from immutable committed snapshots, **not recomputed**; the Epic block is **immutable** once `committed` is set. The companion CEL postcondition `outcome_accepted_and_cost_committed` only checks that the block exists; this invariant governs its **provenance + write-once** discipline. The full normative model is inlined below.
 
 ---
 
@@ -14,9 +14,9 @@ Defines how the SAFe orchestration measures the **development cost, in LLM token
 Epic / Feature / Story** — so the Central Supervisor can answer two distinct questions:
 
 - **Point-per-point** — "how much did the agentic development of *this* Story / Feature / Epic cost
-  on its own?" → the artifact's `cost.tokens_self`.
+  on its own?" → the artifact's `cost.tokensSelf`.
 - **End-to-end** — "how much did the agentic development of *this whole* Feature / Epic cost,
-  children included?" → the artifact's `cost.tokens_rolled`.
+  children included?" → the artifact's `cost.tokensRolled`.
 
 This is the portfolio-economics analogue of SAFe Lean Budgets: it puts a measurable price on the
 agentic delivery of value, captured where the tokens are actually spent (subagent dispatches) and
@@ -69,26 +69,26 @@ Feature/Epic `self` capture the program/portfolio **overhead** of getting there.
 #### 1.3 Rollup arithmetic
 
 ```text
-story.tokens_self    = Σ tokens of dispatches charged to that Story
-story.tokens_rolled  = story.tokens_self                      # a Story is a leaf
+story.tokensSelf    = Σ tokens of dispatches charged to that Story
+story.tokensRolled  = story.tokensSelf                      # a Story is a leaf
 
-feature.tokens_self   = Σ tokens of dispatches charged to that Feature (overhead)
-feature.tokens_rolled = feature.tokens_self + Σ child story.tokens_rolled
+feature.tokensSelf   = Σ tokens of dispatches charged to that Feature (overhead)
+feature.tokensRolled = feature.tokensSelf + Σ child story.tokensRolled
 
-epic.tokens_self      = Σ tokens of dispatches charged to that Epic (overhead)
-epic.tokens_rolled    = epic.tokens_self + Σ child feature.tokens_rolled
+epic.tokensSelf      = Σ tokens of dispatches charged to that Epic (overhead)
+epic.tokensRolled    = epic.tokensSelf + Σ child feature.tokensRolled
 ```
 
-- **Point-per-point** read = any artifact's `tokens_self` (its own cost) — and `tokens_rolled` for
+- **Point-per-point** read = any artifact's `tokensSelf` (its own cost) — and `tokensRolled` for
   the subtree it heads.
-- **End-to-end** read = the Epic's `tokens_rolled` (the full agentic cost of the Epic), or any
-  Feature's `tokens_rolled`.
-- A standalone Feature (`parent_epic: null`) rolls up to itself; it has no Epic parent, so it is its
+- **End-to-end** read = the Epic's `tokensRolled` (the full agentic cost of the Epic), or any
+  Feature's `tokensRolled`.
+- A standalone Feature (`parentEpic: null`) rolls up to itself; it has no Epic parent, so it is its
   own end-to-end root.
 
 Per-dispatch, tokens are summed **net of cache** across the loop's turns:
-`tokens_in = Σ(inputTokens − cachedTokens)` (net new prompt tokens, **not** the re-sent cached
-context), `tokens_out = Σ outputTokens`, `tokens_self = tokens_in + tokens_out`. `tokens_cached =
+`tokensIn = Σ(inputTokens − cachedTokens)` (net new prompt tokens, **not** the re-sent cached
+context), `tokensOut = Σ outputTokens`, `tokensSelf = tokensIn + tokensOut`. `tokensCached =
 Σ cachedTokens` is recorded separately so a billed cost can be reconstructed under any cache price.
 `dispatches` counts **subagent runs**, not `llm_request` turns.
 
@@ -104,17 +104,17 @@ Single source of the field definitions. Present on **Epic**, **Feature**, and **
 
 ```yaml
 cost:                    # token cost accounting — see this instruction
-  tokens_in: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) over all turns of charged dispatches
-  tokens_out: 0          # self: completion tokens = Σ outputTokens
-  tokens_cached: 0       # self: Σ cachedTokens (re-sent context; for billed-cost reconstruction — NOT in tokens_self)
-  tokens_self: 0         # tokens_in + tokens_out — this artifact's own net cost ("point")
-  tokens_rolled: 0       # tokens_self + Σ children.tokens_rolled — subtree total ("end-to-end")
+  tokensIn: 0           # self: NET-NEW prompt tokens = Σ(inputTokens − cachedTokens) over all turns of charged dispatches
+  tokensOut: 0          # self: completion tokens = Σ outputTokens
+  tokensCached: 0       # self: Σ cachedTokens (re-sent context; for billed-cost reconstruction — NOT in tokensSelf)
+  tokensSelf: 0         # tokensIn + tokensOut — this artifact's own net cost ("point")
+  tokensRolled: 0       # tokensSelf + Σ children.tokensRolled — subtree total ("end-to-end")
   dispatches: 0          # number of SUBAGENT DISPATCHES charged here (not llm_request turns)
   source: estimated      # measured | estimated | mixed (see §4)
   committed: null        # YYYY-MM-DD the one-time snapshot was written (terminal status; immutable after)
 ```
 
-- For a **Story**, `tokens_rolled == tokens_self` always (leaf).
+- For a **Story**, `tokensRolled == tokensSelf` always (leaf).
 - `source` is the weakest of the inputs: any estimated child ⇒ parent `source: mixed` (or
   `estimated` if all inputs are estimated).
 - The block is **written once**, at the artifact's terminal lifecycle status (§5), as a snapshot
@@ -149,8 +149,8 @@ projection, §8) is retained**; once logs rotate, only the aggregate survives in
 
 1. Select the dispatch logs whose prompt names the artifact id (`S-N` / `F-N` / `E-N`).
 2. Across those dispatches' `llm_request` turns, sum **net of cache**:
-   `tokens_in = Σ(inputTokens − cachedTokens)`, `tokens_out = Σ outputTokens`,
-   `tokens_cached = Σ cachedTokens`; `tokens_self = tokens_in + tokens_out`; `dispatches` = number of
+   `tokensIn = Σ(inputTokens − cachedTokens)`, `tokensOut = Σ outputTokens`,
+   `tokensCached = Σ cachedTokens`; `tokensSelf = tokensIn + tokensOut`; `dispatches` = number of
    dispatch files (not turns). **Never sum raw `inputTokens`** — a loop re-sends its context every
    turn (measured: one 33-turn dispatch summed 3.99M raw input, 3.84M of it cached, ≈199k net), so raw
    summation over-counts ~20×.
@@ -191,8 +191,8 @@ does not change).
 | Lifecycle moment (commit once) | Owner | One-shot action — fetch from the source (§3) |
 |---|---|---|
 | Story `in-qa → awaiting-pr` (execution complete) | scrum-master | Fetch this Story's dev + QA dispatch tokens from the session debug logs (matched by `S-N`); write the Story `cost:` block once; `source: measured` (or `estimated` if logs gone) |
-| Feature `in-progress → done` (★ Demo Gate) | release-train-engineer | Fetch the Feature's own overhead dispatches (PM / ADR / PI, matched by `F-N`); add Σ child Story `tokens_rolled`; write the Feature `cost:` once; refresh the Program kanban cost column |
-| Epic `implementing → done` (outcome acceptance) | value-management-officier | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokens_rolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
+| Feature `in-progress → done` (★ Demo Gate) | release-train-engineer | Fetch the Feature's own overhead dispatches (PM / ADR / PI, matched by `F-N`); add Σ child Story `tokensRolled`; write the Feature `cost:` once; refresh the Program kanban cost column |
+| Epic `implementing → done` (outcome acceptance) | value-management-officier | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokensRolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
 
 Child costs are already committed and immutable by the time a parent closes (Stories close before
 their Feature's Demo Gate; Features close before their Epic's acceptance), so each parent rollup reads
@@ -211,10 +211,10 @@ children.
 The rendered kanbans (`kanban/*.md`) MAY annotate each card with its rolled cost, since cost now
 lives in frontmatter and the "never invent" render rule is satisfied:
 
-- **Team Kanban** — annotate a Story with its `tokens_self` (e.g. `S-101 [23.7k tk]`).
-- **Program Kanban** — annotate a Feature with its `tokens_rolled`, and add a *Cost rollup (tokens)*
-  mini-section listing the top-N Features by `tokens_rolled`.
-- **Portfolio Kanban** — annotate an Epic with its `tokens_rolled`, and add a *Cost rollup (tokens)*
+- **Team Kanban** — annotate a Story with its `tokensSelf` (e.g. `S-101 [23.7k tk]`).
+- **Program Kanban** — annotate a Feature with its `tokensRolled`, and add a *Cost rollup (tokens)*
+  mini-section listing the top-N Features by `tokensRolled`.
+- **Portfolio Kanban** — annotate an Epic with its `tokensRolled`, and add a *Cost rollup (tokens)*
   section (per Epic and per Strategic Theme).
 
 Cost annotations render the committed `cost:` block; they appear once the artifact reaches the
@@ -230,9 +230,9 @@ E-5  cost.self   =  40k          (BO/EA shaping + PI Planning + I&A)
  └─ F-12 cost.self =  9k          (standalone-style overhead)
      └─ S-110 cost.self = 12.4k
 
-F-11.tokens_rolled = 18k + 23.7k + 31.0k          = 72.7k     (end-to-end, Feature F-11)
-F-12.tokens_rolled =  9k + 12.4k                  = 21.4k
-E-5.tokens_rolled = 40k + 72.7k + 21.4k          = 134.1k    (end-to-end, Epic E-5)
+F-11.tokensRolled = 18k + 23.7k + 31.0k          = 72.7k     (end-to-end, Feature F-11)
+F-12.tokensRolled =  9k + 12.4k                  = 21.4k
+E-5.tokensRolled = 40k + 72.7k + 21.4k          = 134.1k    (end-to-end, Epic E-5)
 
 Point-per-point: S-102 cost 31.0k; F-11 own overhead 18k; E-5 own overhead 40k.
 ```
@@ -258,7 +258,7 @@ This is logged as a standing workflow pain point in the portfolio
 workflow change, not a product Feature):
 
 1. Reindex per-request `inputTokens` / `outputTokens` / `cachedTokens` from the debug logs into the
-   session store (`turns.tokens_in` / `turns.tokens_out` / `turns.tokens_cached`, or a `usage` table),
+   session store (`turns.tokensIn` / `turns.tokensOut` / `turns.tokensCached`, or a `usage` table),
    exposed via `session_store_sql`, so the durable query can net cache exactly as §3 does.
 2. Keep **per-dispatch identity** on those rows — *(agentName, role, served artifact id)*, e.g. a
    `dispatch_id` column + `session_refs(ref_type='artifact')` — so the durable store answers not just

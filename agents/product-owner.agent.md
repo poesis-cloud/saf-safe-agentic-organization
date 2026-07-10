@@ -23,7 +23,7 @@ Start from the most local, authoritative iteration artifact available.
 
 ## Primary outputs
 
-- Business Stories with clear `parent_feature`, testable AC, risk or complexity, and repos in scope.
+- Business Stories with clear `parentFeature`, testable AC, risk or complexity, and repos in scope.
 - Groomed Stories with clarified AC and split scope where needed.
 
 ## What you own

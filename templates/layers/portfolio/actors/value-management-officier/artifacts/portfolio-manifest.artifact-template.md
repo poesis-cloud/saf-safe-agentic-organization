@@ -21,8 +21,8 @@ portfolio/
 # portfolio-manifest.yaml
 scope: portfolio
 name: Poesis Portfolio
-business_owner: central-supervisor       # BO hat (Go/No-Go, value authority)
-enterprise_architect: central-supervisor # EA hat (cross-product runway, NFR backbone)
+businessOwner: central-supervisor       # BO hat (Go/No-Go, value authority)
+enterpriseArchitect: central-supervisor # EA hat (cross-product runway, NFR backbone)
 created: YYYY-MM-DD
 
 # Canonical global portfolio configuration and product registry.
@@ -61,6 +61,6 @@ github_project: null      # filled by `provision portfolio` (Portfolio Project U
 ## Relationship to products
 
 - The portfolio does **not** own product code or product Features — it owns **Epics**.
-- An Epic's child Features stay product-scoped (`parent_epic: E-N` in the Feature frontmatter).
+- An Epic's child Features stay product-scoped (`parentEpic: E-N` in the Feature frontmatter).
 - Cross-product coordination is expressed at the Epic level only; the "no cross-product Feature"
   rule is unchanged (one Feature per product, each linked to the shared Epic).

@@ -13,7 +13,7 @@ slug: e-1-lbc
 title: E-1 — Lean Business Case
 epic: E-1
 status: draft            # draft | challenged | gate-ready
-funding_state: proposed  # proposed | funded | not-funded   (set by Participatory Budgeting)
+fundingState: proposed  # proposed | funded | not-funded   (set by Participatory Budgeting)
 ---
 
 # E-1 — Lean Business Case
@@ -22,7 +22,7 @@ funding_state: proposed  # proposed | funded | not-funded   (set by Participator
 The systemic problem, who has it, why now.
 
 ## Solution hypothesis (MVP)
-The smallest Feature set that tests the hypothesis (`mvp_features` on the Epic).
+The smallest Feature set that tests the hypothesis (`mvpFeatures` on the Epic).
 
 ## WSJF
 | Cost of Delay (UBV + TC + RR) | Job Size | WSJF |

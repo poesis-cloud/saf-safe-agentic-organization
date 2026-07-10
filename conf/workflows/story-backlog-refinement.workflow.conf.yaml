@@ -1,102 +1,99 @@
-workflow:
-  id: story-backlog-refinement
-  kind: ceremony
-  after: [iteration-planning]
-  facilitator: '@scrum-master'
-  steps:
-  - id: draft
-    capabilities:
-      deep-reasoning: 7
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@product-owner'
-    artifacts: [story]
-    conditions: []
-    instructions:
-    - instructions/discovery-open-items-recorded-or-explicitly-none.instructions.md
-  - id: challenge-split
-    capabilities:
-      deep-reasoning: 8
-      coding: 8
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@developer'
-    artifacts: [feasibility-review]
-    conditions:
-    - id: after_draft
-      kind: precondition
-      type: after
-      step_id: draft
-  - id: challenge-ux
-    capabilities:
-      deep-reasoning: 8
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@ux-designer'
-    artifacts: [ux-review]
-    conditions:
-    - id: after_draft
-      kind: precondition
-      type: after
-      step_id: draft
-  - id: challenge-architecture
-    capabilities:
-      deep-reasoning: 9
-      coding: 2
-      tool-use: 3
-      long-context: 6
-      multimodal: 0
-      writing-quality: 6
-      instruction-following: 8
-      fast-iteration: 3
-      schema-adherence: 6
-    actor: '@system-architect'
-    artifacts: [architecture-review]
-    conditions:
-    - id: after_draft
-      kind: precondition
-      type: after
-      step_id: draft
-  - id: owner-rewrite
-    capabilities:
-      deep-reasoning: 7
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@product-owner'
-    artifacts: [story]
-    conditions:
-    - id: after_challenge_split
-      kind: precondition
-      type: after
-      step_id: challenge-split
-    - id: after_challenge_ux
-      kind: precondition
-      type: after
-      step_id: challenge-ux
-    - id: after_challenge_architecture
-      kind: precondition
-      type: after
-      step_id: challenge-architecture
+slug: story-backlog-refinement
+predecessors:
+- iteration-planning
+orchestrator: scrum-master
+steps:
+- slug: draft
+  capabilities:
+    deep-reasoning: 7
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: product-owner
+  artifact: story
+  conditions: []
+  instructions:
+  - discovery-open-items-recorded-or-explicitly-none
+- slug: challenge-split
+  capabilities:
+    deep-reasoning: 8
+    coding: 8
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: developer
+  artifact: feasibility-review
+  conditions:
+  - slug: after-draft
+    kind: precondition
+    step: draft
+  instructions: step-default
+- slug: challenge-ux
+  capabilities:
+    deep-reasoning: 8
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: ux-designer
+  artifact: ux-review
+  conditions:
+  - slug: after-draft
+    kind: precondition
+    step: draft
+  instructions: step-default
+- slug: challenge-architecture
+  capabilities:
+    deep-reasoning: 9
+    coding: 2
+    tool-use: 3
+    long-context: 6
+    multimodal: 0
+    writing-quality: 6
+    instruction-following: 8
+    fast-iteration: 3
+    schema-adherence: 6
+  actor: system-architect
+  artifact: architecture-review
+  conditions:
+  - slug: after-draft
+    kind: precondition
+    step: draft
+  instructions: step-default
+- slug: owner-rewrite
+  capabilities:
+    deep-reasoning: 7
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: product-owner
+  artifact: story
+  conditions:
+  - slug: after-challenge-split
+    kind: precondition
+    step: challenge-split
+  - slug: after-challenge-ux
+    kind: precondition
+    step: challenge-ux
+  - slug: after-challenge-architecture
+    kind: precondition
+    step: challenge-architecture
+  instructions: step-default

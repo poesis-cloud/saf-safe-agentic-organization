@@ -1,20 +1,18 @@
-workflow:
-  id: portfolio-sync
-  kind: ceremony
-  facilitator: '@value-management-officier'
-  steps:
-  - id: sync
-    capabilities:
-      deep-reasoning: 7
-      coding: 0
-      tool-use: 4
-      long-context: 6
-      multimodal: 0
-      writing-quality: 8
-      instruction-following: 8
-      fast-iteration: 2
-      schema-adherence: 8
-    actor: '@value-management-officier'
-    artifacts: [portfolio-sync-record]
-    instructions:
-    - instructions/business-owner-priority-or-risk-view-recorded.instructions.md
+slug: portfolio-sync
+orchestrator: value-management-officier
+steps:
+- slug: sync
+  capabilities:
+    deep-reasoning: 7
+    coding: 0
+    tool-use: 4
+    long-context: 6
+    multimodal: 0
+    writing-quality: 8
+    instruction-following: 8
+    fast-iteration: 2
+    schema-adherence: 8
+  actor: value-management-officier
+  artifact: portfolio-sync-record
+  instructions:
+  - business-owner-priority-or-risk-view-recorded

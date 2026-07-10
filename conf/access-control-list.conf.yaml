@@ -2,58 +2,58 @@ actors:
 - roles:
   - value-management-officier
   - workspace-reader
-  id: value-management-officier
+  slug: value-management-officier
 - roles:
   - business-owner
   - workspace-reader
-  id: business-owner
+  slug: business-owner
 - roles:
   - enterprise-architect
   - workspace-reader
-  id: enterprise-architect
+  slug: enterprise-architect
 - roles:
   - release-train-engineer
   - workspace-reader
-  id: release-train-engineer
+  slug: release-train-engineer
 - roles:
   - product-manager
   - workspace-reader
-  id: product-manager
+  slug: product-manager
 - roles:
   - system-architect
   - workspace-reader
-  id: system-architect
+  slug: system-architect
 - roles:
   - scrum-master
   - workspace-reader
-  id: scrum-master
+  slug: scrum-master
 - roles:
   - product-owner
   - workspace-reader
-  id: product-owner
+  slug: product-owner
 - roles:
   - developer
   - workspace-reader
-  id: developer
+  slug: developer
 - roles:
   - operator
   - workspace-reader
-  id: operator
+  slug: operator
 - roles:
   - security-expert
   - workspace-reader
-  id: security-expert
+  slug: security-expert
 - roles:
   - ux-designer
   - workspace-reader
-  id: ux-designer
+  slug: ux-designer
 - roles:
   - quality-engineer
   - workspace-reader
-  id: quality-engineer
+  slug: quality-engineer
 - roles:
   - workspace-reader
-  id: tech-writer
+  slug: tech-writer
 roles:
 - privileges:
   - artifact: portfolio-manifest

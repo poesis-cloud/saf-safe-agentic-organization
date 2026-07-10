@@ -26,7 +26,7 @@ Cross-product nonfunctional requirements (→ each product's `<feature-slug>.nfr
 
 ## Runway direction & enabler Epics
 The runway the portfolio must build ahead of demand; seeds **enabler Epics** (`type: enabler`,
-`enabler_type: architectural | infrastructure | compliance`).
+`enablerType: architectural | infrastructure | compliance`).
 
 ## Target ARTs / products
 Which products realise which parts of the Vision.

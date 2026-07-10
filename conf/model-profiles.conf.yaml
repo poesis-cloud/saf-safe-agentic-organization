@@ -15,21 +15,21 @@
 # ============================================================
 # Host-agnostic model profile catalog — canonical model identity, independent of any host.
 # ============================================================
-# `id` here is the CANONICAL model id. It is NOT a valid `runSubagent` model argument by itself —
-# no host understands these ids directly. Each host adapter maps a canonical `id` to that host's
+# `slug` here is the CANONICAL model slug. It is NOT a valid `runSubagent` model argument by itself —
+# no host understands these slugs directly. Each host adapter maps a canonical `slug` to that host's
 # own model identifier via its own `harness/adapters/<env>/models.yaml` (see
 # `harness/adapters/github-copilot/models.yaml` for the GitHub Copilot binding).
 #
 # This file only carries identity + capability metadata (what the model IS), never routing policy
 # (tiers, role-default floors, scoring, config profiles) — that policy stays in
-# `conf/llm-routing.conf.yaml` and is expressed in terms of these canonical ids.
+# `conf/llm-routing.conf.yaml` and is expressed in terms of these canonical slugs.
 #
 # Fields:
-#   id                 — internal canonical model id (stable across hosts; hosts resolve it via
+#   slug               — internal canonical model slug (stable across hosts; hosts resolve it via
 #                        their own adapters/<env>/models.yaml). Reuses the GitHub Copilot catalog
-#                        `id` verbatim where available (see harness/adapters/github-copilot/models.yaml)
+#                        model `id` as the slug verbatim where available (see harness/adapters/github-copilot/models.yaml)
 #                        so cross-referencing against that host's models.json stays trivial.
-#   cost_rank          — relative cost, 1 (cheapest) .. 10 (most expensive). MECHANICALLY derived
+#   costRank           — relative cost, 1 (cheapest) .. 10 (most expensive). MECHANICALLY derived
 #                        from each model's blended token price (0.25*input + 0.75*output, USD per
 #                        1M tokens, from this host's models.json billing.token_prices), percentile-
 #                        ranked across the 20-model catalog. High confidence, reproducible.
@@ -38,7 +38,7 @@
 #                        directly observed there; otherwise interpolated from its family/generation
 #                        position relative to observed siblings (flagged per-model below).
 #   description        — human-readable summary, 120 characters max
-#   capability_scores  — relative 0..10 judgments per capability tag. Tags map to distinct
+#   capabilities       — relative 0..10 judgments per capability tag. Tags map to distinct
 #                        Artificial Analysis evaluation categories (chosen because each one's
 #                        leaderboard order was independently verified to diverge from the others —
 #                        see "capability tag rationale" below); NOT vibes-based restatements of a
@@ -67,7 +67,7 @@
 #                           essentially uncorrelated with the Intelligence Index (the top reasoning
 #                           models are NOT the top instruction-followers) — a genuinely independent,
 #                           previously-missing signal that matters for agent-dispatch reliability.
-#   fast-iteration        — AA "Output Speed" (tokens/sec), not merely 1/cost_rank (a fast model
+#   fast-iteration        — AA "Output Speed" (tokens/sec), not merely 1/costRank (a fast model
 #                           can still be expensive per token, e.g. claude-opus-4.8-fast).
 #   schema-adherence      — ADDED (Replaces structured-output): SAFe orchestration relies entirely on
 #                           complex YAML/JSON artifact contracts. While `models.json` claims uniform
@@ -89,12 +89,12 @@
 # refreshed against artificialanalysis.ai per-model pages if this file starts driving real routing.
 # ============================================================
 
-models:
-  - id: claude-fable-5
-    cost_rank: 10
+modelProfiles:
+  - slug: claude-fable-5
+    costRank: 10
     description: "Anthropic's experimental Mythos-class model featuring 1M token context."
-    notes: "AA Intelligence Index #1; also #1 on AA-Briefcase/GDPval. Exceptional creative and complex workflow capability."
-    capability_scores:
+    note: "AA Intelligence Index #1; also #1 on AA-Briefcase/GDPval. Exceptional creative and complex workflow capability."
+    capabilities:
       deep-reasoning: 10
       coding: 10
       tool-use: 8
@@ -105,11 +105,11 @@ models:
       fast-iteration: 3
       schema-adherence: 8
 
-  - id: claude-opus-4.8
-    cost_rank: 8
+  - slug: claude-opus-4.8
+    costRank: 8
     description: "Anthropic's flagship reasoning model."
-    notes: "AA #1 on coding & terminal use. Top-tier choice for deep reasoning and artifact generation."
-    capability_scores:
+    note: "AA #1 on coding & terminal use. Top-tier choice for deep reasoning and artifact generation."
+    capabilities:
       deep-reasoning: 10
       coding: 9
       tool-use: 9
@@ -120,11 +120,11 @@ models:
       fast-iteration: 3
       schema-adherence: 9
 
-  - id: gpt-5.5
-    cost_rank: 9
+  - slug: gpt-5.5
+    costRank: 9
     description: "OpenAI's most capable general-purpose reasoning model."
-    notes: "AA #1 on tool-use and long-context reasoning. Matches Opus 4.8 broadly but slightly edges on strict schema compliance."
-    capability_scores:
+    note: "AA #1 on tool-use and long-context reasoning. Matches Opus 4.8 broadly but slightly edges on strict schema compliance."
+    capabilities:
       deep-reasoning: 9
       coding: 9
       tool-use: 10
@@ -135,11 +135,11 @@ models:
       fast-iteration: 4
       schema-adherence: 10
 
-  - id: claude-sonnet-5
-    cost_rank: 4
+  - slug: claude-sonnet-5
+    costRank: 4
     description: "Anthropic's mid-tier balanced model."
-    notes: "AA #2 on agentic tool-use. Extremely cost-effective for its intelligence depth (ranks alongside heavier flagships)."
-    capability_scores:
+    note: "AA #2 on agentic tool-use. Extremely cost-effective for its intelligence depth (ranks alongside heavier flagships)."
+    capabilities:
       deep-reasoning: 8
       coding: 8
       tool-use: 9
@@ -150,11 +150,11 @@ models:
       fast-iteration: 4
       schema-adherence: 9
 
-  - id: claude-opus-4.8-fast
-    cost_rank: 10
+  - slug: claude-opus-4.8-fast
+    costRank: 10
     description: "Anthropic's speed-optimized variant of Opus 4.8."
-    notes: "Trades some reasoning depth for latency. Useful when Opus quality is needed within tight timeout boundaries."
-    capability_scores:
+    note: "Trades some reasoning depth for latency. Useful when Opus quality is needed within tight timeout boundaries."
+    capabilities:
       deep-reasoning: 8
       coding: 8
       tool-use: 8
@@ -165,11 +165,11 @@ models:
       fast-iteration: 6
       schema-adherence: 8
 
-  - id: claude-opus-4.7
-    cost_rank: 8
+  - slug: claude-opus-4.7
+    costRank: 8
     description: "Anthropic's prior-generation flagship reasoning model."
-    notes: "Below Opus 4.8 on coding bounds; one generation behind on reasoning effort but historically stable."
-    capability_scores:
+    note: "Below Opus 4.8 on coding bounds; one generation behind on reasoning effort but historically stable."
+    capabilities:
       deep-reasoning: 8
       coding: 7
       tool-use: 7
@@ -180,11 +180,11 @@ models:
       fast-iteration: 3
       schema-adherence: 8
 
-  - id: gpt-5.4
-    cost_rank: 6
+  - slug: gpt-5.4
+    costRank: 6
     description: "OpenAI's high-tier fast reasoning model."
-    notes: "The primary 'tier-balanced' workhorse. Strong capabilities with acceptable latency and cost."
-    capability_scores:
+    note: "The primary 'tier-balanced' workhorse. Strong capabilities with acceptable latency and cost."
+    capabilities:
       deep-reasoning: 8
       coding: 7
       tool-use: 8
@@ -195,11 +195,11 @@ models:
       fast-iteration: 5
       schema-adherence: 9
 
-  - id: gemini-3.1-pro-preview
-    cost_rank: 5
+  - slug: gemini-3.1-pro-preview
+    costRank: 5
     description: "Google's Pro-tier multimodal reasoning model."
-    notes: "Top-tier visual capabilities, AA #2 on coding index. Slightly underperforms on tool-use consistency vs tier peers."
-    capability_scores:
+    note: "Top-tier visual capabilities, AA #2 on coding index. Slightly underperforms on tool-use consistency vs tier peers."
+    capabilities:
       deep-reasoning: 8
       coding: 8
       tool-use: 6
@@ -210,11 +210,11 @@ models:
       fast-iteration: 4
       schema-adherence: 7
 
-  - id: claude-opus-4.6
-    cost_rank: 7
+  - slug: claude-opus-4.6
+    costRank: 7
     description: "Anthropic's older reasoning model."
-    notes: "Lacks the 'xhigh' reasoning effort introduced in 4.7/4.8. Safely superseded."
-    capability_scores:
+    note: "Lacks the 'xhigh' reasoning effort introduced in 4.7/4.8. Safely superseded."
+    capabilities:
       deep-reasoning: 7
       coding: 6
       tool-use: 6
@@ -225,11 +225,11 @@ models:
       fast-iteration: 3
       schema-adherence: 7
 
-  - id: gpt-5.3-codex
-    cost_rank: 5
+  - slug: gpt-5.3-codex
+    costRank: 5
     description: "OpenAI's code-specialized model."
-    notes: "Highly tuned for implementation/test-heavy agentic dispatches. Schema adherence is notably robust."
-    capability_scores:
+    note: "Highly tuned for implementation/test-heavy agentic dispatches. Schema adherence is notably robust."
+    capabilities:
       deep-reasoning: 6
       coding: 9
       tool-use: 6
@@ -240,11 +240,11 @@ models:
       fast-iteration: 6
       schema-adherence: 9
 
-  - id: gemini-3.5-flash
-    cost_rank: 3
+  - slug: gemini-3.5-flash
+    costRank: 3
     description: "Google's fast, lightweight multimodal model."
-    notes: "Previous 8.0 int_rank was artificially inflated. It's an excellent fast-loop router but struggles with deep nested reasoning."
-    capability_scores:
+    note: "Previous 8.0 int_rank was artificially inflated. It's an excellent fast-loop router but struggles with deep nested reasoning."
+    capabilities:
       deep-reasoning: 6
       coding: 6
       tool-use: 6
@@ -255,11 +255,11 @@ models:
       fast-iteration: 9
       schema-adherence: 6
 
-  - id: claude-sonnet-4.6
-    cost_rank: 6
+  - slug: claude-sonnet-4.6
+    costRank: 6
     description: "Anthropic's prior-generation balanced model."
-    notes: "Mid-tier coding/reasoning. Superseded by Sonnet 5 for cost-efficiency."
-    capability_scores:
+    note: "Mid-tier coding/reasoning. Superseded by Sonnet 5 for cost-efficiency."
+    capabilities:
       deep-reasoning: 6
       coding: 6
       tool-use: 6
@@ -270,11 +270,11 @@ models:
       fast-iteration: 5
       schema-adherence: 8
 
-  - id: claude-sonnet-4.5
-    cost_rank: 7
+  - slug: claude-sonnet-4.5
+    costRank: 7
     description: "Anthropic's legacy balanced model."
-    notes: "Non-reasoning generation (no effort levels). No longer competitive on performance/price."
-    capability_scores:
+    note: "Non-reasoning generation (no effort levels). No longer competitive on performance/price."
+    capabilities:
       deep-reasoning: 5
       coding: 5
       tool-use: 5
@@ -285,11 +285,11 @@ models:
       fast-iteration: 5
       schema-adherence: 7
 
-  - id: claude-opus-4.5
-    cost_rank: 9
+  - slug: claude-opus-4.5
+    costRank: 9
     description: "Anthropic's legacy flagship model."
-    notes: "Oldest Opus generation in catalog. Very expensive relative to current AI performance."
-    capability_scores:
+    note: "Oldest Opus generation in catalog. Very expensive relative to current AI performance."
+    capabilities:
       deep-reasoning: 6
       coding: 5
       tool-use: 5
@@ -300,11 +300,11 @@ models:
       fast-iteration: 3
       schema-adherence: 6
 
-  - id: gemini-2.5-pro
-    cost_rank: 4
+  - slug: gemini-2.5-pro
+    costRank: 4
     description: "Google's prior-generation Pro model."
-    notes: "128K context only (vs 1M for 3.x line). Outdated by 3.1 Pro."
-    capability_scores:
+    note: "128K context only (vs 1M for 3.x line). Outdated by 3.1 Pro."
+    capabilities:
       deep-reasoning: 5
       coding: 5
       tool-use: 5
@@ -315,11 +315,11 @@ models:
       fast-iteration: 5
       schema-adherence: 6
 
-  - id: kimi-k2.7-code
-    cost_rank: 1
+  - slug: kimi-k2.7-code
+    costRank: 1
     description: "Moonshot AI's code-focused preview model."
-    notes: "Mid-tier coding via K2.6-family AA results. Fast and cheap but unverified on complex generic tasks."
-    capability_scores:
+    note: "Mid-tier coding via K2.6-family AA results. Fast and cheap but unverified on complex generic tasks."
+    capabilities:
       deep-reasoning: 4
       coding: 7
       tool-use: 4
@@ -330,11 +330,11 @@ models:
       fast-iteration: 8
       schema-adherence: 5
 
-  - id: gpt-5.4-mini
-    cost_rank: 2
+  - slug: gpt-5.4-mini
+    costRank: 2
     description: "OpenAI's compact and very fast model."
-    notes: "Punches above its class on AA agentic tool-use. Excellent for pure-routing or format translation."
-    capability_scores:
+    note: "Punches above its class on AA agentic tool-use. Excellent for pure-routing or format translation."
+    capabilities:
       deep-reasoning: 4
       coding: 5
       tool-use: 6
@@ -345,11 +345,11 @@ models:
       fast-iteration: 9
       schema-adherence: 7
 
-  - id: mai-code-1-flash
-    cost_rank: 2
+  - slug: mai-code-1-flash
+    costRank: 2
     description: "Microsoft's in-house fast code-completion model."
-    notes: "Strictly code-oriented. Lower reliability for generic natural language reasoning or complex artifact schemas."
-    capability_scores:
+    note: "Strictly code-oriented. Lower reliability for generic natural language reasoning or complex artifact schemas."
+    capabilities:
       deep-reasoning: 3
       coding: 6
       tool-use: 4
@@ -360,11 +360,11 @@ models:
       fast-iteration: 9
       schema-adherence: 4
 
-  - id: claude-haiku-4.5
-    cost_rank: 3
+  - slug: claude-haiku-4.5
+    costRank: 3
     description: "Anthropic's fastest and most cost-effective older model."
-    notes: "Lowest reasoning depth natively, largely used for high-throughput single-step parsing tasks."
-    capability_scores:
+    note: "Lowest reasoning depth natively, largely used for high-throughput single-step parsing tasks."
+    capabilities:
       deep-reasoning: 3
       coding: 4
       tool-use: 4
@@ -375,11 +375,11 @@ models:
       fast-iteration: 10
       schema-adherence: 5
 
-  - id: gpt-5-mini
-    cost_rank: 1
+  - slug: gpt-5-mini
+    costRank: 1
     description: "Azure OpenAI's legacy fallback lightweight model."
-    notes: "Cheapest and fastest. Used primarily when others fail or for trivial regex-like mapping."
-    capability_scores:
+    note: "Cheapest and fastest. Used primarily when others fail or for trivial regex-like mapping."
+    capabilities:
       deep-reasoning: 3
       coding: 4
       tool-use: 3

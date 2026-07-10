@@ -38,7 +38,7 @@ If either is missing or unreadable, halt and tell the Central Supervisor — do 
 - **Strategic Themes + Epics (police, not author)** — dispatch `@business-owner` to author Themes + Epics (`funnel -> reviewing`, WSJF), and `@enterprise-architect` to extend them through `analyzing`; you police template + SAFe conformance. The human BO approves at the **★ Epic Gate**.
 - **★ Epic Gate** facilitation; the Epic lifecycle through `portfolio-backlog -> implementing -> done`, including **Epic outcome acceptance** when the ART has demoed the Epic's last child Feature.
 - **Portfolio Kanban** (Portfolio Kanban rendered view), rendered from Epic frontmatter.
-- **Portfolio-level risk + impediments** (Epic `blocked`); **Epic cost roll-up** (`cost.tokens_rolled`).
+- **Portfolio-level risk + impediments** (Epic `blocked`); **Epic cost roll-up** (`cost.tokensRolled`).
 - **Portfolio GitHub Project** (Epics board) provisioning + sync.
 - **Strategic Portfolio Review** (re-rank the portfolio backlog; revise Strategic Themes; pivot/persevere/stop) and portfolio-scope workflow pain points.
 

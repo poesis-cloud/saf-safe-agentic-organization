@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gsmarc://safe/artifacts/pain-point.artifact/v1",
+  "$ref": "gsmarc://safe/harness/contracts/artifact/v1",
+  "title": "pain-point artifact schema",
+  "type": "object",
+  "additionalProperties": true,
+  "x-artifact": {
+    "id": "pain-point",
+    "kind": "pain-point",
+    "template": "templates/layers/program/actors/release-train-engineer/artifacts/pain-point.artifact-template.md",
+    "pathPatterns": [
+      "art/*/improvement-backlog/*/*.pain-point.md"
+    ],
+    "renderOnly": false
+  },
+  "required": [
+    "__path",
+    "__kind",
+    "__artifact_id",
+    "__frontmatter_present",
+    "title",
+    "status",
+    "origin",
+    "layer",
+    "symptom",
+    "impact",
+    "owner",
+    "created"
+  ],
+  "properties": {
+    "__path": {
+      "description": "Workspace-relative path of the artifact file, injected by the orchestration harness (not authored in frontmatter).",
+      "type": "string",
+      "minLength": 1
+    },
+    "__kind": {
+      "description": "Artifact-kind discriminator injected by the harness; must equal x-artifact.kind.",
+      "const": "pain-point"
+    },
+    "__artifact_id": {
+      "description": "Stable artifact id injected by the harness, derived from the file and frontmatter.",
+      "type": "string",
+      "minLength": 1
+    },
+    "__frontmatter_present": {
+      "description": "Harness assertion that YAML frontmatter was found and parsed; always true for a valid artifact.",
+      "type": "boolean"
+    },
+    "__sections": {
+      "description": "Artifact body sections keyed by their `## ` heading \u2014 one property per template section; the value is the raw Markdown under that heading. Authored artifacts may add or omit sections, so this is advisory (additionalProperties is permitted) and no section is individually required.",
+      "type": "object",
+      "properties": {
+        "Symptom": {
+          "description": "Observable friction or failure pattern.",
+          "type": "string"
+        },
+        "Impact": {
+          "description": "Who is affected and how severely (quantified where possible).",
+          "type": "string"
+        },
+        "Root cause": {
+          "description": "Five-whys / fishbone result from the problem-solving workshop.",
+          "type": "string"
+        },
+        "Resolution": {
+          "description": "workflow-improvement | product-improvement | accepted | duplicate.",
+          "type": "string"
+        },
+        "Target artifact": {
+          "description": "For workflow improvements: the skill / instruction / prompt / orchestrator file to change.",
+          "type": "string"
+        },
+        "Derived backlog items": {
+          "description": "Features or Stories created from this pain point (product improvements).",
+          "type": "string"
+        },
+        "Related pain points": {
+          "description": "Cross-references to other pain points that share a systemic cause.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "__body": {
+      "description": "Raw Markdown body of the artifact (everything after the frontmatter), injected by the harness.",
+      "type": "string"
+    },
+    "title": {
+      "description": "Human-readable title of the pain point.",
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "description": "open | triaged | resolved | converted | accepted | duplicate",
+      "enum": [
+        "open",
+        "triaged",
+        "resolved",
+        "converted",
+        "accepted",
+        "duplicate"
+      ]
+    },
+    "origin": {
+      "description": "Where the pain point was first observed.",
+      "enum": [
+        "iteration",
+        "pi",
+        "workflow",
+        "cross-product",
+        "metrics-review"
+      ]
+    },
+    "layer": {
+      "description": "Organizational layer at which the pain point lives.",
+      "enum": [
+        "portfolio",
+        "program",
+        "team"
+      ]
+    },
+    "symptom": {
+      "description": "Short statement of the observed friction.",
+      "type": "string",
+      "minLength": 1
+    },
+    "impact": {
+      "description": "Quantified or qualitative impact statement.",
+      "type": "string",
+      "minLength": 1
+    },
+    "rootCause": {
+      "description": "Root cause determined during problem-solving.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "resolution": {
+      "description": "How the pain point is resolved.",
+      "enum": [
+        "workflow-improvement",
+        "product-improvement",
+        "accepted",
+        "duplicate",
+        null
+      ]
+    },
+    "targetArtifact": {
+      "description": "File path or artifact id targeted by a workflow improvement.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "derivedFeatures": {
+      "description": "Feature ids created from this pain point.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "derivedStories": {
+      "description": "Story ids created from this pain point.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relatedPainPoints": {
+      "description": "Ids of related pain points.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "owner": {
+      "description": "Role accountable for resolving the pain point.",
+      "type": "string",
+      "minLength": 1
+    },
+    "created": {
+      "description": "Authoring date (YYYY-MM-DD).",
+      "type": "string",
+      "minLength": 1
+    },
+    "workItemRelations": {
+      "description": "Typed work-item relations (dependsOn / enables / relatedTo / supersedes).",
+      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/workItemRelations"
+    },
+    "openItems": {
+      "description": "Clarification + challenge ledger.",
+      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/openItems"
+    },
+    "cost": {
+      "description": "Token-cost accounting block.",
+      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/cost"
+    },
+    "github": {
+      "description": "GitHub Projects sync envelope, filled by portfolio/_sync (null when authoring).",
+      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/githubSync"
+    }
+  }
+}

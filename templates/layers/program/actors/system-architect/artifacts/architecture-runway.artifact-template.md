@@ -24,11 +24,11 @@ revised: YYYY-MM-DD
 
 # <Product> — Architectural Runway
 
-| Runway item | Architecture reference | Realized by enabler Features | enabler_type | Consumed by (Features) | Readiness |
+| Runway item | Architecture reference | Realized by enabler Features | enablerType | Consumed by (Features) | Readiness |
 |---|---|---|---|---|---|
 | <capability> | ADR-N; `<adr-slug>.adr.md`; `<feature-slug>.nfr-list.md` | F-N (`type: enabler`) | architectural | F-AA, F-BB | building |
 
-enabler_type: exploration · architectural · infrastructure · compliance.
+enablerType: exploration · architectural · infrastructure · compliance.
 Readiness: building · ready · depleting.
 
 ## Runway health
