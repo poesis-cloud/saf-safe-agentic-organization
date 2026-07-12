@@ -569,7 +569,7 @@ The `*.artifact.schema.json` file is the deterministic source for artifact ident
 - **`release-train-engineer` owns:** feature, adr, architecture-decision-inventory, vision, roadmap, nfr-register, runway-register, objectives, risks, kanban-program, project-brief (authored by `@product-manager`).
 - **`scrum-master` owns:** sprint-plan, story, qa-signoff, daily, retro, progress, kanban-team.
 
-Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness README](../harness/def/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
+Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness core spec](../harness/def/core/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
 
 | Artifact | Path | Schema + Template |
 |---|---|---|
