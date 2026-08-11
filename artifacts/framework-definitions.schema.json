@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "gsmarc://safe/artifacts/framework-definitions/v1",
+    "$id": "gsmarc://saf/artifacts/framework-definitions/v1",
     "title": "SAFe methodology reusable definitions",
     "description": "Reusable JSON Schema definitions used by the SAFe methodology artifact schemas in this framework. These are not part of the generic harness base schema because they encode methodology-specific or host-specific concepts (WSJF, GitHub Projects sync, token-cost accounting).",
     "type": "object",

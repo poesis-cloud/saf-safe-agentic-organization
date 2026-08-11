@@ -17,8 +17,8 @@
 # ============================================================
 # `slug` here is the CANONICAL model slug. It is NOT a valid `runSubagent` model argument by itself —
 # no host understands these slugs directly. Each host adapter maps a canonical `slug` to that host's
-# own model identifier via its own `harness/adapters/<env>/models.yaml` (see
-# `harness/adapters/github-copilot/models.yaml` for the GitHub Copilot binding).
+# own model identifier via its own `agentic-harness/adapters/<env>/models.yaml` (see
+# `agentic-harness/adapters/vscode-github-copilot-chat/models.yaml` for the GitHub Copilot binding).
 #
 # This file only carries identity + capability metadata (what the model IS), never routing policy
 # (tiers, role-default floors, scoring, config profiles) — that policy stays in
@@ -27,7 +27,7 @@
 # Fields:
 #   slug               — internal canonical model slug (stable across hosts; hosts resolve it via
 #                        their own adapters/<env>/models.yaml). Reuses the GitHub Copilot catalog
-#                        model `id` as the slug verbatim where available (see harness/adapters/github-copilot/models.yaml)
+#                        model `id` as the slug verbatim where available (see agentic-harness/adapters/vscode-github-copilot-chat/models.yaml)
 #                        so cross-referencing against that host's models.json stays trivial.
 #   costRank           — relative cost, 1 (cheapest) .. 10 (most expensive). MECHANICALLY derived
 #                        from each model's blended token price (0.25*input + 0.75*output, USD per

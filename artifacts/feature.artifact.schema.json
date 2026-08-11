@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "gsmarc://safe/artifacts/feature.artifact/v1",
-  "$ref": "gsmarc://safe/harness/contracts/artifact/v1",
+  "$id": "gsmarc://saf/artifacts/feature.artifact/v1",
+  "$ref": "gsmarc://saf/harness/contracts/artifact/v1",
   "title": "feature artifact schema",
   "type": "object",
   "additionalProperties": true,
@@ -143,11 +143,11 @@
     },
     "workItemRelations": {
       "description": "Typed work-item relations (dependsOn / enables / relatedTo / supersedes).",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/workItemRelations"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/workItemRelations"
     },
     "wsjf": {
       "description": "Weighted Shortest Job First scoring block.",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/wsjf"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/wsjf"
     },
     "created": {
       "description": "Authoring date (YYYY-MM-DD).",
@@ -156,15 +156,15 @@
     },
     "openItems": {
       "description": "clarification + challenge ledger \u2014 see orchestrator \"Open-item ledger\". Each entry: { id, kind, raised_by, owner, blocking, status, \u2026 }; kind: clarification | challenge. status: open | resolved | withdrawn. A blocking+open entry HALTS the \u2605 Feature/Architecture Gate.",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/openItems"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/openItems"
     },
     "cost": {
       "description": "token cost accounting \u2014 see the cost-snapshot invariant instructions",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/cost"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/cost"
     },
     "github": {
       "description": "filled by portfolio/_sync (GitHub Projects board sync); null when authoring",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/githubSync"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/githubSync"
     },
     "parentEpic": {
       "description": "portfolio Epic id, or null for a standalone Feature",

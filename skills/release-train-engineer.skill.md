@@ -159,7 +159,7 @@ Three skill families split the handler bodies:
 
 **The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `conf/workflows/<name>.workflow.conf.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
 
-Workflow files use this shape (full schema: [workflow.conf.schema.json](../../../../harness/contracts/conf/framework/workflow.conf.schema.json)):
+Workflow files use this shape (full schema: [workflow.conf.schema.json](../../agentic-harness/contracts/conf/framework/workflow.conf.schema.json)):
 
 ```yaml
 slug: <skill-name>
@@ -332,7 +332,7 @@ An orchestrator's own toolset is deliberately minimal — it **conducts**, it do
 prose. The orchestrator never classifies risk/complexity, scores candidates, or picks a tier at dispatch
 time — it **drives**: it calls `orchestrate` and relays the dispatch the harness returns.
 
-- **Model resolution lives in the harness `ModelRouter`** ([`harness/map/model.map.yaml`](../../../../harness/map/model.map.yaml) is the single source of truth for the concrete `Model (Vendor)` strings, the tiers, capability scores, and cost penalties). The router resolves the model from the **step's static metadata** (`role`, `risk`, `complexity`, `tags`, `config`) declared in the step's workflow config — set once at authoring time, not re-derived per dispatch.
+- **Model resolution lives in the harness `ModelRouter`** ([`conf/model-profiles.conf.yaml`](../conf/model-profiles.conf.yaml) is the single source of truth for the concrete `Model (Vendor)` strings, the tiers, capability scores, and cost penalties). The router resolves the model from the **step's static metadata** (`role`, `risk`, `complexity`, `tags`, `config`) declared in the step's workflow config — set once at authoring time, not re-derived per dispatch.
 - **The driver loop:** `orchestrate <workflow> --unit <id> --run <run>` returns exactly one action — `dispatch` (carrying the resolved `{actor, model, skills, config, output, prompt_context}`), `halt` (a ★ gate is next, or no step is eligible while work remains), or `done` (every step's output artifact exists). Relay a `dispatch` to `runSubagent` with the resolved `model` passed **verbatim** (never `Auto`, never omitted) and the resolved `skills` named in the prompt; surface a `halt` to the Central Supervisor as the staged gate packet; end on `done`.
 - **Determinism guarantee:** the next `orchestrate` recomputes the cursor from the unit's **artifacts** + workflow, so sequencing never depends on a prior log entry. If the routing map is unreadable or no candidate survives, the harness returns an `error` action — surface it and halt; never dispatch a silent fallback.
 
@@ -569,7 +569,7 @@ The `*.artifact.schema.json` file is the deterministic source for artifact ident
 - **`release-train-engineer` owns:** feature, adr, architecture-decision-inventory, vision, roadmap, nfr-register, runway-register, objectives, risks, kanban-program, project-brief (authored by `@product-manager`).
 - **`scrum-master` owns:** sprint-plan, story, qa-signoff, daily, retro, progress, kanban-team.
 
-Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness core spec](../harness/def/core/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
+Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness core spec](../../agentic-harness/def/core/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
 
 | Artifact | Path | Schema + Template |
 |---|---|---|

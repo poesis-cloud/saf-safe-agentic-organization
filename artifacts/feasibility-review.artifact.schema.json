@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "gsmarc://safe/artifacts/feasibility-review.artifact/v1",
-  "$ref": "gsmarc://safe/harness/contracts/artifact/v1",
+  "$id": "gsmarc://saf/artifacts/feasibility-review.artifact/v1",
+  "$ref": "gsmarc://saf/harness/contracts/artifact/v1",
   "title": "feasibility-review artifact schema",
   "type": "object",
   "additionalProperties": true,
@@ -109,7 +109,7 @@
     },
     "openItems": {
       "description": "Open-item ledger.",
-      "$ref": "gsmarc://safe/artifacts/framework-definitions/v1#/definitions/openItems"
+      "$ref": "gsmarc://saf/artifacts/framework-definitions/v1#/definitions/openItems"
     },
     "sources": {
       "description": "Derivation provenance (narrowed subtype of the base contract's sources): refs to the upstream artifact(s) this feasibility-review was built from. Allowed source kinds: epic, epic-enabler, lean-business-case.",

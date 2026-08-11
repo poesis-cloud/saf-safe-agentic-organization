@@ -1,5 +1,5 @@
 ---
-# CI baseline for safe-agentic-framework
+# CI baseline for safe-agentic-organization
 # Runs on every push and PR to main.
 # Jobs: markdown lint, YAML lint, license-header check (stub — enforces once SHIP content lands).
 
@@ -55,7 +55,7 @@ jobs:
                     if ! grep -q "Copyright 2026 Poesis Cloud" "$f"; then
                       MISSING="$MISSING\n  $f"
                     fi
-                  done < <(find layers harness sync \( -name '*.md' -o -name '*.yaml' \) -print0 2>/dev/null)
+                  done < <(find agents skills instructions conf templates artifacts \( -name '*.md' -o -name '*.yaml' \) -print0 2>/dev/null)
                   if [ -n "$MISSING" ]; then
                     printf "ERROR: missing Apache-2.0 header in:%b\n" "$MISSING"
                     exit 1
@@ -78,7 +78,7 @@ jobs:
                     exit 1
                   fi
                   SCAN_DIRS=""
-                  for d in layers harness sync; do
+                  for d in agents skills instructions conf templates artifacts; do
                     [ -d "$d" ] && SCAN_DIRS="$SCAN_DIRS $d"
                   done
                   if [ -z "$SCAN_DIRS" ]; then

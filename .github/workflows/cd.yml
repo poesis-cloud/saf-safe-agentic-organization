@@ -35,17 +35,23 @@ jobs:
               with:
                   python-version: "3.11"
 
-            - name: Install harness test dependencies
-                            run: pip install --quiet -r harness/requirements-dev.txt
+            - name: Checkout harness
+              uses: actions/checkout@v4
+              with:
+                  repository: poesis-cloud/agentic-harness
+                  path: harness
 
-                        - name: Render GitHub Copilot bundle
-                            run: |
-                                    BUNDLE="$RUNNER_TEMP/github-copilot-bundle"
-                                    python3 builds/github-copilot/render_bundle.py . "$BUNDLE"
-                                    echo "BUNDLE=$BUNDLE" >> "$GITHUB_ENV"
+            - name: Install harness test dependencies
+              run: pip install --quiet -r harness/requirements-dev.txt
+
+            - name: Render GitHub Copilot bundle
+              run: |
+                  BUNDLE="$RUNNER_TEMP/github-copilot-bundle"
+                  python3 builds/github-copilot/render_bundle.py . "$BUNDLE"
+                  echo "BUNDLE=$BUNDLE" >> "$GITHUB_ENV"
 
             - name: Validate plugin.json manifest
-                # Packaging gate: every agents[]/skills[] path
+              # Packaging gate: every agents[]/skills[] path
               # resolves, and no enumerated skill points into a workflows/ sub-workflow
               # (Design Invariant 7 — a sub-orchestration is path-loaded, not matched).
               run: |
@@ -100,14 +106,20 @@ jobs:
               with:
                   python-version: "3.11"
 
-                        - name: Install build dependencies
-                            run: pip install --quiet -r harness/requirements-dev.txt
+            - name: Checkout harness
+              uses: actions/checkout@v4
+              with:
+                  repository: poesis-cloud/agentic-harness
+                  path: harness
 
-                        - name: Render GitHub Copilot bundle
-                            run: |
-                                    BUNDLE="$RUNNER_TEMP/github-copilot-bundle"
-                                    python3 builds/github-copilot/render_bundle.py . "$BUNDLE"
-                                    echo "BUNDLE=$BUNDLE" >> "$GITHUB_ENV"
+            - name: Install build dependencies
+              run: pip install --quiet -r harness/requirements-dev.txt
+
+            - name: Render GitHub Copilot bundle
+              run: |
+                  BUNDLE="$RUNNER_TEMP/github-copilot-bundle"
+                  python3 builds/github-copilot/render_bundle.py . "$BUNDLE"
+                  echo "BUNDLE=$BUNDLE" >> "$GITHUB_ENV"
 
             - name: Read plugin metadata
               id: meta
