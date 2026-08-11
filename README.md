@@ -22,9 +22,9 @@ This repository is one of the three products of the Systemic Agentic Framework (
 
 | Product | Repository | Role |
 |---|---|---|
-| Agentic Harness | [`agentic-harness`](https://github.com/poesis-cloud/agentic-harness) | the deterministic execution engine — methodology- and host-agnostic |
+| Agentic Harness | [`saf-agentic-harness`](https://github.com/poesis-cloud/saf-agentic-harness) | the deterministic execution engine — methodology- and host-agnostic |
 | **SAFe Agentic Organization** | **this repository** | the SAFe-shaped framework application the harness executes |
-| Agentic Workspace | [`agentic-workspace`](https://github.com/poesis-cloud/agentic-workspace) | the shared data plane the harness checks and commits into |
+| Agentic Workspace | [`saf-agentic-workspace`](https://github.com/poesis-cloud/saf-agentic-workspace) | the shared data plane the harness checks and commits into |
 
 The harness resolves this framework through `FRAMEWORK_DIR` and the workspace through
 `FRAMEWORK_WORKSPACE_DIR` — the three products stay decoupled through environment-anchored paths,
@@ -42,7 +42,7 @@ agent execution environments that support custom agents and skills. It includes:
 - **Model routing**: deterministic LLM tier + capability-score routing — no random model selection
 - **Portable harness**: deterministic artifact, gate-packet, and runtime-trace checks independent of VS Code hooks —
   methodology- and host-agnostic, so the same familiar agentic work method follows you from host to host as you
-  move between environments (shipped separately as [`agentic-harness`](https://github.com/poesis-cloud/agentic-harness))
+  move between environments (shipped separately as [`saf-agentic-harness`](https://github.com/poesis-cloud/saf-agentic-harness))
 
 ## Layout
 
@@ -59,7 +59,7 @@ The framework is declared by [`plugin.json`](plugin.json) at the repository root
 ## Deterministic Harness
 
 The framework's deterministic checks live in the sibling
-[`agentic-harness`](https://github.com/poesis-cloud/agentic-harness) repository and run through its
+[`saf-agentic-harness`](https://github.com/poesis-cloud/saf-agentic-harness) repository and run through its
 stable entrypoint `harness.py`. They are host-neutral: a CI job, shell wrapper, VS Code hook, or
 another agent runtime can call the same CLI. Point the harness at this repository with
 `FRAMEWORK_DIR`.
@@ -68,25 +68,25 @@ Four commands (the global options `--portfolio-root`, `--strict`, `--json` come 
 
 ```bash
 # STATE — validate Epic/Feature/Story artifacts (FSM, linkage, schema, gates, derived fields)
-python3 ../agentic-harness/harness.py --portfolio-root /path/to/portfolio \
+python3 ../saf-agentic-harness/harness.py --portfolio-root /path/to/portfolio \
   check-artifact --unit-id sie-observability-foundation
 
 # DRIVE — resolve the next orchestration action (dispatch | halt | done)
-python3 ../agentic-harness/harness.py \
+python3 ../saf-agentic-harness/harness.py \
   orchestrate --workflow value-management-officier --unit sie-observability-foundation
 
 # CONDITIONS — evaluate one step's conditions and append the session ledger line
-python3 ../agentic-harness/harness.py \
+python3 ../saf-agentic-harness/harness.py \
   check-step --orchestration value-management-officier --step capture-epic \
   --unit-id sie-observability-foundation --session abc123
 
 # HOOK — funnel a host lifecycle event (JSON on stdin) through the harness
-cat event.json | python3 ../agentic-harness/harness.py hook --event preToolUse
+cat event.json | python3 ../saf-agentic-harness/harness.py hook --event preToolUse
 ```
 
 The harness never writes artifacts — it reports the value/edge; the orchestrator commits. The framework
 constitution (workflow contracts + artifact catalog) is verified separately by the pytest suite:
-`make -C ../agentic-harness verify`.
+`make -C ../saf-agentic-harness verify`.
 
 ---
 

@@ -38,7 +38,7 @@ jobs:
             - name: Checkout harness
               uses: actions/checkout@v4
               with:
-                  repository: poesis-cloud/agentic-harness
+                  repository: poesis-cloud/saf-agentic-harness
                   path: harness
 
             - name: Install harness test dependencies
@@ -109,7 +109,7 @@ jobs:
             - name: Checkout harness
               uses: actions/checkout@v4
               with:
-                  repository: poesis-cloud/agentic-harness
+                  repository: poesis-cloud/saf-agentic-harness
                   path: harness
 
             - name: Install build dependencies

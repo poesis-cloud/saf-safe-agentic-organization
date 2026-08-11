@@ -1,5 +1,5 @@
 ---
-# CI baseline for safe-agentic-organization
+# CI baseline for saf-safe-agentic-organization
 # Runs on every push and PR to main.
 # Jobs: markdown lint, YAML lint, license-header check (stub — enforces once SHIP content lands).
 

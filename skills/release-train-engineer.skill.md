@@ -159,7 +159,7 @@ Three skill families split the handler bodies:
 
 **The workflow config lives with the sub-orchestration skill as sidecar data.** The orchestration skills remain routers, but every ceremony / practice skill is paired with a compact workflow config in `conf/workflows/<name>.workflow.conf.yaml`. The skill prose is the human-readable facilitation procedure; the sidecar is the harness input — the orchestration's **structurant steps**, each with a flat `conditions` list the harness checks (`check-step` for a step's pre/postconditions; `check-artifact` for an artifact's schema). The orchestrator loads the sidecar so it can read the harness's dispatch/halt; the harness — not orchestrator prose — decides when a step's conditions hold. If the prose and the sidecar disagree, treat the step as blocked, capture the inconsistency in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`), and resolve the skill before proceeding.
 
-Workflow files use this shape (full schema: [workflow.conf.schema.json](../../agentic-harness/contracts/conf/framework/workflow.conf.schema.json)):
+Workflow files use this shape (full schema: [workflow.conf.schema.json](../../saf-agentic-harness/contracts/conf/framework/workflow.conf.schema.json)):
 
 ```yaml
 slug: <skill-name>
@@ -569,7 +569,7 @@ The `*.artifact.schema.json` file is the deterministic source for artifact ident
 - **`release-train-engineer` owns:** feature, adr, architecture-decision-inventory, vision, roadmap, nfr-register, runway-register, objectives, risks, kanban-program, project-brief (authored by `@product-manager`).
 - **`scrum-master` owns:** sprint-plan, story, qa-signoff, daily, retro, progress, kanban-team.
 
-Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness core spec](../../agentic-harness/def/core/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
+Framework-wide, host-agnostic concerns live in dedicated homes referenced but not layer-owned: the token cost-accounting model is inlined in each orchestrator's cost-snapshot invariant instructions; the orchestration anti-patterns live in the relevant actor skills; the run-journal / logging model lives in the [harness core spec](../../saf-agentic-harness/def/core/spec.md#logging). The host binding (board spec / sync protocol / sync config) lives under `sync/github/`, swappable for another host adapter.
 
 | Artifact | Path | Schema + Template |
 |---|---|---|
