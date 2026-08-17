@@ -1,6 +1,6 @@
 ---
 name: product-manager
-description: '**WORKFLOW SKILL** — Poesis product management: systematic feature capture, backlog governance, opportunity identification, and GitHub Project synchronization across all Poesis products. USE FOR: reasoning about product strategy, feature decomposition, backlog coherence, market positioning, business opportunity identification, cross-product dependency analysis, SAFe taxonomy alignment, feature prioritization, roadmap planning, and GitHub Project sync operations. DO NOT USE FOR: GSM ontology semantics (use gsm-knowledge skill); framework sourcing into ITIP (use itip-framework-sourcing skill); runtime deployment or CI/CD. REFERENCES: def/features/ artifacts, def/features/github_project_sync/, strategy/POESIS-STRATEGY.md.'
+description: '**WORKFLOW SKILL** — Poesis product management: systematic feature capture, backlog governance, opportunity identification, and GitHub Project synchronization across all Poesis products. USE FOR: reasoning about product strategy, feature decomposition, backlog coherence, market positioning, business opportunity identification, cross-product dependency analysis, SAFe taxonomy alignment, feature prioritization, roadmap planning, and GitHub Project sync operations. DO NOT USE FOR: GSM ontology semantics (use gsm-knowledge skill); framework sourcing into ITIP (use itip-framework-sourcing skill); runtime deployment or CI/CD. REFERENCES: def/features/ artifacts, def/features/github_project_sync/, strategy/poesis-strategy.md.'
 ---
 
 # Product Manager Skill
@@ -30,7 +30,7 @@ Poesis is a **systemic governance platform** with two business lines (open theor
 | SIE Event Bus | Kafka (Helm) | Scaffolding | None |
 | SIE Schema Registry | Schema Registry (Helm) | Scaffolding | None |
 
-### Business Lines (from strategy/POESIS-STRATEGY.md)
+### Business Lines (from strategy/poesis-strategy.md)
 
 **Line 1 — GSM Model (Open)**
 - Academic paper → web content → book

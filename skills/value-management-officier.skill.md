@@ -64,7 +64,7 @@ The VMO **facilitates** and authors only **flow/meta** artifacts; backlog re-ran
 When `portfolio/` does not exist:
 1. Create the tree (with `.gitkeep` in empty subfolders): `portfolio-manifest.yaml`, `strategic-themes.md`, `portfolio-vision.md`, `portfolio-roadmap.md`, `portfolio-backlog/`, `art/`, `products/`.
 2. Populate `portfolio-manifest.yaml` (Business Owner + Enterprise Architect = `central-supervisor`; `products[]` = authoritative product registry; `arts[]` mirrors product slugs only where older tooling still expects the compatibility list).
-3. Seed `strategic-themes.md` from `strategy/POESIS-STRATEGY.md` (business model) + the business lines.
+3. Seed `strategic-themes.md` from `strategy/poesis-strategy.md` (business model) + the business lines.
 4. `provision` the Portfolio Project (see the GitHub board spec).
 
 Use [portfolio-manifest.artifact-template.md](artifacts/portfolio-manifest.artifact-template.md).

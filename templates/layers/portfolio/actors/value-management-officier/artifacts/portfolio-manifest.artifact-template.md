@@ -55,7 +55,7 @@ github_project: null      # filled by `provision portfolio` (Portfolio Project U
 
 - [ ] Create `portfolio/` tree with `.gitkeep` in `portfolio-backlog/`.
 - [ ] Write `portfolio-manifest.yaml` with `products[]` as the authoritative registry and `arts[]` as the compatibility list where older tooling still expects it.
-- [ ] Seed `strategic-themes.md` from `strategy/POESIS-STRATEGY.md` + business lines.
+- [ ] Seed `strategic-themes.md` from `strategy/poesis-strategy.md` + business lines.
 - [ ] Generate `github-sync.yaml` (portfolio variant) and `provision` the Portfolio Project.
 
 ## Relationship to products

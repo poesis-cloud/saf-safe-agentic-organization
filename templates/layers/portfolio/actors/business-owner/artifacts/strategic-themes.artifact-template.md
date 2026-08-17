@@ -4,13 +4,13 @@ Portfolio-scoped singleton. The **Business Owner** hat (you) owns it; it is the 
 backlog spine (`Strategic Themes → Epic → Feature → Story`). Strategic Themes are the
 differentiating business objectives that connect the Poesis portfolio to enterprise strategy —
 in systemics terms, the **teleological attractors** (system purpose) the governance loop steers
-toward. Sourced from `strategy/POESIS-STRATEGY.md` (business model).
+toward. Sourced from `strategy/poesis-strategy.md` (business model).
 
 ```markdown
 ---
 owner: central-supervisor      # Business-Owner hat
 updated: YYYY-MM-DD
-source: strategy/POESIS-STRATEGY.md
+source: strategy/poesis-strategy.md
 ---
 
 # Poesis Strategic Themes
