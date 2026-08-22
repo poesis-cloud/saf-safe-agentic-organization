@@ -10,9 +10,9 @@
 
 ---
 
-> **Note — v0.1:** This repository root **is** the framework application. Agents, skills, workflows,
-> and the [`plugin.json`](plugin.json) manifest are its direct children — install the repository root
-> as the GitHub Copilot customization plugin.
+> **Note — v0.1:** This repository root is the **host-agnostic source** of the framework. Agents,
+> skills, workflows, and configuration are its direct children, but the installable artifact is the
+> **rendered host bundle** produced from [`builds/`](builds/) — see [Installing](#installing).
 
 ---
 
@@ -46,7 +46,8 @@ agent execution environments that support custom agents and skills. It includes:
 
 ## Layout
 
-The framework is declared by [`plugin.json`](plugin.json) at the repository root and is self-contained:
+The framework is host-agnostic source; each host's manifest lives beside its renderer under
+[`builds/`](builds/) (for GitHub Copilot, `builds/github-copilot/plugin.json`):
 
 - [`agents/`](agents/) — the orchestrators and the specialist bench (`<name>.agent.md`)
 - [`skills/`](skills/) — SAFe ceremony, practice, authoring, and orchestration playbooks (`<name>.skill.md`)
@@ -55,6 +56,28 @@ The framework is declared by [`plugin.json`](plugin.json) at the repository root
 - [`templates/`](templates/) — artifact Markdown templates, organized per layer and actor
 - [`artifacts/`](artifacts/) — the JSON Schema contract for every artifact kind the workflows produce
 - [`builds/`](builds/) — host bundle renderers (currently `github-copilot/`)
+
+## Installing
+
+Two steps, in this order — the bundle must exist before the harness can register its hooks into it.
+
+```bash
+# 1. Render the host bundle (this repository, host-agnostic source -> installable artifact)
+BUNDLE=/tmp/github-copilot-bundle
+python3 builds/github-copilot/render_bundle.py . "$BUNDLE"
+
+# 2. Register the harness hooks (from the harness repository)
+make install-hooks FRAMEWORK_DIR=/abs/path/to/saf-agentic-organization BUNDLE_DIR="$BUNDLE"
+```
+
+Step 1 injects each agent's `tools:` frontmatter and writes the host manifest. Step 2 renders the
+workspace hook file, the orchestrators' session-started hook, and the VS Code settings that enable
+hooks at all; it refuses rather than guessing if `BUNDLE_DIR` is omitted. Then install `$BUNDLE`
+as the GitHub Copilot customization plugin — or install the published release asset, which is that
+same bundle.
+
+Everything step 2 writes is generated and git-ignored: it carries machine-specific absolute paths
+and must never be committed.
 
 ## Deterministic Harness
 
