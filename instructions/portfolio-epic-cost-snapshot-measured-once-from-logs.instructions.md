@@ -1,10 +1,10 @@
 ---
-description: 'the value-management-officier writes the Epic `cost:` block exactly once at outcome acceptance (`implementing → done`), self overhead measured from the ecosystem debug logs (matched by `E-N`) plus committed child-Feature rollups — never fabricated, immutable once committed'
+description: 'the value-management-officer writes the Epic `cost:` block exactly once at outcome acceptance (`implementing → done`), self overhead measured from the ecosystem debug logs (matched by `E-N`) plus committed child-Feature rollups — never fabricated, immutable once committed'
 ---
 
 # Invariant: epic_cost_snapshot_measured_once_from_logs
 
-At the Epic's outcome acceptance (`implementing → done`) the **value-management-officier** commits the `cost:` block **exactly once**: the Epic's own overhead dispatches **measured** net-of-cache from the debug logs (matched by `E-N`), plus the sum of its already-committed child-Feature `tokensRolled`. Self overhead is **never fabricated as if measured**; child rollups are read from immutable committed snapshots, **not recomputed**; the Epic block is **immutable** once `committed` is set. The companion CEL postcondition `outcome_accepted_and_cost_committed` only checks that the block exists; this invariant governs its **provenance + write-once** discipline. The full normative model is inlined below.
+At the Epic's outcome acceptance (`implementing → done`) the **value-management-officer** commits the `cost:` block **exactly once**: the Epic's own overhead dispatches **measured** net-of-cache from the debug logs (matched by `E-N`), plus the sum of its already-committed child-Feature `tokensRolled`. Self overhead is **never fabricated as if measured**; child rollups are read from immutable committed snapshots, **not recomputed**; the Epic block is **immutable** once `committed` is set. The companion CEL postcondition `outcome_accepted_and_cost_committed` only checks that the block exists; this invariant governs its **provenance + write-once** discipline. The full normative model is inlined below.
 
 ---
 
@@ -192,7 +192,7 @@ does not change).
 |---|---|---|
 | Story `in-qa → awaiting-pr` (execution complete) | scrum-master | Fetch this Story's dev + QA dispatch tokens from the session debug logs (matched by `S-N`); write the Story `cost:` block once; `source: measured` (or `estimated` if logs gone) |
 | Feature `in-progress → done` (★ Demo Gate) | release-train-engineer | Fetch the Feature's own overhead dispatches (PM / ADR / PI, matched by `F-N`); add Σ child Story `tokensRolled`; write the Feature `cost:` once; refresh the Program kanban cost column |
-| Epic `implementing → done` (outcome acceptance) | value-management-officier | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokensRolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
+| Epic `implementing → done` (outcome acceptance) | value-management-officer | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokensRolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
 
 Child costs are already committed and immutable by the time a parent closes (Stories close before
 their Feature's Demo Gate; Features close before their Epic's acceptance), so each parent rollup reads

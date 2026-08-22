@@ -1,7 +1,7 @@
 ---
 name: portfolio-sync
 user-invocable: false
-description: '**SAFe CEREMONY SKILL.** The Portfolio Sync playbook loaded by `@value-management-officier` per unit (after an Epic transition or a `blocked`). USE FOR: monitoring cross-ART Epic progress; surfacing + escalating portfolio-level risk; removing portfolio impediments (Epic `blocked`/unblock); re-rendering the Portfolio Kanban. DO NOT USE FOR: re-ranking the backlog or pivots (use `strategic-portfolio-review`); the ★ Epic Gate (Central Supervisor); program risk (use `art-sync`). Loaded by `@value-management-officier` before facilitating.'
+description: '**SAFe CEREMONY SKILL.** The Portfolio Sync playbook loaded by `@value-management-officer` per unit (after an Epic transition or a `blocked`). USE FOR: monitoring cross-ART Epic progress; surfacing + escalating portfolio-level risk; removing portfolio impediments (Epic `blocked`/unblock); re-rendering the Portfolio Kanban. DO NOT USE FOR: re-ranking the backlog or pivots (use `strategic-portfolio-review`); the ★ Epic Gate (Central Supervisor); program risk (use `art-sync`). Loaded by `@value-management-officer` before facilitating.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,6 +20,6 @@ description: '**SAFe CEREMONY SKILL.** The Portfolio Sync playbook loaded by `@v
 
 # SAFe Ceremony — Portfolio Sync
 
-A **reconcile** ceremony (no authoring, no gate). The **normative spec** is the machine-readable **[conf/workflows/portfolio-sync.workflow.conf.yaml](../../../../../../conf/workflows/portfolio-sync.workflow.conf.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the reconcile obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officier` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
+A **reconcile** ceremony (no authoring, no gate). The **normative spec** is the machine-readable **[conf/workflows/portfolio-sync.workflow.conf.yaml](../../../../../../conf/workflows/portfolio-sync.workflow.conf.yaml)** — every step + its `conditions` (the trigger as the first step's preconditions; the reconcile obligations as judgment conditions; the structural `after`/`input`/`output` wiring), consumed by `@value-management-officer` and the harness (`check-step` / `check-artifact`). Load and follow it; do not restate it here.
 
-Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[VMO orchestration core](../../../actors/value-management-officier/value-management-officier.skill.md)**. The facilitator rolls up cross-ART child-Feature progress, updates the portfolio risk register, and flips `→blocked`/unblock only — it authors no backlog artifact and flips no ★ gate; **only `@value-management-officier` writes `status:`**.
+Shared model (the open-item ledger, ★ gates, the bench, invariants, artifact templates) lives in **[VMO orchestration core](../../../actors/value-management-officer/value-management-officer.skill.md)**. The facilitator rolls up cross-ART child-Feature progress, updates the portfolio risk register, and flips `→blocked`/unblock only — it authors no backlog artifact and flips no ★ gate; **only `@value-management-officer` writes `status:`**.

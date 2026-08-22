@@ -36,7 +36,7 @@ not through a shared tree.
 The Poesis SAFe Agentic Framework brings SAFe-shaped multi-agent orchestration into
 agent execution environments that support custom agents and skills. It includes:
 
-- **Orchestrators**: `@value-management-officier`, `@release-train-engineer`, `@scrum-master`
+- **Orchestrators**: `@value-management-officer`, `@release-train-engineer`, `@scrum-master`
 - **Specialist bench**: framework-owned author, architecture, development, QA, security, operator, docs, and UX agents
 - **Skills**: SAFe ceremony, practice, authoring, and orchestration playbooks loaded on demand
 - **Model routing**: deterministic LLM tier + capability-score routing — no random model selection
@@ -73,11 +73,11 @@ python3 ../saf-agentic-harness/harness.py --portfolio-root /path/to/portfolio \
 
 # DRIVE — resolve the next orchestration action (dispatch | halt | done)
 python3 ../saf-agentic-harness/harness.py \
-  orchestrate --workflow value-management-officier --unit sie-observability-foundation
+  orchestrate --workflow value-management-officer --unit sie-observability-foundation
 
 # CONDITIONS — evaluate one step's conditions and append the session ledger line
 python3 ../saf-agentic-harness/harness.py \
-  check-step --orchestration value-management-officier --step capture-epic \
+  check-step --orchestration value-management-officer --step capture-epic \
   --unit-id sie-observability-foundation --session abc123
 
 # HOOK — funnel a host lifecycle event (JSON on stdin) through the harness

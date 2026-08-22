@@ -131,7 +131,7 @@ Best-practice rules:
 
 ## Open items
 The human-readable companion to the `openItems:` frontmatter ledger (the [open-item
-ledger](../../value-management-officier/value-management-officier.skill.md#open-item-ledger)) — this enabler Epic's **clarifications**
+ledger](../../value-management-officer/value-management-officer.skill.md#open-item-ledger)) — this enabler Epic's **clarifications**
 (proactive unknowns surfaced by the CE Discovery turn) and **challenges** (reactive findings from
 peer review), formalized identically and routed to the owning hat. Every **blocking** item must be
 resolved before the ★ Epic Gate; non-blocking items are resolved or explicitly deferred with a

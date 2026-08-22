@@ -8,7 +8,7 @@
   "x-artifact": {
     "id": "product-manifest",
     "kind": "product-manifest",
-    "template": "templates/layers/portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md",
+    "template": "templates/layers/portfolio/actors/value-management-officer/artifacts/product-manifest.artifact-template.md",
     "pathPatterns": [
       "products/*/product-manifest.yaml"
     ],

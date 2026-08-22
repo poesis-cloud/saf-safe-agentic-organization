@@ -8,7 +8,7 @@
   "x-artifact": {
     "id": "portfolio-manifest",
     "kind": "portfolio-manifest",
-    "template": "templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md",
+    "template": "templates/layers/portfolio/actors/value-management-officer/artifacts/portfolio-manifest.artifact-template.md",
     "pathPatterns": [
       "portfolio-manifest.yaml"
     ],

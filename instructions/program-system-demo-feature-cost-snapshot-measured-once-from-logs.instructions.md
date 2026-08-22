@@ -192,7 +192,7 @@ does not change).
 |---|---|---|
 | Story `in-qa → awaiting-pr` (execution complete) | scrum-master | Fetch this Story's dev + QA dispatch tokens from the session debug logs (matched by `S-N`); write the Story `cost:` block once; `source: measured` (or `estimated` if logs gone) |
 | Feature `in-progress → done` (★ Demo Gate) | release-train-engineer | Fetch the Feature's own overhead dispatches (PM / ADR / PI, matched by `F-N`); add Σ child Story `tokensRolled`; write the Feature `cost:` once; refresh the Program kanban cost column |
-| Epic `implementing → done` (outcome acceptance) | value-management-officier | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokensRolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
+| Epic `implementing → done` (outcome acceptance) | value-management-officer | Fetch the Epic's own overhead dispatches (BO/EA shaping / PI / I&A, matched by `E-N`); add Σ child Feature `tokensRolled`; write the Epic `cost:` once; refresh the Portfolio kanban cost column |
 
 Child costs are already committed and immutable by the time a parent closes (Stories close before
 their Feature's Demo Gate; Features close before their Epic's acceptance), so each parent rollup reads

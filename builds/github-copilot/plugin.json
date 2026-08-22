@@ -10,7 +10,7 @@
     "agents": [
         "agents/business-owner.agent.md",
         "agents/enterprise-architect.agent.md",
-        "agents/value-management-officier.agent.md",
+        "agents/value-management-officer.agent.md",
         "agents/product-manager.agent.md",
         "agents/release-train-engineer.agent.md",
         "agents/system-architect.agent.md",
@@ -24,7 +24,7 @@
         "agents/ux-designer.agent.md"
     ],
     "skills": [
-        "skills/value-management-officier.skill.md",
+        "skills/value-management-officer.skill.md",
         "skills/release-train-engineer.skill.md",
         "skills/scrum-master.skill.md",
         "skills/business-owner.skill.md",

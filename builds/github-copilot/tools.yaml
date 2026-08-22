@@ -78,7 +78,7 @@ uxTools: &uxTools
 agents:
   agents/business-owner.agent.md: *commonTools
   agents/enterprise-architect.agent.md: *commonTools
-  agents/value-management-officier.agent.md: *dispatchTools
+  agents/value-management-officer.agent.md: *dispatchTools
   agents/product-manager.agent.md: *commonTools
   agents/release-train-engineer.agent.md: *dispatchTools
   agents/system-architect.agent.md: *commonTools

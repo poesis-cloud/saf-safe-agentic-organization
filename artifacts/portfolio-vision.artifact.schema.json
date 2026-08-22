@@ -8,7 +8,7 @@
   "x-artifact": {
     "id": "portfolio-vision",
     "kind": "portfolio-vision",
-    "template": "templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-vision.artifact-template.md",
+    "template": "templates/layers/portfolio/actors/value-management-officer/artifacts/portfolio-vision.artifact-template.md",
     "pathPatterns": [
       "portfolio-vision.md"
     ],

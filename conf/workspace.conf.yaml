@@ -13,12 +13,11 @@
 nodes:
   - slug: portfolio
     description: Workspace root folder.
-    cardinality: "1"
     children:
       - slug: portfolio-manifest.yaml
         description: Portfolio manifest and ART/product registry.
         artifact: portfolio-manifest
-        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-manifest
+        template: layers/portfolio/actors/value-management-officer/artifacts/portfolio-manifest
         cardinality: "1"
 
       - slug: strategic-themes.md
@@ -30,22 +29,20 @@ nodes:
       - slug: portfolio-vision.md
         description: Portfolio vision.
         artifact: portfolio-vision
-        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-vision
+        template: layers/portfolio/actors/value-management-officer/artifacts/portfolio-vision
         cardinality: "1"
 
       - slug: portfolio-roadmap.md
         description: Portfolio roadmap.
         artifact: portfolio-roadmap
-        template: layers/portfolio/actors/value-management-officier/artifacts/portfolio-roadmap
+        template: layers/portfolio/actors/value-management-officer/artifacts/portfolio-roadmap
         cardinality: "1"
 
       - slug: portfolio-backlog
         description: Portfolio-scoped epics backlog.
-        cardinality: "1"
         children:
           - slug: <epic-slug>
             description: Epic folder.
-            cardinality: "1..*"
             children:
               - slug: <epic-slug>.epic.md
                 description: Portfolio-scoped epic.
@@ -65,11 +62,9 @@ nodes:
 
       - slug: art
         description: Agile Release Train (ART) workspace (one folder per ART slug).
-        cardinality: "1..*"
         children:
           - slug: <art-slug>
             description: ART folder.
-            cardinality: "1..*"
             children:
               - slug: art-manifest.yaml
                 description: ART manifest and registry entry.
@@ -79,11 +74,9 @@ nodes:
 
               - slug: improvement-backlog
                 description: ART-scoped continuous improvement backlog.
-                cardinality: "1"
                 children:
                   - slug: <pain-point-slug>
                     description: Pain point folder.
-                    cardinality: "1..*"
                     children:
                       - slug: <pain-point-slug>.pain-point.md
                         description: Improvement pain point.
@@ -93,11 +86,9 @@ nodes:
 
               - slug: program-backlog
                 description: ART-scoped program backlog.
-                cardinality: "1"
                 children:
                   - slug: <feature-slug>
                     description: Feature folder.
-                    cardinality: "1..*"
                     children:
                       - slug: <feature-slug>.feature.md
                         description: Program-scoped feature.
@@ -147,11 +138,9 @@ nodes:
 
               - slug: teams
                 description: Teams belonging to the ART.
-                cardinality: "1"
                 children:
                   - slug: <team-slug>
                     description: Team folder.
-                    cardinality: "1..*"
                     children:
                       - slug: team-manifest.yaml
                         description: Team manifest and registry entry.
@@ -161,11 +150,9 @@ nodes:
 
                       - slug: team-backlog
                         description: Team-scoped backlog.
-                        cardinality: "1"
                         children:
                           - slug: <story-slug>
                             description: Story folder.
-                            cardinality: "1..*"
                             children:
                               - slug: <story-slug>.story.md
                                 description: Team-scoped story.
@@ -185,7 +172,6 @@ nodes:
 
               - slug: pi-<pi-slug>
                 description: PI folder.
-                cardinality: "1..*"
                 children:
                   - slug: objectives.md
                     description: PI objectives.
@@ -199,11 +185,9 @@ nodes:
                     cardinality: "1"
                   - slug: iterations
                     description: PI iterations.
-                    cardinality: "1"
                     children:
                       - slug: <iteration-slug>
                         description: Iteration folder.
-                        cardinality: "1..*"
                         children:
                           - slug: plan.md
                             description: Iteration plan (includes Progress and Done sections directly; there is no separate progress artifact).
@@ -213,16 +197,14 @@ nodes:
 
       - slug: products
         description: Product definitions (not backlogs).
-        cardinality: "1"
         children:
           - slug: <product-slug>
             description: Product folder (one per product slug).
-            cardinality: "1..*"
             children:
               - slug: product-manifest.yaml
                 description: Product manifest and registry entry.
                 artifact: product-manifest
-                template: layers/portfolio/actors/value-management-officier/artifacts/product-manifest
+                template: layers/portfolio/actors/value-management-officer/artifacts/product-manifest
                 cardinality: "1"
 
               - slug: product-vision.md

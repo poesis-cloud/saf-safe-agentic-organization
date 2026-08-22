@@ -129,7 +129,7 @@ Story `in-progress`: 1 per pair. Story `in-qa`: 2. Reject any new pull that brea
 
 # Orchestration core (shared mechanics)
 
-The mutualized SAFe orchestration mechanics, inlined so this skill is self-contained. All three orchestrators (`@value-management-officier`, `@release-train-engineer`, `@scrum-master`) share this core; the dispatch chain is `@value-management-officier -> @release-train-engineer -> @scrum-master`.
+The mutualized SAFe orchestration mechanics, inlined so this skill is self-contained. All three orchestrators (`@value-management-officer`, `@release-train-engineer`, `@scrum-master`) share this core; the dispatch chain is `@value-management-officer -> @release-train-engineer -> @scrum-master`.
 
 ## Personas
 
@@ -137,7 +137,7 @@ The mutualized SAFe orchestration mechanics, inlined so this skill is self-conta
   - **Business Owner hat** — value authority for the portfolio: sets Strategic Themes, approves business Epics at the **★ Epic Gate**, makes pivot/persevere/stop calls. **Default authoring agent: `@business-owner`.**
   - **Enterprise Architect hat** — owns the cross-product architectural runway / NFR backbone at the Epic level; authors and seeds enabler Epics. **Default authoring agent: `@enterprise-architect`.**
 - **The three orchestrators are the *police* of their layer — not artifact owners.** Each **governs** its layer: it controls the **input/output artifacts** of the agents it dispatches, enforces conformance to the **reference templates it owns** and to **SAFe standard practice**, and owns the **flow** (gates, kanban transitions, WIP). It **never authors or owns a backlog artifact** — business backlog artifacts belong to the product hats (**BO → business Epic, PM → business Feature, PO → business Story**), while enabler backlog artifacts belong to the architect hats (**EA → enabler Epic, SA → enabler Feature / Story**) — and it **never writes production code**.
-  - **value-management-officier** — portfolio layer. Polices Strategic Themes + Epics + the ★ Epic Gate; owns the **portfolio templates**; dispatches `@business-owner` for business Epics, `@enterprise-architect` for enabler Epics, and release-train-engineer per ART. **Single entry point.**
+  - **value-management-officer** — portfolio layer. Polices Strategic Themes + Epics + the ★ Epic Gate; owns the **portfolio templates**; dispatches `@business-owner` for business Epics, `@enterprise-architect` for enabler Epics, and release-train-engineer per ART. **Single entry point.**
   - **release-train-engineer** — program / ART layer. Polices Features + ADRs + the ★ Feature / Architecture / Demo gates; owns the **program templates**; dispatches `@product-manager` for business Features, `@system-architect` for enabler Features and architecture work, and scrum-master for iterations.
   - **scrum-master** — iteration layer. Polices Stories + the ★ Story / PR gates; owns the **iteration templates**; dispatches `@product-owner` for business Stories, `@system-architect` for enabler Stories, plus the dev/QA pair.
 - **Backlog authoring is split by concern.** `@business-owner` authors business Epics + Strategic Themes, `@product-manager` authors business Features, and `@product-owner` authors business Stories. `@enterprise-architect` owns enabler Epics and portfolio runway; `@system-architect` owns enabler Features / Stories and solution-level architecture work.
@@ -262,11 +262,11 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 
 | Sub-orchestration / handling | Loaded by | Skill | Family |
 |---|---|---|---|
-| Strategic Portfolio Review | `@value-management-officier` | `value-management-officier/workflows/strategic-portfolio-review` **(nested)** | Ceremony |
-| Participatory Budgeting | `@value-management-officier` | `value-management-officier/workflows/participatory-budgeting` **(nested)** | Ceremony |
-| Portfolio Sync | `@value-management-officier` | `value-management-officier/workflows/portfolio-sync` **(nested)** | Ceremony |
-| Epic Lean Business Case | `@value-management-officier` | `value-management-officier/workflows/epic-lean-business-case` **(nested)** | Practice·CE |
-| Architectural Vision | `@value-management-officier` | `value-management-officier/workflows/architectural-vision` **(nested)** | Practice·CE |
+| Strategic Portfolio Review | `@value-management-officer` | `value-management-officer/workflows/strategic-portfolio-review` **(nested)** | Ceremony |
+| Participatory Budgeting | `@value-management-officer` | `value-management-officer/workflows/participatory-budgeting` **(nested)** | Ceremony |
+| Portfolio Sync | `@value-management-officer` | `value-management-officer/workflows/portfolio-sync` **(nested)** | Ceremony |
+| Epic Lean Business Case | `@value-management-officer` | `value-management-officer/workflows/epic-lean-business-case` **(nested)** | Practice·CE |
+| Architectural Vision | `@value-management-officer` | `value-management-officer/workflows/architectural-vision` **(nested)** | Practice·CE |
 | Feature Backlog Refinement | `@release-train-engineer` | `release-train-engineer/workflows/feature-backlog-refinement` **(nested)** | Ceremony·CE |
 | PI Planning | `@release-train-engineer` | `release-train-engineer/workflows/pi-planning` **(nested)** | Ceremony |
 | Demo Gate | `@release-train-engineer` | `release-train-engineer/workflows/demo-gate` **(nested)** | Ceremony |
@@ -300,7 +300,7 @@ All SAFe artifacts live at **poesis level** at the workspace root, **never insid
 
 ### Portfolio scope (singleton, cross-product)
 
-`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md)). It owns:
+`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/portfolio-manifest.artifact-template.md)). It owns:
 
 - `portfolio-manifest.yaml` — manifest and authoritative product registry (`products[]`; `arts[]` may remain as a compatibility list).
 - `strategic-themes.md` — the Strategic Themes singleton (top of the spine).
@@ -384,7 +384,7 @@ from those logs **once**, at the artifact's terminal status, per the [cost-accou
 
 - **Story** `→ awaiting-pr`: `@scrum-master` sums the Story's dev + QA dispatch tokens from the logs.
 - **Feature** `→ done` (★ Demo Gate): `@release-train-engineer` fetches Feature overhead + Σ child Stories.
-- **Epic** `→ done`: `@value-management-officier` fetches Epic overhead + Σ child Features.
+- **Epic** `→ done`: `@value-management-officer` fetches Epic overhead + Σ child Features.
 
 The snapshot is `source: measured` when the logs are present, `estimated` only if they are gone; it is
 written once and is immutable thereafter. Never fabricate a precise measured number.
@@ -395,7 +395,7 @@ Escalate only on: QA acceptance failure / contradictory evidence; `@security-exp
 
 ### Feature/Story classification (mandatory)
 
-Every Epic frontmatter carries `risk` + `complexity` before leaving `funnel` (BO/EA own it, PM/EA assist); every Feature before leaving `funnel`; every Story before leaving `backlog`. PM owns initial Feature classification; PO owns initial Story classification; scrum-master verifies Story risk/complexity at Iteration Planning; value-management-officier may raise (never silently lower) Epic classification at Epic intake / Strategic Portfolio Review; release-train-engineer may raise (never silently lower) Feature classification at PI Planning. On execution drift, update frontmatter and note it in `progress.md`.
+Every Epic frontmatter carries `risk` + `complexity` before leaving `funnel` (BO/EA own it, PM/EA assist); every Feature before leaving `funnel`; every Story before leaving `backlog`. PM owns initial Feature classification; PO owns initial Story classification; scrum-master verifies Story risk/complexity at Iteration Planning; value-management-officer may raise (never silently lower) Epic classification at Epic intake / Strategic Portfolio Review; release-train-engineer may raise (never silently lower) Feature classification at PI Planning. On execution drift, update frontmatter and note it in `progress.md`.
 
 ## Kanbans & status transitions (normative)
 
@@ -409,18 +409,18 @@ owner → processing instance → gate), not a procedure to replay by hand.
 
 **Owner vs Actors:** Owner = single accountable role, one per column, flips the field. Other actors contribute; named in `note`.
 
-### Portfolio Kanban — Epics (value-management-officier drives; Business-Owner-owned overall, cross-product)
+### Portfolio Kanban — Epics (value-management-officer drives; Business-Owner-owned overall, cross-product)
 `funnel -> reviewing -> analyzing -> portfolio-backlog -> implementing -> done`. Flag: `blocked`.
 
 | Column | Owner | Processing instance | Gate |
 |---|---|---|---|
 | **funnel** | Central Supervisor (BO hat) | Raw Epic idea capture | — |
-| **reviewing** | value-management-officier | Epic hypothesis + rough WSJF (PM assists) | — |
+| **reviewing** | value-management-officer | Epic hypothesis + rough WSJF (PM assists) | — |
 | **analyzing** | Central Supervisor (EA hat) | Runway draft; products + Feature seeds (`@enterprise-architect` assists) | — |
 | **portfolio-backlog** | Central Supervisor (BO hat) | Epic approval | **★ Epic Gate** |
-| **implementing** | value-management-officier | First child Feature enters its product Program Kanban (release-train-engineer notifies) | — |
-| **done** | Central Supervisor (BO hat) | Epic outcome accepted (value-management-officier facilitates after the ART's last child Feature is `done`) | **★ Epic Outcome Gate** |
-| **blocked** *(flag)* | value-management-officier | Portfolio-level impediment removal | — |
+| **implementing** | value-management-officer | First child Feature enters its product Program Kanban (release-train-engineer notifies) | — |
+| **done** | Central Supervisor (BO hat) | Epic outcome accepted (value-management-officer facilitates after the ART's last child Feature is `done`) | **★ Epic Outcome Gate** |
+| **blocked** *(flag)* | value-management-officer | Portfolio-level impediment removal | — |
 
 ### Program Kanban — Features (release-train-engineer drives; PM-owned overall)
 `funnel -> refined -> arch-pending -> ready -> committed -> in-progress -> done`. Flag: `blocked`. Each Feature carries `type: business | enabler`.
@@ -566,7 +566,7 @@ truth for content; the board is authoritative for non-gate status moves. Normati
   portfolio/_sync per the sync protocol. A board move across a gate boundary is a request, never
   approval. **Publish-before-gate (all tiers, mandatory):** every work item is pushed to its GitHub
   Project board *before* the validation gate that governs it, and its `github:` block is written
-  back — **Epic → ★ Epic Gate** (`@value-management-officier`), **Feature → ★ Architecture Gate**
+  back — **Epic → ★ Epic Gate** (`@value-management-officer`), **Feature → ★ Architecture Gate**
   (`@release-train-engineer`), **Story → ★ PR Gate** (`@scrum-master`). No item reaches its gate
   without a live board card; the gate-crossing status flip itself is still never auto-applied.
 - **One commit per Story unit of work**, trailer `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`; pair commits add `(pair: <Driver>/<Navigator>)`.
@@ -597,7 +597,7 @@ The `*.artifact.schema.json` file is the deterministic source for artifact ident
 
 **Artifact ownership (by layer).** Each orchestrator **owns and maintains** its tier's artifact schemas and artifact templates, and enforces conformance; authors always use the current owned version.
 
-- **`value-management-officier` owns:** portfolio-manifest, strategic-themes, epic, lean-business-case, architectural-vision, product-manifest, kanban-portfolio.
+- **`value-management-officer` owns:** portfolio-manifest, strategic-themes, epic, lean-business-case, architectural-vision, product-manifest, kanban-portfolio.
 - **`release-train-engineer` owns:** feature, adr, architecture-decision-inventory, vision, roadmap, nfr-register, runway-register, objectives, risks, kanban-program, project-brief (authored by `@product-manager`).
 - **`scrum-master` owns:** sprint-plan, story, qa-signoff, daily, retro, progress, kanban-team.
 
@@ -605,13 +605,13 @@ Framework-wide, host-agnostic concerns live in dedicated homes referenced but no
 
 | Artifact | Path | Schema + Template |
 |---|---|---|
-| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md) |
+| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/portfolio-manifest.artifact-template.md) |
 | Strategic Themes (singleton) | `strategic-themes.md` | [strategic-themes.artifact.schema.json](../../../../artifacts/strategic-themes.artifact.schema.json) + [strategic-themes.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/strategic-themes.artifact-template.md) |
 | Epic (business) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic.artifact.schema.json](../../../../artifacts/epic.artifact.schema.json) + [epic.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/epic.artifact-template.md) |
 | Epic (enabler) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic-enabler.artifact.schema.json](../../../../artifacts/epic-enabler.artifact.schema.json) + [epic-enabler.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/epic-enabler.artifact-template.md) |
 | Lean Business Case | `portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md` | [lean-business-case.artifact.schema.json](../../../../artifacts/lean-business-case.artifact.schema.json) + [lean-business-case.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/lean-business-case.artifact-template.md) |
 | Architectural Vision (singleton) | `portfolio/architectural-vision.md` | [architectural-vision.artifact.schema.json](../../../../artifacts/architectural-vision.artifact.schema.json) + [architectural-vision.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/architectural-vision.artifact-template.md) |
-| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../artifacts/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md) |
+| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../artifacts/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/product-manifest.artifact-template.md) |
 | Feature (business) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature.artifact.schema.json](../../../../artifacts/feature.artifact.schema.json) + [feature.artifact-template.md](../../../program/actors/product-manager/artifacts/feature.artifact-template.md) |
 | Feature (enabler) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature-enabler.artifact.schema.json](../../../../artifacts/feature-enabler.artifact.schema.json) + [feature-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/feature-enabler.artifact-template.md) |
 | Product Vision | `products/<product-slug>/vision.md` | [vision.artifact.schema.json](../../../../artifacts/vision.artifact.schema.json) + [vision.artifact-template.md](../../../program/actors/product-manager/artifacts/vision.artifact-template.md) |

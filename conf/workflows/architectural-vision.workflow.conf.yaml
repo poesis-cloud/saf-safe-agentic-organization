@@ -1,7 +1,7 @@
 slug: architectural-vision
 predecessors:
 - epic-lean-business-case
-orchestrator: value-management-officier
+orchestrator: value-management-officer
 steps:
 - slug: ea-draft
   capabilities:

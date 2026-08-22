@@ -1,6 +1,6 @@
 ---
 name: release-train-engineer
-description: 'Program / ART layer of the SAFe orchestration. Self-contained orchestration skill for @release-train-engineer — the layer-specific program/ART flow plus the shared Orchestration core (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) inlined. Covers receiving an approved Epic from @value-management-officier, Feature derivation + refinement, architecture runway (the Architecture Gate), PI Planning, dispatching @scrum-master for iteration execution, Demo Gate, ART Sync, PI Inspect & Adapt, the Program Kanban, cross-Feature risk, and ART health / state recovery. Use for everything between the portfolio line and the iteration line. Portfolio concerns (Strategic Themes, Epics, the Epic Gate, Portfolio Kanban, ART registration) belong to @value-management-officier.'
+description: 'Program / ART layer of the SAFe orchestration. Self-contained orchestration skill for @release-train-engineer — the layer-specific program/ART flow plus the shared Orchestration core (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) inlined. Covers receiving an approved Epic from @value-management-officer, Feature derivation + refinement, architecture runway (the Architecture Gate), PI Planning, dispatching @scrum-master for iteration execution, Demo Gate, ART Sync, PI Inspect & Adapt, the Program Kanban, cross-Feature risk, and ART health / state recovery. Use for everything between the portfolio line and the iteration line. Portfolio concerns (Strategic Themes, Epics, the Epic Gate, Portfolio Kanban, ART registration) belong to @value-management-officer.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -19,7 +19,7 @@ description: 'Program / ART layer of the SAFe orchestration. Self-contained orch
 
 # RTE Orchestration (program / ART layer)
 
-Layer-specific procedure for **`@release-train-engineer`**. This skill is **self-contained**: the program/ART-layer flow comes first, then the shared **Orchestration core** (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) is inlined at the end — read it for every shared mechanic. The portfolio layer above you (Strategic Themes, Epics, the ★ Epic Gate, the Portfolio Kanban, ART registration) is owned by **`@value-management-officier`** — see the [value-management-officier skill](../../../portfolio/actors/value-management-officier/value-management-officier.skill.md).
+Layer-specific procedure for **`@release-train-engineer`**. This skill is **self-contained**: the program/ART-layer flow comes first, then the shared **Orchestration core** (personas, event loop, bench, routing, kanban mechanics, gates, invariants, artifact catalog) is inlined at the end — read it for every shared mechanic. The portfolio layer above you (Strategic Themes, Epics, the ★ Epic Gate, the Portfolio Kanban, ART registration) is owned by **`@value-management-officer`** — see the [value-management-officer skill](../../../portfolio/actors/value-management-officer/value-management-officer.skill.md).
 
 ## What the release-train-engineer governs (program/ART-layer police)
 
@@ -31,28 +31,28 @@ Central-Supervisor review comments do not relax that boundary. When the Central 
 - **Architecture runway** — **ART Sync** (Architect participates) while ADRs are in flight; facilitate the **★ Architecture Gate**. The gate packet is not ADR-only: rte must stage every architecture artifact required by the runway practice and product reference model before returning to the Central Supervisor.
 - **PI Planning** — `art/<art-slug>/pi-<pi-slug>/objectives.md`; flip Features `ready -> committed`; **dispatch `@scrum-master`** for all iteration execution (sprint planning, story execution, pair programming, ★ PR Gate prep).
 - **Demo Gate** — facilitate the **★ Demo Gate**; facilitate **PI Inspect & Adapt**; merge approved PRs (**★ PR Gate**, `awaiting-pr -> done`).
-- **ART health** — gate compliance, artifact-trace integrity (Story -> Feature -> Epic), invariant enforcement, cross-Feature/-product risk (`art/<art-slug>/pi-<pi-slug>/risks.md`); remove program-level impediments, escalate portfolio ones to `@value-management-officier`.
-- **Feature cost — once, at the ★ Demo Gate** — fetch overhead from ecosystem logs + Σ child Story `tokensRolled`; write `cost:` once; refresh kanban; **notify `@value-management-officier`** for the Epic-level commit ([cost-snapshot invariant + model](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md)). Story cost is `@scrum-master`'s at `awaiting-pr`.
+- **ART health** — gate compliance, artifact-trace integrity (Story -> Feature -> Epic), invariant enforcement, cross-Feature/-product risk (`art/<art-slug>/pi-<pi-slug>/risks.md`); remove program-level impediments, escalate portfolio ones to `@value-management-officer`.
+- **Feature cost — once, at the ★ Demo Gate** — fetch overhead from ecosystem logs + Σ child Story `tokensRolled`; write `cost:` once; refresh kanban; **notify `@value-management-officer`** for the Epic-level commit ([cost-snapshot invariant + model](../../workflow/instructions/feature-cost-snapshot-measured-once-from-logs.instructions.md)). Story cost is `@scrum-master`'s at `awaiting-pr`.
 - **Pain points — continuous** — append program/ART friction to the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`); `status: open`, no inline fix.
 
-Dispatched by `@value-management-officier` for an approved Epic, or directly by the Central Supervisor; dispatches the bench + `@scrum-master`. **Never writes production code**; is **not** the Central Supervisor, Architect, PM/PO, or QA.
+Dispatched by `@value-management-officer` for an approved Epic, or directly by the Central Supervisor; dispatches the bench + `@scrum-master`. **Never writes production code**; is **not** the Central Supervisor, Architect, PM/PO, or QA.
 
 ## The Flow — Feature handling matrix
 
-The program/ART workflow **is the Feature FSM**: `funnel → refined → arch-pending → ready → committed → in-progress → done` (flag `blocked`). `@release-train-engineer` is the **event loop** and **transition governor**; the Feature artifact (including `status:`) is authored by its owner (`@product-manager` for business, `@system-architect` for enabler). One matrix folds the flow, sub-orchestrations, and gates (kinds **D / Ceremony / Practice / Gate**). Each Feature carries `type: business | enabler`. Halt only at the ★ gates (Feature / Architecture / Demo / PR) you own. **Step 0:** if the product is unregistered, **escalate to `@value-management-officier`**.
+The program/ART workflow **is the Feature FSM**: `funnel → refined → arch-pending → ready → committed → in-progress → done` (flag `blocked`). `@release-train-engineer` is the **event loop** and **transition governor**; the Feature artifact (including `status:`) is authored by its owner (`@product-manager` for business, `@system-architect` for enabler). One matrix folds the flow, sub-orchestrations, and gates (kinds **D / Ceremony / Practice / Gate**). Each Feature carries `type: business | enabler`. Halt only at the ★ gates (Feature / Architecture / Demo / PR) you own. **Step 0:** if the product is unregistered, **escalate to `@value-management-officer`**.
 
 Before executing any ceremony or practice row, load that sub-orchestration skill plus its workflow config in `conf/workflows/<name>.workflow.conf.yaml` (where `<name>` is the ceremony/practice slug); the harness checks each step's `conditions` (`check-step`) and records every command to the per-run journal (`portfolio/logs/<run>.jsonl`) — the transition guard is the harness result, not orchestrator prose. The prose exchange explains how to facilitate; the workflow's `steps[].conditions` are the minimum evidence checklist — structural `after`/`input`/`output` refs the harness resolves + `cel` (pre/post) / `instruction` (invariant) judgments. If a condition fails or an `input`/`output` ref is missing, the row is incomplete and no status flip / gate staging may be claimed.
 
 | Event (Feature reaches…) | Kind | Sub-orchestration | Gate | → rte commits |
 |---|---|---|---|---|
-| Epic `portfolio-backlog`+ (← `@value-management-officier`) | Ceremony·CE | **Feature Backlog Refinement** (`@product-manager` authors; system-architect / dev / QA / UX / Security all dispatched per `feature-backlog-refinement`; PM-only refinement is invalid) → AC + WSJF + `structurant` | — | `∅→funnel` → `funnel→refined`; **notify `@value-management-officier`** (Epic→`implementing`) |
+| Epic `portfolio-backlog`+ (← `@value-management-officer`) | Ceremony·CE | **Feature Backlog Refinement** (`@product-manager` authors; system-architect / dev / QA / UX / Security all dispatched per `feature-backlog-refinement`; PM-only refinement is invalid) → AC + WSJF + `structurant` | — | `∅→funnel` → `funnel→refined`; **notify `@value-management-officer`** (Epic→`implementing`) |
 | `refined` *(refined)* | **Gate** | — | **★ Feature Gate** (rte-run; escalate if structurant/contested) | accept→`arch-pending` (structurant) / `ready` · reject→`funnel` (re-refine) |
 | `arch-pending` *(produce / extend)* | Practice·CE | **Architectural Runway Extension** (`@system-architect` + Security + DevOps + dev) → current architecture pass packet (one or more `ADR@proposed` + committed decision inventory update + runway/NFR updates + enabler seeds + explicit challenge findings + unresolved gate questions). Any challenge findings from Security / DevOps / dev return to `@system-architect` for the architecture artifact rewrite before rte updates flow-owned packet collation. | — | *(packet committed; stays `arch-pending` until decision inventory is gate-complete and no replay-triggering enabler has invalidated prior refinement)* |
 | runway / NFR / compliance gap surfaced after Feature refinement | Practice·CE | **Architectural Runway Extension** → seeds an **Enabler Feature** and invalidates the parent Feature's prior refinement packet | — | enabler Feature `∅→funnel` (`type: enabler`); parent Feature `arch-pending`/`refined`→`funnel` (replay **Feature Backlog Refinement**); correct stale parent next-gate wording before any further gate staging |
 | `arch-pending` *(architecture inventory sufficiently covered · challenge done · board-published)* | **Gate** | — | **★ Architecture Gate** (CS) | accept→`ready` · reject→rejected ADR(s), Feature→`refined` |
 | `ready` **and** `dependsOn` met | Ceremony | **PI Planning** (→ `objectives.md` + `risks.md`) | — | `ready→committed`; **dispatch `@scrum-master`** |
 | first child Story `ready` (roll-up ← `@scrum-master`) | D | — | — | `committed→in-progress` |
-| child Stories **all `done`** | Ceremony | **Demo Gate** (stages the increment for the CS) | **★ Demo Gate** (CS) | accept→`in-progress→done`; commit Feature `cost:` once; **notify `@value-management-officier`** |
+| child Stories **all `done`** | Ceremony | **Demo Gate** (stages the increment for the CS) | **★ Demo Gate** (CS) | accept→`in-progress→done`; commit Feature `cost:` once; **notify `@value-management-officer`** |
 | Story `awaiting-pr` (rte-owned merge) | **Gate** | — | **★ PR Gate** (CS) | Story `awaiting-pr→done` (**rte merges**); roll-up to Feature |
 | any Feature transition / `→blocked` / ADR in flight | Ceremony | **ART Sync** (deps + risk + runway → `risks.md` + kanban) | — | `→blocked`/unblock |
 | `done` *(synthesise at an Epic's completion)* | Ceremony | **Inspect & Adapt** | — | triage program pain points; enabler gaps ⇒ seed Feature `∅→funnel` |
@@ -73,11 +73,11 @@ For **Architectural Runway Extension**, Architecture Gate staging is legal only 
 
 ## Product registration (escalate to VMO)
 
-Product / ART registration is owned by **`@value-management-officier`** — it is the only writer of `portfolio-manifest.yaml > products[]` (with `arts[]` retained only as a compatibility list where older tooling still expects it). When a target product is not registered, **escalate to `@value-management-officier`** (ART / Product Init lives in the value-management-officier skill) and resume once the product manifest exists. Do not create `portfolio/` or mutate the registry from the program layer.
+Product / ART registration is owned by **`@value-management-officer`** — it is the only writer of `portfolio-manifest.yaml > products[]` (with `arts[]` retained only as a compatibility list where older tooling still expects it). When a target product is not registered, **escalate to `@value-management-officer`** (ART / Product Init lives in the value-management-officer skill) and resume once the product manifest exists. Do not create `portfolio/` or mutate the registry from the program layer.
 
 ## Program Kanban ownership
 
-The release-train-engineer renders `Program Kanban (rendered view)` from Feature frontmatter after every Feature status flip. It owns the `ready`, `committed`, and `blocked` (program) transitions and the `awaiting-pr -> done` merge; PM owns `funnel`/`refined`; `@system-architect` owns `arch-pending`; the Central Supervisor owns the ★ Architecture / Demo gate transitions. The **Portfolio Kanban** (Portfolio Kanban (rendered view), Epic frontmatter) is owned by `@value-management-officier`; release-train-engineer only **notifies** it of Epic-affecting events (first child Feature in `funnel` -> `implementing`; last child Feature `done` -> outcome acceptance). See *Orchestration core* below for the full tables.
+The release-train-engineer renders `Program Kanban (rendered view)` from Feature frontmatter after every Feature status flip. It owns the `ready`, `committed`, and `blocked` (program) transitions and the `awaiting-pr -> done` merge; PM owns `funnel`/`refined`; `@system-architect` owns `arch-pending`; the Central Supervisor owns the ★ Architecture / Demo gate transitions. The **Portfolio Kanban** (Portfolio Kanban (rendered view), Epic frontmatter) is owned by `@value-management-officer`; release-train-engineer only **notifies** it of Epic-affecting events (first child Feature in `funnel` -> `implementing`; last child Feature `done` -> outcome acceptance). See *Orchestration core* below for the full tables.
 
 ## Product authoring dispatch at program layer
 
@@ -85,9 +85,9 @@ The release-train-engineer renders `Program Kanban (rendered view)` from Feature
 
 ## State Recovery (program / ART view)
 
-When the Central Supervisor (or `@value-management-officier`) says "recover state":
+When the Central Supervisor (or `@value-management-officer`) says "recover state":
 1. Read `PROJECT_BRIEF.md` and `portfolio-manifest.yaml`. Identify the product(s) in scope from `products[]` (ask which, or "all").
-2. Read the relevant Epics read-only from `portfolio-backlog/` (statuses, which are `implementing`); for each product read `product-manifest.yaml`, then `art/<art-slug>/program-backlog/`, `art/<art-slug>/pi-<pi-slug>/`, `art/<art-slug>/teams/<team-slug>/team-backlog/`. Portfolio recovery (Epic lifecycle, Portfolio Kanban) is owned by `@value-management-officier`.
+2. Read the relevant Epics read-only from `portfolio-backlog/` (statuses, which are `implementing`); for each product read `product-manifest.yaml`, then `art/<art-slug>/program-backlog/`, `art/<art-slug>/pi-<pi-slug>/`, `art/<art-slug>/teams/<team-slug>/team-backlog/`. Portfolio recovery (Epic lifecycle, Portfolio Kanban) is owned by `@value-management-officer`.
 3. Re-render `Program Kanban (rendered view)` and `Team Kanban` from frontmatter.
 4. For each repo in `product-manifest.yaml > repos[]`, run `gh pr list` and `gh issue list`.
 5. Report per product: current PI/Sprint, in-flight Stories, open ADRs (★ Architecture Gate), Stories in `in-qa`/`awaiting-pr`, open PRs (★ PR Gate), Features awaiting the ★ Demo Gate, next action.
@@ -97,7 +97,7 @@ When the Central Supervisor (or `@value-management-officier`) says "recover stat
 
 # Orchestration core (shared mechanics)
 
-The mutualized SAFe orchestration mechanics, inlined so this skill is self-contained. All three orchestrators (`@value-management-officier`, `@release-train-engineer`, `@scrum-master`) share this core; the dispatch chain is `@value-management-officier -> @release-train-engineer -> @scrum-master`.
+The mutualized SAFe orchestration mechanics, inlined so this skill is self-contained. All three orchestrators (`@value-management-officer`, `@release-train-engineer`, `@scrum-master`) share this core; the dispatch chain is `@value-management-officer -> @release-train-engineer -> @scrum-master`.
 
 ## Personas
 
@@ -105,7 +105,7 @@ The mutualized SAFe orchestration mechanics, inlined so this skill is self-conta
   - **Business Owner hat** — value authority for the portfolio: sets Strategic Themes, approves business Epics at the **★ Epic Gate**, makes pivot/persevere/stop calls. **Default authoring agent: `@business-owner`.**
   - **Enterprise Architect hat** — owns the cross-product architectural runway / NFR backbone at the Epic level; authors and seeds enabler Epics. **Default authoring agent: `@enterprise-architect`.**
 - **The three orchestrators are the *police* of their layer — not artifact owners.** Each **governs** its layer: it controls the **input/output artifacts** of the agents it dispatches, enforces conformance to the **reference templates it owns** and to **SAFe standard practice**, and owns the **flow** (gates, kanban transitions, WIP). It **never authors or owns a backlog artifact** — business backlog artifacts belong to the product hats (**BO → business Epic, PM → business Feature, PO → business Story**), while enabler backlog artifacts belong to the architect hats (**EA → enabler Epic, SA → enabler Feature / Story**) — and it **never writes production code**.
-  - **value-management-officier** — portfolio layer. Polices Strategic Themes + Epics + the ★ Epic Gate; owns the **portfolio templates**; dispatches `@business-owner` for business Epics, `@enterprise-architect` for enabler Epics, and release-train-engineer per ART. **Single entry point.**
+  - **value-management-officer** — portfolio layer. Polices Strategic Themes + Epics + the ★ Epic Gate; owns the **portfolio templates**; dispatches `@business-owner` for business Epics, `@enterprise-architect` for enabler Epics, and release-train-engineer per ART. **Single entry point.**
   - **release-train-engineer** — program / ART layer. Polices Features + ADRs + the ★ Feature / Architecture / Demo gates; owns the **program templates**; dispatches `@product-manager` for business Features, `@system-architect` for enabler Features and architecture work, and scrum-master for iterations.
   - **scrum-master** — iteration layer. Polices Stories + the ★ Story / PR gates; owns the **iteration templates**; dispatches `@product-owner` for business Stories, `@system-architect` for enabler Stories, plus the dev/QA pair.
 - **Backlog authoring is split by concern.** `@business-owner` authors business Epics + Strategic Themes, `@product-manager` authors business Features, and `@product-owner` authors business Stories. `@enterprise-architect` owns enabler Epics and portfolio runway; `@system-architect` owns enabler Features / Stories and solution-level architecture work.
@@ -230,11 +230,11 @@ When one review packet spans mixed ownership, split the routing by owner rather 
 
 | Sub-orchestration / handling | Loaded by | Skill | Family |
 |---|---|---|---|
-| Strategic Portfolio Review | `@value-management-officier` | `value-management-officier/workflows/strategic-portfolio-review` **(nested)** | Ceremony |
-| Participatory Budgeting | `@value-management-officier` | `value-management-officier/workflows/participatory-budgeting` **(nested)** | Ceremony |
-| Portfolio Sync | `@value-management-officier` | `value-management-officier/workflows/portfolio-sync` **(nested)** | Ceremony |
-| Epic Lean Business Case | `@value-management-officier` | `value-management-officier/workflows/epic-lean-business-case` **(nested)** | Practice·CE |
-| Architectural Vision | `@value-management-officier` | `value-management-officier/workflows/architectural-vision` **(nested)** | Practice·CE |
+| Strategic Portfolio Review | `@value-management-officer` | `value-management-officer/workflows/strategic-portfolio-review` **(nested)** | Ceremony |
+| Participatory Budgeting | `@value-management-officer` | `value-management-officer/workflows/participatory-budgeting` **(nested)** | Ceremony |
+| Portfolio Sync | `@value-management-officer` | `value-management-officer/workflows/portfolio-sync` **(nested)** | Ceremony |
+| Epic Lean Business Case | `@value-management-officer` | `value-management-officer/workflows/epic-lean-business-case` **(nested)** | Practice·CE |
+| Architectural Vision | `@value-management-officer` | `value-management-officer/workflows/architectural-vision` **(nested)** | Practice·CE |
 | Feature Backlog Refinement | `@release-train-engineer` | `release-train-engineer/workflows/feature-backlog-refinement` **(nested)** | Ceremony·CE |
 | PI Planning | `@release-train-engineer` | `release-train-engineer/workflows/pi-planning` **(nested)** | Ceremony |
 | Demo Gate | `@release-train-engineer` | `release-train-engineer/workflows/demo-gate` **(nested)** | Ceremony |
@@ -268,7 +268,7 @@ All SAFe artifacts live at **poesis level** at the workspace root, **never insid
 
 ### Portfolio scope (singleton, cross-product)
 
-`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md)). It owns:
+`portfolio/` is the meta-governance tier above the ARTs (template: [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/portfolio-manifest.artifact-template.md)). It owns:
 
 - `portfolio-manifest.yaml` — manifest and authoritative product registry (`products[]`; `arts[]` may remain as a compatibility list).
 - `strategic-themes.md` — the Strategic Themes singleton (top of the spine).
@@ -352,7 +352,7 @@ from those logs **once**, at the artifact's terminal status, per the [cost-accou
 
 - **Story** `→ awaiting-pr`: `@scrum-master` sums the Story's dev + QA dispatch tokens from the logs.
 - **Feature** `→ done` (★ Demo Gate): `@release-train-engineer` fetches Feature overhead + Σ child Stories.
-- **Epic** `→ done`: `@value-management-officier` fetches Epic overhead + Σ child Features.
+- **Epic** `→ done`: `@value-management-officer` fetches Epic overhead + Σ child Features.
 
 The snapshot is `source: measured` when the logs are present, `estimated` only if they are gone; it is
 written once and is immutable thereafter. Never fabricate a precise measured number.
@@ -363,7 +363,7 @@ Escalate only on: QA acceptance failure / contradictory evidence; `@security-exp
 
 ### Feature/Story classification (mandatory)
 
-Every Epic frontmatter carries `risk` + `complexity` before leaving `funnel` (BO/EA own it, PM/EA assist); every Feature before leaving `funnel`; every Story before leaving `backlog`. PM owns initial Feature classification; PO owns initial Story classification; scrum-master verifies Story risk/complexity at Iteration Planning; value-management-officier may raise (never silently lower) Epic classification at Epic intake / Strategic Portfolio Review; release-train-engineer may raise (never silently lower) Feature classification at PI Planning. On execution drift, update frontmatter and note it in `progress.md`.
+Every Epic frontmatter carries `risk` + `complexity` before leaving `funnel` (BO/EA own it, PM/EA assist); every Feature before leaving `funnel`; every Story before leaving `backlog`. PM owns initial Feature classification; PO owns initial Story classification; scrum-master verifies Story risk/complexity at Iteration Planning; value-management-officer may raise (never silently lower) Epic classification at Epic intake / Strategic Portfolio Review; release-train-engineer may raise (never silently lower) Feature classification at PI Planning. On execution drift, update frontmatter and note it in `progress.md`.
 
 ## Kanbans & status transitions (normative)
 
@@ -377,18 +377,18 @@ owner → processing instance → gate), not a procedure to replay by hand.
 
 **Owner vs Actors:** Owner = single accountable role, one per column, flips the field. Other actors contribute; named in `note`.
 
-### Portfolio Kanban — Epics (value-management-officier drives; Business-Owner-owned overall, cross-product)
+### Portfolio Kanban — Epics (value-management-officer drives; Business-Owner-owned overall, cross-product)
 `funnel -> reviewing -> analyzing -> portfolio-backlog -> implementing -> done`. Flag: `blocked`.
 
 | Column | Owner | Processing instance | Gate |
 |---|---|---|---|
 | **funnel** | Central Supervisor (BO hat) | Raw Epic idea capture | — |
-| **reviewing** | value-management-officier | Epic hypothesis + rough WSJF (PM assists) | — |
+| **reviewing** | value-management-officer | Epic hypothesis + rough WSJF (PM assists) | — |
 | **analyzing** | Central Supervisor (EA hat) | Runway draft; products + Feature seeds (`@enterprise-architect` assists) | — |
 | **portfolio-backlog** | Central Supervisor (BO hat) | Epic approval | **★ Epic Gate** |
-| **implementing** | value-management-officier | First child Feature enters its product Program Kanban (release-train-engineer notifies) | — |
-| **done** | Central Supervisor (BO hat) | Epic outcome accepted (value-management-officier facilitates after the ART's last child Feature is `done`) | **★ Epic Outcome Gate** |
-| **blocked** *(flag)* | value-management-officier | Portfolio-level impediment removal | — |
+| **implementing** | value-management-officer | First child Feature enters its product Program Kanban (release-train-engineer notifies) | — |
+| **done** | Central Supervisor (BO hat) | Epic outcome accepted (value-management-officer facilitates after the ART's last child Feature is `done`) | **★ Epic Outcome Gate** |
+| **blocked** *(flag)* | value-management-officer | Portfolio-level impediment removal | — |
 
 ### Program Kanban — Features (release-train-engineer drives; PM-owned overall)
 `funnel -> refined -> arch-pending -> ready -> committed -> in-progress -> done`. Flag: `blocked`. Each Feature carries `type: business | enabler`.
@@ -534,7 +534,7 @@ truth for content; the board is authoritative for non-gate status moves. Normati
   portfolio/_sync per the sync protocol. A board move across a gate boundary is a request, never
   approval. **Publish-before-gate (all tiers, mandatory):** every work item is pushed to its GitHub
   Project board *before* the validation gate that governs it, and its `github:` block is written
-  back — **Epic → ★ Epic Gate** (`@value-management-officier`), **Feature → ★ Architecture Gate**
+  back — **Epic → ★ Epic Gate** (`@value-management-officer`), **Feature → ★ Architecture Gate**
   (`@release-train-engineer`), **Story → ★ PR Gate** (`@scrum-master`). No item reaches its gate
   without a live board card; the gate-crossing status flip itself is still never auto-applied.
 - **One commit per Story unit of work**, trailer `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`; pair commits add `(pair: <Driver>/<Navigator>)`.
@@ -565,7 +565,7 @@ The `*.artifact.schema.json` file is the deterministic source for artifact ident
 
 **Artifact ownership (by layer).** Each orchestrator **owns and maintains** its tier's artifact schemas and artifact templates, and enforces conformance; authors always use the current owned version.
 
-- **`value-management-officier` owns:** portfolio-manifest, strategic-themes, epic, lean-business-case, architectural-vision, product-manifest, kanban-portfolio.
+- **`value-management-officer` owns:** portfolio-manifest, strategic-themes, epic, lean-business-case, architectural-vision, product-manifest, kanban-portfolio.
 - **`release-train-engineer` owns:** feature, adr, architecture-decision-inventory, vision, roadmap, nfr-register, runway-register, objectives, risks, kanban-program, project-brief (authored by `@product-manager`).
 - **`scrum-master` owns:** sprint-plan, story, qa-signoff, daily, retro, progress, kanban-team.
 
@@ -573,13 +573,13 @@ Framework-wide, host-agnostic concerns live in dedicated homes referenced but no
 
 | Artifact | Path | Schema + Template |
 |---|---|---|
-| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/portfolio-manifest.artifact-template.md) |
+| Portfolio init (singleton) | `portfolio-manifest.yaml` | [portfolio-manifest.artifact.schema.json](../../../../artifacts/portfolio-manifest.artifact.schema.json) + [portfolio-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/portfolio-manifest.artifact-template.md) |
 | Strategic Themes (singleton) | `strategic-themes.md` | [strategic-themes.artifact.schema.json](../../../../artifacts/strategic-themes.artifact.schema.json) + [strategic-themes.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/strategic-themes.artifact-template.md) |
 | Epic (business) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic.artifact.schema.json](../../../../artifacts/epic.artifact.schema.json) + [epic.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/epic.artifact-template.md) |
 | Epic (enabler) | `portfolio-backlog/<epic-slug>/<epic-slug>.epic.md` | [epic-enabler.artifact.schema.json](../../../../artifacts/epic-enabler.artifact.schema.json) + [epic-enabler.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/epic-enabler.artifact-template.md) |
 | Lean Business Case | `portfolio-backlog/<epic-slug>/<epic-slug>.lean-business-case.md` | [lean-business-case.artifact.schema.json](../../../../artifacts/lean-business-case.artifact.schema.json) + [lean-business-case.artifact-template.md](../../../portfolio/actors/business-owner/artifacts/lean-business-case.artifact-template.md) |
 | Architectural Vision (singleton) | `portfolio/architectural-vision.md` | [architectural-vision.artifact.schema.json](../../../../artifacts/architectural-vision.artifact.schema.json) + [architectural-vision.artifact-template.md](../../../portfolio/actors/enterprise-architect/artifacts/architectural-vision.artifact-template.md) |
-| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../artifacts/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officier/artifacts/product-manifest.artifact-template.md) |
+| Product manifest | `products/<product-slug>/product-manifest.yaml` | [product-manifest.artifact.schema.json](../../../../artifacts/product-manifest.artifact.schema.json) + [product-manifest.artifact-template.md](../../../portfolio/actors/value-management-officer/artifacts/product-manifest.artifact-template.md) |
 | Feature (business) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature.artifact.schema.json](../../../../artifacts/feature.artifact.schema.json) + [feature.artifact-template.md](../../../program/actors/product-manager/artifacts/feature.artifact-template.md) |
 | Feature (enabler) | `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` | [feature-enabler.artifact.schema.json](../../../../artifacts/feature-enabler.artifact.schema.json) + [feature-enabler.artifact-template.md](../../../program/actors/system-architect/artifacts/feature-enabler.artifact-template.md) |
 | Product Vision | `products/<product-slug>/vision.md` | [vision.artifact.schema.json](../../../../artifacts/vision.artifact.schema.json) + [vision.artifact-template.md](../../../program/actors/product-manager/artifacts/vision.artifact-template.md) |

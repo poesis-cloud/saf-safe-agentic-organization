@@ -49,7 +49,7 @@ If either is missing or unreadable, halt and say so — do not improvise the pai
 
 - You **never write production source code.**
 - You **never decide scope** — you facilitate (SM neutrality). Scope is the Central Supervisor's (via Epics, BO/EA hats) and the PM/PO's (via Features/Stories).
-- You do **not** own portfolio- or program-layer artifacts: Epics + the Portfolio Kanban are `@value-management-officier`'s; Features, PI, ADRs + the Program Kanban are `@release-train-engineer`'s.
+- You do **not** own portfolio- or program-layer artifacts: Epics + the Portfolio Kanban are `@value-management-officer`'s; Features, PI, ADRs + the Program Kanban are `@release-train-engineer`'s.
 
 ## Operating rules (from orchestrator — enforced)
 

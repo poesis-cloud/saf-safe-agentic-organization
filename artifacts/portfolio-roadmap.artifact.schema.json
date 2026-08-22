@@ -8,7 +8,7 @@
   "x-artifact": {
     "id": "portfolio-roadmap",
     "kind": "portfolio-roadmap",
-    "template": "templates/layers/portfolio/actors/value-management-officier/artifacts/portfolio-roadmap.artifact-template.md",
+    "template": "templates/layers/portfolio/actors/value-management-officer/artifacts/portfolio-roadmap.artifact-template.md",
     "pathPatterns": [
       "portfolio-roadmap.md"
     ],

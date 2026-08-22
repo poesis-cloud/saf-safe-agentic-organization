@@ -30,7 +30,7 @@ The orchestrator names the handler; pick the row by *the requested transition*:
 2. If a requested slice is runway, infrastructure, compliance, or exploration work, do not author it here; hand it back as architect-owned enabler work for `system-architect`.
 3. For each business slice: create `art/<art-slug>/program-backlog/<feature-slug>/<feature-slug>.feature.md` from the business Feature template; set `product:`, `parentEpic: E-N`, `status: funnel`, and provisional `risk`/`complexity`.
 4. Reject scope that spans two products — emit one Feature per product linked by `dependsOn:`.
-5. Commit. Control returns to `@release-train-engineer` (it notifies `@value-management-officier` to flip the Epic `→implementing`).
+5. Commit. Control returns to `@release-train-engineer` (it notifies `@value-management-officer` to flip the Epic `→implementing`).
 
 ### Refine (`funnel→refined`)
 

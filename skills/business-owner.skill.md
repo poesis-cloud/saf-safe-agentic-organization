@@ -1,7 +1,7 @@
 ---
 name: business-owner
 user-invocable: false
-description: '**SAFe AUTHOR SKILL — BO hat.** The Business-Owner authoring procedure loaded by the SE agent that `@value-management-officier` dispatches to execute an Epic transition handler (and the backlog re-rank inside Strategic Portfolio Review). USE FOR: capturing an Epic from a Strategic Theme (`Epic ∅→funnel`); shaping its hypothesis + WSJF + leading indicators (`funnel→reviewing`); maintaining `strategic-themes.md`; WSJF re-ranking the portfolio backlog. DO NOT USE FOR: deciding the ★ Epic Gate or accepting Epic outcomes (Central Supervisor); the architecture runway (use `enterprise-architect`); Features (use `product-manager`). Loaded by dispatch prompt: `Acting as BO — load skills/business-owner, execute handler "<Epic@state>"`.'
+description: '**SAFe AUTHOR SKILL — BO hat.** The Business-Owner authoring procedure loaded by the SE agent that `@value-management-officer` dispatches to execute an Epic transition handler (and the backlog re-rank inside Strategic Portfolio Review). USE FOR: capturing an Epic from a Strategic Theme (`Epic ∅→funnel`); shaping its hypothesis + WSJF + leading indicators (`funnel→reviewing`); maintaining `strategic-themes.md`; WSJF re-ranking the portfolio backlog. DO NOT USE FOR: deciding the ★ Epic Gate or accepting Epic outcomes (Central Supervisor); the architecture runway (use `enterprise-architect`); Features (use `product-manager`). Loaded by dispatch prompt: `Acting as BO — load skills/business-owner, execute handler "<Epic@state>"`.'
 ---
 
 <!-- Copyright 2026 Poesis Cloud and contributors
@@ -20,7 +20,7 @@ description: '**SAFe AUTHOR SKILL — BO hat.** The Business-Owner authoring pro
 
 # SAFe Author — Business Owner (BO hat)
 
-The **body** of the Epic-shaping handlers in the portfolio flow (see the *skill registry* in [VMO orchestration core](../value-management-officier/value-management-officier.skill.md)). `@value-management-officier` is the router; **this skill is the handler**. You are the dispatched `@business-owner`; you author Strategic Themes + the Epic and hand control back — you never route, never decide the gate.
+The **body** of the Epic-shaping handlers in the portfolio flow (see the *skill registry* in [VMO orchestration core](../value-management-officer/value-management-officer.skill.md)). `@value-management-officer` is the router; **this skill is the handler**. You are the dispatched `@business-owner`; you author Strategic Themes + the Epic and hand control back — you never route, never decide the gate.
 
 ## Contract
 
@@ -37,13 +37,13 @@ The **body** of the Epic-shaping handlers in the portfolio flow (see the *skill 
 | *(in Strategic Portfolio Review)* re-rank | the `epics/` set | WSJF order + pivot recommendations → §Re-rank |
 
 ### Capture (`∅→funnel`)
-Create `E-N-<slug>.md` from the business Epic template. If the mandate is explicitly runway, infrastructure, compliance, or architecture enablement work, do not author it here; hand it back as EA-owned enabler work for `enterprise-architect`. Set `status: funnel`, the owning Strategic Theme, and a one-line problem/opportunity. No solutioning. Commit; control returns to `@value-management-officier`.
+Create `E-N-<slug>.md` from the business Epic template. If the mandate is explicitly runway, infrastructure, compliance, or architecture enablement work, do not author it here; hand it back as EA-owned enabler work for `enterprise-architect`. Set `status: funnel`, the owning Strategic Theme, and a one-line problem/opportunity. No solutioning. Commit; control returns to `@value-management-officer`.
 
 ### Shape (`funnel→reviewing`)
-Write the business hypothesis statement required by the business Epic template; add **leading indicators** + MVP scope; compute **WSJF** (record the four components). Commit; control returns to `@value-management-officier`, which dispatches `enterprise-architect` for the runway.
+Write the business hypothesis statement required by the business Epic template; add **leading indicators** + MVP scope; compute **WSJF** (record the four components). Commit; control returns to `@value-management-officer`, which dispatches `enterprise-architect` for the runway.
 
 ### Re-rank (inside Strategic Portfolio Review)
 Re-order the backlog by WSJF; for each in-flight Epic recommend **pivot / persevere / stop** (the Central Supervisor decides). Output the ranking + recommendations; `strategic-portfolio-review` drives the ceremony around you.
 
 ## Done = handed back
-Output committed + template-valid + every Epic Theme-traced + WSJF components present. Record unresolved unknowns as `openItems` entries (`kind: clarification`) per the [open-item ledger](../value-management-officier/value-management-officier.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officier` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).
+Output committed + template-valid + every Epic Theme-traced + WSJF components present. Record unresolved unknowns as `openItems` entries (`kind: clarification`) per the [open-item ledger](../value-management-officer/value-management-officer.skill.md#open-item-ledger) — blocking ones routed to `@value-management-officer` (peer-owned → owning hat; value/intent → Central Supervisor), non-blocking ones carried as assumption-with-disclosure; capture workflow friction in the ART `improvement-backlog` (`art/<art-slug>/improvement-backlog/<pain-point-slug>/<pain-point-slug>.pain-point.md`).

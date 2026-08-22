@@ -1,5 +1,5 @@
 slug: strategic-portfolio-review
-orchestrator: value-management-officier
+orchestrator: value-management-officer
 steps:
 - slug: rerank
   capabilities:
