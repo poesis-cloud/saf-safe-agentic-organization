@@ -1,7 +1,8 @@
 # Poesis SAFe Agentic Organization
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-scaffold-lightgrey)](.)
+[![CI](https://github.com/poesis-cloud/saf-agentic-organization/actions/workflows/ci.yml/badge.svg)](https://github.com/poesis-cloud/saf-agentic-organization/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/poesis-cloud/saf-agentic-organization)](https://github.com/poesis-cloud/saf-agentic-organization/releases/latest)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
 > **SAFe-shaped agentic organization for GitHub Copilot / VS Code and portable agent hosts** —
 > multi-agent orchestration (portfolio/program/iteration orchestrators), a framework-owned
